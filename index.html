@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parfymer</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f8;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+#search {
+    display: block;
+    margin: 0 auto 30px auto;
+    width: 80%;
+    max-width: 400px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+.product {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+    background-color: #fff;
+    text-align: center;
+}
+.product:hover {
+    transform: translateY(-5px);
+}
+.product img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+.product:hover img {
+    transform: scale(1.05);
+}
+.product-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+.overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 10px;
+}
+.product-link:hover .overlay {
+    opacity: 1;
+}
+.product-title {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #1a73e8;
+    text-decoration: none;
+}
+.product-title:hover {
+    color: #0b53c1;
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<h1>Parfymer</h1>
+
+<input type="text" id="search" onkeyup="filterProducts()" placeholder="Søk etter produktnavn...">
+
+<div class="grid" id="productGrid">
+
+<!-- ALLE 43 PRODUKTER NÅ FØLGER: -->
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.93272.2x.avif" alt="Armaf – Club de Nuit Precieux I">
+<a href="https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html" class="product-title" target="_blank">Armaf – Club de Nuit Precieux I</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.98692.2x.avif" alt="Armaf – Odyssey Spectra">
+<a href="https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html" class="product-title" target="_blank">Armaf – Odyssey Spectra</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.117531.2x.avif" alt="Aromatix X French Avenue – Forbidden Fruit">
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Forbidden-Fruit-117531.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Forbidden-Fruit-117531.html" class="product-title" target="_blank">Aromatix X French Avenue – Forbidden Fruit</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.106068.2x.avif" alt="Aromatix X French Avenue – Platine Blanc">
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Platine-Blanc-106068.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Platine-Blanc-106068.html" class="product-title" target="_blank">Aromatix X French Avenue – Platine Blanc</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.117530.2x.avif" alt="Aromatix X French Avenue – Sun Kissed">
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Sun-Kissed-117530.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Sun-Kissed-117530.html" class="product-title" target="_blank">Aromatix X French Avenue – Sun Kissed</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.117532.2x.avif" alt="Aromatix X French Avenue – Teas Me">
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Teas-Me-117532.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Teas-Me-117532.html" class="product-title" target="_blank">Aromatix X French Avenue – Teas Me</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.73664.2x.avif" alt="Azzaro – The Most Wanted Parfum">
+<a href="https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html" class="product-title" target="_blank">Azzaro – The Most Wanted Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.28942.2x.avif" alt="Chanel – Allure Homme Edition Blanche">
+<a href="https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html" class="product-title" target="_blank">Chanel – Allure Homme Edition Blanche</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.14669.2x.avif" alt="Chanel – Allure Homme Sport Eau Extreme">
+<a href="https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Sport-Eau-Extreme-14669.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Sport-Eau-Extreme-14669.html" class="product-title" target="_blank">Chanel – Allure Homme Sport Eau Extreme</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.25967.2x.avif" alt="Chanel – Bleu de Chanel">
+<a href="https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html" class="product-title" target="_blank">Chanel – Bleu de Chanel</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.84112.2x.avif" alt="Creed – Absolu Aventus 2023">
+<a href="https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html" class="product-title" target="_blank">Creed – Absolu Aventus 2023</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.474.2x.avif" alt="Creed – Green Irish Tweed">
+<a href="https://www.fragrantica.com/perfume/Creed/Green-Irish-Tweed-474.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Creed/Green-Irish-Tweed-474.html" class="product-title" target="_blank">Creed – Green Irish Tweed</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.94702.2x.avif" alt="French Avenue – Aether">
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Aether-94702.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Aether-94702.html" class="product-title" target="_blank">French Avenue – Aether</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.107908.2x.avif" alt="French Avenue – Capricorn">
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Capricorn-107908.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Capricorn-107908.html" class="product-title" target="_blank">French Avenue – Capricorn</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.118018.2x.avif" alt="French Avenue – Iris Patchouli">
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Iris-Patchouli-118018.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Iris-Patchouli-118018.html" class="product-title" target="_blank">French Avenue – Iris Patchouli</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.94713.2x.avif" alt="French Avenue – Liquid Brun">
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Liquid-Brun-94713.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Liquid-Brun-94713.html" class="product-title" target="_blank">French Avenue – Liquid Brun</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.100011.2x.avif" alt="French Avenue – Moonstone Bleu">
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Moonstone-Bleu-100011.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Moonstone-Bleu-100011.html" class="product-title" target="_blank">French Avenue – Moonstone Bleu</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.105520.2x.avif" alt="French Avenue – Vulcan Feu">
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html" class="product-title" target="_blank">French Avenue – Vulcan Feu</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.81508.2x.avif" alt="Giorgio Armani – Acqua di Gio Parfum">
+<a href="https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html" class="product-title" target="_blank">Giorgio Armani – Acqua di Gio Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.75126.2x.avif" alt="Giorgio Armani – Armani Code Parfum">
+<a href="https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html" class="product-title" target="_blank">Giorgio Armani – Armani Code Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.52802.2x.avif" alt="Giorgio Armani – Emporio Armani Stronger With You Intensely">
+<a href="https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html" class="product-title" target="_blank">Giorgio Armani – Emporio Armani Stronger With You Intensely</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.96246.2x.avif" alt="Hugo Boss – Bottled Absolu">
+<a href="https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html" class="product-title" target="_blank">Hugo Boss – Bottled Absolu</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.76580.2x.avif" alt="Initio Parfums Prives – Paragon">
+<a href="https://www.fragrantica.com/perfume/Initio-Parfums-Prives/Paragon-76580.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Initio-Parfums-Prives/Paragon-76580.html" class="product-title" target="_blank">Initio Parfums Prives – Paragon</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.88836.2x.avif" alt="Jean Paul Gaultier – Le Beau Paradise Garden">
+<a href="https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Paradise-Garden-88836.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Paradise-Garden-88836.html" class="product-title" target="_blank">Jean Paul Gaultier – Le Beau Paradise Garden</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.61856.2x.avif" alt="Jean Paul Gaultier – Le Male Le Parfum">
+<a href="https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html" class="product-title" target="_blank">Jean Paul Gaultier – Le Male Le Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.30947.2x.avif" alt="Jean Paul Gaultier – Ultra Male">
+<a href="https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html" class="product-title" target="_blank">Jean Paul Gaultier – Ultra Male</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.81099.2x.avif" alt="Lattafa Perfumes – Ishq Al Shuyukh Silver">
+<a href="https://www.fragrantica.com/perfume/Lattafa-Perfumes/Ishq-Al-Shuyukh-Silver-81099.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Lattafa-Perfumes/Ishq-Al-Shuyukh-Silver-81099.html" class="product-title" target="_blank">Lattafa Perfumes – Ishq Al Shuyukh Silver</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.52002.2x.avif" alt="Montblanc – Explorer">
+<a href="https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html" class="product-title" target="_blank">Montblanc – Explorer</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.44174.2x.avif" alt="Nishane – Hacivat">
+<a href="https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html" class="product-title" target="_blank">Nishane – Hacivat</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.39314.2x.avif" alt="Parfums de Marly – Layton">
+<a href="https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html" class="product-title" target="_blank">Parfums de Marly – Layton</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.51037.2x.avif" alt="Parfums de Marly – Percival">
+<a href="https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html" class="product-title" target="_blank">Parfums de Marly – Percival</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.56273.2x.avif" alt="Parfums de Marly – Sedley">
+<a href="https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html" class="product-title" target="_blank">Parfums de Marly – Sedley</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.39029.2x.avif" alt="Prada – Prada L'Homme">
+<a href="https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html" class="product-title" target="_blank">Prada – Prada L'Homme</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.45396.2x.avif" alt="Prada – Prada L'Homme Intense">
+<a href="https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-Intense-45396.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-Intense-45396.html" class="product-title" target="_blank">Prada – Prada L'Homme Intense</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.90433.2x.avif" alt="Rabanne – Invictus Parfum">
+<a href="https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html" class="product-title" target="_blank">Rabanne – Invictus Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.120605.2x.avif" alt="Rayhaan – Aquatica">
+<a href="https://www.fragrantica.com/perfume/Rayhaan/Aquatica-120605.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Rayhaan/Aquatica-120605.html" class="product-title" target="_blank">Rayhaan – Aquatica</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.71761.2x.avif" alt="Valentino – Valentino Uomo Born In Roma Coral Fantasy">
+<a href="https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html" class="product-title" target="_blank">Valentino – Valentino Uomo Born In Roma Coral Fantasy</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.62762.2x.avif" alt="Versace – Eros Eau de Parfum">
+<a href="https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html" class="product-title" target="_blank">Versace – Eros Eau de Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.2318.2x.avif" alt="Versace – Versace Pour Homme">
+<a href="https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html" class="product-title" target="_blank">Versace – Versace Pour Homme</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.40031.2x.avif" alt="Versace – Versace Pour Homme Dylan Blue">
+<a href="https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-Dylan-Blue-40031.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-Dylan-Blue-40031.html" class="product-title" target="_blank">Versace – Versace Pour Homme Dylan Blue</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.30529.2x.avif" alt="Xerjoff – XJ 1861 Naxos">
+<a href="https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html" class="product-title" target="_blank">Xerjoff – XJ 1861 Naxos</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.94983.2x.avif" alt="Yves Saint Laurent – MYSLF Le Parfum">
+<a href="https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html" class="product-title" target="_blank">Yves Saint Laurent – MYSLF Le Parfum</a>
+</div>
+
+<div class="product">
+<img src="https://fimgs.net/mdimg/perfume-thumbs/375x500.64718.2x.avif" alt="Yves Saint Laurent – Y Le Parfum">
+<a href="https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html" class="product-link" target="_blank"><div class="overlay">Se produkt</div></a>
+<a href="https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html" class="product-title" target="_blank">Yves Saint Laurent – Y Le Parfum</a>
+</div>
+
+</div>
+
+<script>
+function filterProducts() {
+    const input = document.getElementById('search').value.toLowerCase();
+    const products = document.getElementById('productGrid').getElementsByClassName('product');
+    for (let i = 0; i < products.length; i++) {
+        const title = products[i].getElementsByClassName('product-title')[0].innerText;
+        products[i].style.display = title.toLowerCase().includes(input) ? "" : "none";
+    }
+}
+</script>
+
+</body>
+</html>
+
