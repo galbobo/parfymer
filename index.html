@@ -125,18 +125,14 @@
   <div class="grid" id="productGrid"></div>
 
   <script>
-    // 1) Lim inn Fragrantica-lenker her (én per linje). Du har allerede gjort dette:
     const fragranticaUrlsRaw = `
 https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html
 https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html
-https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Sport-Eau-Extreme-14669.html
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html
 https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html
 https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html
 https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Paradise-Garden-88836.html
-https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-Dylan-Blue-40031.html
 https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html
 https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html
 https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html
@@ -144,42 +140,36 @@ https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html
 https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html
 https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html
 https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html
-https://www.fragrantica.com/perfume/French-Avenue/Aether-94702.html
-https://www.fragrantica.com/perfume/Lattafa-Perfumes/Ishq-Al-Shuyukh-Silver-81099.html
-https://www.fragrantica.com/perfume/French-Avenue/Liquid-Brun-94713.html
 https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html
 https://www.fragrantica.com/perfume/Creed/Green-Irish-Tweed-474.html
-https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Renaissance-12126.html
+https://www.fragrantica.com/perfume/Creed/Aventus-9828.html
 https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html
 https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html
+https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html
 https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html
 https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-Intense-45396.html
+https://www.fragrantica.com/perfume/Roja-Dove/Elysium-Pour-Homme-Parfum-Cologne-46296.html
+https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html
 https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html
 https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html
 https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html
 https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html
-https://www.fragrantica.com/perfume/Initio-Parfums-Prives/Paragon-76580.html
+https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html
+https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html
 https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html
 https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html
 https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html
-https://www.fragrantica.com/perfume/French-Avenue/Moonstone-Bleu-100011.html
-https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Platine-Blanc-106068.html
 https://www.fragrantica.com/perfume/French-Avenue/Capricorn-107908.html
-https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Sun-Kissed-117530.html
-https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Forbidden-Fruit-117531.html
-https://www.fragrantica.com/perfume/Aromatix-X-French-Avenue/Teas-Me-117532.html
-https://www.fragrantica.com/perfume/Rayhaan/Aquatica-120605.html
+https://www.fragrantica.com/perfume/Byredo/Bal-d-Afrique-Absolu-108421.html
+https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html
 `.trim();
 
     function titleCaseFromSlug(slug) {
-      // Gjør "Acqua-di-Gio-Parfum" -> "Acqua di Gio Parfum"
-      // Bevarer store bokstaver i akronymer i praksis (URL-er er ofte allerede "Title Case").
       return slug.replace(/-/g, " ").replace(/\s+/g, " ").trim();
     }
 
     function parseFragranticaUrl(url) {
-      // Forventer: https://www.fragrantica.com/perfume/BRAND/SLUG-ID.html
       const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
       if (!m) return null;
 
@@ -247,7 +237,6 @@ https://www.fragrantica.com/perfume/Rayhaan/Aquatica-120605.html
       renderProducts(filtered);
     }
 
-    // Init
     renderProducts(products);
   </script>
 </body>
