@@ -45,7 +45,6 @@
     }
     .product {
       position: relative;
-      overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
       transition: transform 0.3s;
@@ -53,14 +52,20 @@
       text-align: center;
       width: 100%;
       max-width: 320px;
+      display: flex;
+      flex-direction: column;
     }
     .product:hover {
       transform: translateY(-5px);
     }
+    .image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px 10px 0 0;
+    }
     .product img {
       width: 100%;
       display: block;
-      border-radius: 8px;
       transition: transform 0.3s;
       aspect-ratio: 3 / 4;
       object-fit: cover;
@@ -69,15 +74,10 @@
     .product:hover img {
       transform: scale(1.05);
     }
-    .product-link {
+    .overlay {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: calc(100% - 44px);
-      text-decoration: none;
-    }
-    .overlay {
       width: 100%;
       height: 100%;
       display: flex;
@@ -89,23 +89,43 @@
       background-color: rgba(0,0,0,0.4);
       opacity: 0;
       transition: opacity 0.3s;
-      border-radius: 10px;
+      text-decoration: none;
     }
-    .product-link:hover .overlay {
+    .image-container:hover .overlay {
       opacity: 1;
     }
+    .product-info {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
     .product-title {
-      display: block;
-      padding: 10px 10px 12px 10px;
       font-weight: bold;
       color: #1a73e8;
       text-decoration: none;
       line-height: 1.25;
-      min-height: 44px;
+      margin-bottom: 12px;
     }
     .product-title:hover {
       color: #0b53c1;
       text-decoration: underline;
+    }
+    .pricing {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+    .price-badge {
+      background-color: #f0f2f5;
+      color: #333;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      border: 1px solid #e1e4e8;
     }
   </style>
 </head>
@@ -125,9 +145,10 @@
   <div class="grid" id="productGrid"></div>
 
   <script>
-    const fragranticaUrlsRaw = `
-https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html
-https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html
+    // FORMAT: URL, PRIS 5ml, PRIS 10ml
+    const productDataRaw = `
+https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 80, 150
+https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 95, 180
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html
 https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html
@@ -173,7 +194,13 @@ https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.
       return slug.replace(/-/g, " ").replace(/\s+/g, " ").trim();
     }
 
-    function parseFragranticaUrl(url) {
+    function parseProductLine(line) {
+      // Deler opp linjen ved komma. Første del er lenke, andre er pris 5ml, tredje er pris 10ml.
+      const parts = line.split(",");
+      const url = parts[0].trim();
+      const price5 = parts[1] ? parts[1].trim() : null;
+      const price2 = parts[2] ? parts[2].trim() : null;
+
       const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
       if (!m) return null;
 
@@ -193,14 +220,14 @@ https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.
         ? `https://fimgs.net/mdimg/perfume-thumbs/375x500.${id}.2x.avif`
         : null;
 
-      return { url, id, brand, perfume, title, image };
+      return { url, id, brand, perfume, title, image, price5, price2 };
     }
 
-    const products = fragranticaUrlsRaw
+    const products = productDataRaw
       .split("\n")
       .map(s => s.trim())
       .filter(Boolean)
-      .map(parseFragranticaUrl)
+      .map(parseProductLine)
       .filter(Boolean)
       .sort((a, b) => a.title.localeCompare(b.title, "no"));
 
@@ -212,14 +239,26 @@ https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.
       for (const p of list) {
         const div = document.createElement("div");
         div.className = "product";
+        
+        let pricingHtml = '';
+        if (p.price5 || p.price2) {
+          pricingHtml = `<div class="pricing">`;
+          if (p.price5) pricingHtml += `<span class="price-badge">5ml: ${escapeHtml(p.price5)}kr</span>`;
+          if (p.price2) pricingHtml += `<span class="price-badge">10ml: ${escapeHtml(p.price2)}kr</span>`;
+          pricingHtml += `</div>`;
+        }
+
         div.innerHTML = `
-          <img src="${p.image ?? ""}" alt="${escapeHtml(p.title)}" loading="lazy">
-          <a href="${p.url}" class="product-link" target="_blank" rel="noopener">
-            <div class="overlay">Se produkt</div>
-          </a>
-          <a href="${p.url}" class="product-title" target="_blank" rel="noopener">
-            ${escapeHtml(p.title)}
-          </a>
+          <div class="image-container">
+            <img src="${p.image ?? ""}" alt="${escapeHtml(p.title)}" loading="lazy">
+            <a href="${p.url}" class="overlay" target="_blank" rel="noopener">Se på Fragrantica</a>
+          </div>
+          <div class="product-info">
+            <a href="${p.url}" class="product-title" target="_blank" rel="noopener">
+              ${escapeHtml(p.title)}
+            </a>
+            ${pricingHtml}
+          </div>
         `;
         grid.appendChild(div);
       }
