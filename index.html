@@ -310,29 +310,54 @@
       border-color: var(--border-dark);
     }
 
-    /* Flakong-utstilling: myk sokkelbelysning og realistisk skygge */
+    /* Punkt 4: Tydelig flakong-sokkel og showroom-belysning */
     .image-container {
       position: relative;
-      background: radial-gradient(circle at 50% 45%, #ffffff 40%, #f5f2e9 100%);
+      background: radial-gradient(circle at 50% 38%, #ffffff 35%, #f4f0e6 100%);
       aspect-ratio: 1;
-      padding: 24px;
+      padding: 24px 24px 28px 24px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* Sokkelskyggen under flasken */
+    .image-container::after {
+      content: "";
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 58%;
+      height: 10px;
+      background: radial-gradient(ellipse at center, rgba(30, 25, 20, 0.28) 0%, rgba(30, 25, 20, 0.08) 50%, transparent 75%);
+      border-radius: 50%;
+      pointer-events: none;
+      transition: width 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+      filter: blur(2px);
+      z-index: 1;
     }
 
     .product img {
       max-height: 100%;
       max-width: 100%;
       object-fit: contain;
-      transition: transform 0.4s ease, filter 0.4s ease;
-      filter: drop-shadow(0 10px 14px rgba(28, 27, 26, 0.12));
+      position: relative;
+      z-index: 2;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .product:hover img { 
-      transform: scale(1.05) translateY(-2px); 
-      filter: drop-shadow(0 14px 18px rgba(28, 27, 26, 0.16));
+      transform: translateY(-6px) scale(1.03); 
+    }
+
+    .product:hover .image-container::after {
+      width: 66%;
+      opacity: 0.65;
+      transform: translateX(-50%) scale(1.08);
+      filter: blur(3px);
     }
 
     .fragrantica-link {
@@ -477,7 +502,6 @@
     .step-header { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
     .step-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
 
-    /* Footer med lagringskvalitet */
     footer {
       max-width: 980px;
       margin: 30px auto 0 auto;
@@ -1411,7 +1435,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         if (firstNameInput.value.trim().length < 2 || lastNameInput.value.trim().length < 2) {
           showToast("⚠️ Vennligst oppgi både fornavn og etternavn.", true);
         } else if (!phoneValidation.valid) {
-          showToast("⚠️ Mobilnummer må være 8 siffer og starte på 4 eller 9.", true);
+          showToast("⚠️️ Mobilnummer må være 8 siffer og starte på 4 eller 9.", true);
         } else if (!isValidEmail(emailInput.value.trim())) {
           showToast("⚠️ Vennligst oppgi en gyldig e-postadresse.", true);
         } else {
