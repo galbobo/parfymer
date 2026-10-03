@@ -18,6 +18,7 @@
       --accent-gold: #b38743;
       --accent-gold-dark: #8e682c;
       --success-green: #15803d;
+      --danger: #ef4444;
       --border: #e9e5de;
       --border-dark: #d3ccc0;
       --dark-btn: #181716;
@@ -407,7 +408,6 @@
       text-decoration: none;
     }
 
-    /* Garante at ikonene aldri kollapser eller forsvinner */
     .btn-icon {
       width: 16px;
       height: 16px;
@@ -541,6 +541,7 @@
     .qty-btn:hover { background: var(--dark-btn); color: #fff; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
 
+    /* Kontaktskjema i modal */
     .buyer-info-section {
       background: #faf8f5;
       border: 1px solid var(--border);
@@ -549,16 +550,28 @@
       margin-top: 16px;
     }
 
+    .buyer-info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
     .buyer-info-title {
       font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--accent-gold);
-      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .required-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
     }
 
     .form-grid {
@@ -581,10 +594,18 @@
       font-family: inherit;
       color: var(--text-main);
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .buyer-input:focus {
       border-color: var(--accent-gold);
       box-shadow: 0 0 0 2px rgba(179, 135, 67, 0.15);
+    }
+
+    /* Rød markering for manglende obligatoriske felter */
+    .buyer-input.input-error {
+      border-color: var(--danger) !important;
+      background-color: #fef2f2 !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
     }
 
     .modal-summary-section {
@@ -621,6 +642,7 @@
       flex-wrap: wrap;
     }
 
+    /* Toast Notification */
     .toast {
       position: fixed;
       top: 20px;
@@ -638,10 +660,18 @@
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 90%;
+      text-align: center;
     }
     .toast.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
+    }
+
+    .toast.toast-error {
+      border-color: var(--danger);
+      background: #2a1111;
+      color: #fca5a5;
     }
 
     .empty-state { text-align: center; padding: 60px 20px; grid-column: 1 / -1; color: var(--text-muted); }
@@ -727,7 +757,7 @@
       <button class="cart-btn cart-btn-secondary" onclick="openCartModal()">Vis kurv</button>
       <button class="cart-btn cart-btn-primary" onclick="copyOrder()">
         <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        Kopier
+        Bestill
       </button>
     </div>
   </div>
@@ -750,16 +780,20 @@
       <div class="modal-body">
         <div id="modalItemList"></div>
 
+        <!-- Mottaker og kontaktinfo med obligatoriske felter -->
         <div class="buyer-info-section" id="buyerInfoSection">
-          <div class="buyer-info-title">
-            <svg class="btn-icon" style="stroke: var(--accent-gold); fill: none;" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            Mottaker og kontaktinfo
+          <div class="buyer-info-header">
+            <div class="buyer-info-title">
+              <svg class="btn-icon" style="stroke: var(--accent-gold); fill: none;" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Leverings- og kontaktinfo
+            </div>
+            <span class="required-badge">* Alle felter er obligatoriske</span>
           </div>
           <div class="form-grid">
-            <input type="text" id="buyerName" class="buyer-input full-width" placeholder="Fullt navn" oninput="saveBuyerInfo()" />
-            <input type="text" id="buyerAddress" class="buyer-input full-width" placeholder="Gateadresse, postnr og sted" oninput="saveBuyerInfo()" />
-            <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Telefonnummer" oninput="saveBuyerInfo()" />
-            <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse" oninput="saveBuyerInfo()" />
+            <input type="text" id="buyerName" class="buyer-input full-width" placeholder="Fullt navn *" oninput="handleInputClear(this)" />
+            <input type="text" id="buyerAddress" class="buyer-input full-width" placeholder="Gateadresse, postnr og sted *" oninput="handleInputClear(this)" />
+            <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobilnummer *" oninput="handleInputClear(this)" />
+            <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
           </div>
         </div>
       </div>
@@ -945,6 +979,50 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         email: document.getElementById("buyerEmail").value.trim()
       };
       localStorage.setItem("parfyme_buyer_info", JSON.stringify(data));
+    }
+
+    function handleInputClear(inputEl) {
+      inputEl.classList.remove("input-error");
+      saveBuyerInfo();
+    }
+
+    // Obligatorisk validering av feltene
+    function validateBuyerInfo() {
+      const nameInput = document.getElementById("buyerName");
+      const addressInput = document.getElementById("buyerAddress");
+      const phoneInput = document.getElementById("buyerPhone");
+      const emailInput = document.getElementById("buyerEmail");
+
+      let isValid = true;
+      let firstMissing = null;
+
+      const fields = [
+        { el: nameInput, val: nameInput.value.trim() },
+        { el: addressInput, val: addressInput.value.trim() },
+        { el: phoneInput, val: phoneInput.value.trim() },
+        { el: emailInput, val: emailInput.value.trim() }
+      ];
+
+      fields.forEach(field => {
+        if (!field.val) {
+          field.el.classList.add("input-error");
+          isValid = false;
+          if (!firstMissing) firstMissing = field.el;
+        } else {
+          field.el.classList.remove("input-error");
+        }
+      });
+
+      if (!isValid) {
+        showToast("⚠️ Vennligst fyll ut navn, adresse, mobil og e-post.", true);
+        if (firstMissing) {
+          firstMissing.focus();
+        }
+        return false;
+      }
+
+      saveBuyerInfo();
+      return true;
     }
 
     function getBuyerDetails() {
@@ -1173,41 +1251,45 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
       text += `\nDelsum: ${subtotal} kr\n`;
       text += `Frakt (Norgespakke): ${hasFreeShipping ? "Gratis" : `${shippingCost} kr`}\n`;
-      text += `Total: ${total} kr\n`;
+      text += `Total: ${total} kr\n\n`;
 
-      if (buyer.name || buyer.address || buyer.phone || buyer.email) {
-        text += `\n--- Kontakt- og leveringsinfo ---\n`;
-        if (buyer.name) text += `Navn: ${buyer.name}\n`;
-        if (buyer.address) text += `Adresse: ${buyer.address}\n`;
-        if (buyer.phone) text += `Tlf: ${buyer.phone}\n`;
-        if (buyer.email) text += `E-post: ${buyer.email}\n`;
-      }
+      text += `--- Mottaker og kontaktinfo ---\n`;
+      text += `Navn: ${buyer.name}\n`;
+      text += `Adresse: ${buyer.address}\n`;
+      text += `Mobil: ${buyer.phone}\n`;
+      text += `E-post: ${buyer.email}\n`;
 
       return text;
     }
 
-    function showToast(msg) {
+    function showToast(msg, isError = false) {
       toast.textContent = msg;
+      if (isError) {
+        toast.classList.add("toast-error");
+      } else {
+        toast.classList.remove("toast-error");
+      }
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2500);
+      setTimeout(() => toast.classList.remove("show"), 2800);
     }
 
     function copyOrder() {
       if (cart.length === 0) return;
-      saveBuyerInfo();
+      if (!validateBuyerInfo()) return;
+
       const text = generateOrderText();
       navigator.clipboard.writeText(text).then(() => {
-        showToast("✓ Bestilling kopiert til utklippstavlen!");
+        showToast("✓ Bestilling og kontaktinfo kopiert til utklippstavlen!");
       });
     }
 
     function sendSmsOrder() {
       if (cart.length === 0) return;
-      saveBuyerInfo();
+      if (!validateBuyerInfo()) return;
+
       const orderText = generateOrderText();
-      
       navigator.clipboard.writeText(orderText).then(() => {
-        showToast("✓ Tekst kopiert og SMS åpnes...");
+        showToast("✓ Bestilling kopiert og SMS åpnes...");
       });
 
       const encodedBody = encodeURIComponent(orderText);
@@ -1221,11 +1303,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
     function sendEmailOrder() {
       if (cart.length === 0) return;
-      saveBuyerInfo();
-      const orderText = generateOrderText();
+      if (!validateBuyerInfo()) return;
 
+      const orderText = generateOrderText();
       navigator.clipboard.writeText(orderText).then(() => {
-        showToast("✓ Tekst kopiert og E-post åpnes...");
+        showToast("✓ Bestilling kopiert og E-post åpnes...");
       });
 
       const subject = encodeURIComponent("Bestilling av parfymeprøver");
