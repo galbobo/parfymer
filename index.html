@@ -285,12 +285,6 @@
       border-color: var(--dark-btn);
     }
 
-    /* Pille-stil for sesong og karakter */
-    .pill.pill-season {
-      border-style: dashed;
-      color: #4b4845;
-    }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -316,6 +310,7 @@
       border-color: var(--border-dark);
     }
 
+    /* Ren hvit bildebakgrunn slik at Fragrantica-bildene smelter 100% naturlig inn */
     .image-container {
       position: relative;
       background: #ffffff;
@@ -390,22 +385,7 @@
       font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.45;
-      margin-bottom: 8px;
-    }
-
-    /* Punkt 2: Scent Badge / Karaktermerke */
-    .scent-badge {
-      display: inline-block;
-      align-self: flex-start;
-      font-size: 10.5px;
-      font-weight: 600;
-      background-color: #f6f4ee;
-      color: #5a554c;
-      padding: 3px 9px;
-      border-radius: 6px;
-      border: 1px solid #e7e2d6;
       margin-bottom: 14px;
-      letter-spacing: 0.2px;
     }
 
     .pricing {
@@ -926,7 +906,7 @@
           type="text"
           id="search"
           oninput="handleFilter()"
-          placeholder="Søk på parfymenavn, hus, sesong eller noter (f.eks. sommer, vanilje, sitrus)…"
+          placeholder="Søk på parfymenavn, hus eller noter (f.eks. vanilje, sitrus)…"
           aria-label="Søk etter parfyme"
         />
         <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()">&times;</button>
@@ -939,24 +919,15 @@
       </select>
     </div>
 
-    <!-- Hurtigfiltre for både hus og sesong/anledning -->
     <div class="brand-pills">
-      <button class="pill active" onclick="filterByTag('')">Alle</button>
-      
-      <!-- Sesong- og anledningsfilter -->
-      <button class="pill pill-season" onclick="filterByTag('Sommer')">☀️ Sommer</button>
-      <button class="pill pill-season" onclick="filterByTag('Høst/Vinter')">🍂 Høst/Vinter</button>
-      <button class="pill pill-season" onclick="filterByTag('Signatur')">💼 Signatur/Kontor</button>
-      <button class="pill pill-season" onclick="filterByTag('Kveld')">🌙 Kveld & Fest</button>
-
-      <!-- Husfiltre -->
-      <button class="pill" onclick="filterByTag('Creed')">Creed</button>
-      <button class="pill" onclick="filterByTag('Parfums de Marly')">Parfums de Marly</button>
-      <button class="pill" onclick="filterByTag('Louis Vuitton')">Louis Vuitton</button>
-      <button class="pill" onclick="filterByTag('Giorgio Armani')">Armani</button>
-      <button class="pill" onclick="filterByTag('Jean Paul Gaultier')">JPG</button>
-      <button class="pill" onclick="filterByTag('Xerjoff')">Xerjoff</button>
-      <button class="pill" onclick="filterByTag('Amouage')">Amouage</button>
+      <button class="pill active" onclick="filterByBrand('')">Alle</button>
+      <button class="pill" onclick="filterByBrand('Creed')">Creed</button>
+      <button class="pill" onclick="filterByBrand('Parfums de Marly')">Parfums de Marly</button>
+      <button class="pill" onclick="filterByBrand('Louis Vuitton')">Louis Vuitton</button>
+      <button class="pill" onclick="filterByBrand('Giorgio Armani')">Armani</button>
+      <button class="pill" onclick="filterByBrand('Jean Paul Gaultier')">JPG</button>
+      <button class="pill" onclick="filterByBrand('Xerjoff')">Xerjoff</button>
+      <button class="pill" onclick="filterByBrand('Amouage')">Amouage</button>
     </div>
   </div>
 
@@ -1111,49 +1082,50 @@
     const TARGET_PHONE_NUMBER = "+4795825123";
     const TARGET_EMAIL = "ronni.reiersen@gmail.com";
 
-    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER, SCENT BADGE
+    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER
     const productDataRaw = `
-https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme, 🌙 Kveld & Karakter
-https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav, 💼 Signatur & Fest
-https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra, Eple • Kanel • Vanilje, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum, Ingefær • Treverk • Bourbon-vanilje, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel, 🌙 Kveld & Luksus
-https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP, Sitronpai • Sandeltre • Kremet vanilje, ☀️ Frisk & Sommer
-https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre, 💼 Signatur & Kontor
-https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk, 🌙 Kveld & Eksklusiv
-https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus, Ananas • Bjørk • Musk, 💼 Signatur & Allrounder
-https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne, Mandarin • Ingefær • Vetiver, ☀️ Frisk & Sommer
-https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage), Kokos • Lime • Rom, ☀️ Tropisk & Sommer
-https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 100, 170, French Avenue – Vulcan Feu, Mango • Ingefær • Rosa pepper, ☀️ Fruktig & Sommer
-https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum, Havnoter • Rosmarin • Røkelse, 💼 Signatur & Frisk
-https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum, Iris • Bergamott • Tonkabønne, 💼 Signatur & Kontor
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely, Rom • Kastanje • Vanilje, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely, Toffee • Kanel • Semsket skinn, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach, Mørk fersken • Bringebær • Sandeltre, ☀️ Fruktig & Sommer
-https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje, 🍂 Varm & Kveld
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje, 🌙 Fest & Kveld
-https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott, ☀️ Frisk & Sommer
-https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott, ☀️ Frisk & Luksus
-https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole, Pasjonsfrukt • Salt sjøsprøyt • Hvit musk, ☀️ Tropisk & Sommer
-https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade, Mango • Tomatblad • Lær, 🌙 Unik & Luksus
-https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli, 💼 Signatur & Kontor
-https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat, Ananas • Eikemose • Sedertre, ☀️ Frisk & Kraftfull
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival, Lavendel • Mandarin • Ambroxan, 💼 Signatur & Frisk
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley, Mynte • Sitron • Rosmarin, ☀️ Frisk & Sommer
-https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav, 💼 Signatur & Kontor
-https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum, Lavendel • Marine noter • Sandeltre, ☀️ Frisk & Fest
-https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato, Grapefrukt • Ingefær • Hvit musk, ☀️ Frisk & Luksus
-https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme, 🌙 Kveld & Elegant
-https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan, 🌙 Fest & Kveld
-https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre, ☀️ Frisk & Sommer
-https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel, 🍂 Varm & Høst/Vinter
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk, 💼 Signatur & Kveld
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021 Original helsvart flaske – utgått), Salvie • Eple • Sedertre, 💼 Signatur & Kontor
-https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense, Ingefær • Mandarin • Rav, ☀️ Frisk & Sommer
+https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme
+https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav
+https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra, Eple • Kanel • Vanilje
+https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum, Ingefær • Treverk • Bourbon-vanilje
+https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel
+https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP, Sitronpai • Sandeltre • Kremet vanilje
+https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre
+https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk
+https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus, Ananas • Bjørk • Musk
+https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne, Mandarin • Ingefær • Vetiver
+https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage), Kokos • Lime • Rom
+https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 100, 170, French Avenue – Vulcan Feu, Mango • Ingefær • Rosa pepper
+https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum, Havnoter • Rosmarin • Røkelse
+https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum, Iris • Bergamott • Tonkabønne
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely, Rom • Kastanje • Vanilje
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely, Toffee • Kanel • Semsket skinn
+https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach, Mørk fersken • Bringebær • Sandeltre
+https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær
+https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje
+https://www.announcements/placeholder.html, 0, 0, Placeholder – Ingen, Ingen
+https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott
+https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott
+https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole, Pasjonsfrukt • Salt sjøsprøyt • Hvit musk
+https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade, Mango • Tomatblad • Lær
+https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli
+https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat, Ananas • Eikemose • Sedertre
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival, Lavendel • Mandarin • Ambroxan
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley, Mynte • Sitron • Rosmarin
+https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav
+https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum, Lavendel • Marine noter • Sandeltre
+https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato, Grapefrukt • Ingefær • Hvit musk
+https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme
+https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk
+https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan
+https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre
+https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021 Original helsvart flaske – utgått), Salvie • Eple • Sedertre
+https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense, Ingefær • Mandarin • Rav
 `.trim();
 
     function titleCaseFromSlug(slug) {
@@ -1167,7 +1139,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       const price10 = parseInt(parts[2], 10) || null;
       const customTitle = parts[3] || null;
       const notes = parts[4] || "";
-      const badge = parts[5] || "";
 
       const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
       if (!m) return null;
@@ -1194,7 +1165,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return {
         url, id, brand, perfume,
         title: `${brand} – ${perfume}`,
-        image, price5, price10, notes, badge
+        image, price5, price10, notes
       };
     }
 
@@ -1221,7 +1192,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     const addressSuggestionsEl = document.getElementById("addressSuggestions");
     const stickyCartBadge = document.getElementById("stickyCartBadge");
 
-    let activeFilterTag = "";
+    let activeBrandFilter = "";
     let cart = [];
     let addressSearchTimeout = null;
 
@@ -1512,7 +1483,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
               <div class="brand-tag">${escapeHtml(p.brand)}</div>
               <div class="product-title">${escapeHtml(p.perfume)}</div>
               <div class="notes-tagline">${escapeHtml(p.notes)}</div>
-              ${p.badge ? `<div class="scent-badge">${escapeHtml(p.badge)}</div>` : ''}
             </div>
             ${pricingHtml}
           </div>
@@ -1521,10 +1491,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
     }
 
-    function filterByTag(tag) {
-      activeFilterTag = tag;
+    function filterByBrand(brand) {
+      activeBrandFilter = brand;
       document.querySelectorAll(".pill").forEach(p => {
-        p.classList.toggle("active", p.textContent.includes(tag) && (tag !== "" || p.textContent === "Alle"));
+        p.classList.toggle("active", p.textContent === (brand || "Alle"));
       });
       handleFilter();
     }
@@ -1536,17 +1506,12 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       const sort = document.getElementById("sortSelect").value;
 
       let filtered = products.filter(p => {
-        const matchesTag = activeFilterTag === "" || 
-                           p.brand.toLowerCase().includes(activeFilterTag.toLowerCase()) ||
-                           p.badge.toLowerCase().includes(activeFilterTag.toLowerCase());
-
+        const matchesBrand = activeBrandFilter === "" || p.brand.toLowerCase().includes(activeBrandFilter.toLowerCase());
         const matchesSearch = p.title.toLowerCase().includes(query) ||
                               p.brand.toLowerCase().includes(query) ||
                               p.perfume.toLowerCase().includes(query) ||
-                              p.notes.toLowerCase().includes(query) ||
-                              p.badge.toLowerCase().includes(query);
-
-        return matchesTag && matchesSearch;
+                              p.notes.toLowerCase().includes(query);
+        return matchesBrand && matchesSearch;
       });
 
       filtered.sort((a, b) => {
