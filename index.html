@@ -584,6 +584,13 @@
       grid-column: 1 / -1;
     }
 
+    .address-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 8px;
+    }
+
     .buyer-input {
       width: 100%;
       padding: 9px 12px;
@@ -601,7 +608,12 @@
       box-shadow: 0 0 0 2px rgba(179, 135, 67, 0.15);
     }
 
-    /* Rød markering for manglende obligatoriske felter */
+    .buyer-input:disabled {
+      background: #f1f0ec;
+      color: #666;
+      cursor: not-allowed;
+    }
+
     .buyer-input.input-error {
       border-color: var(--danger) !important;
       background-color: #fef2f2 !important;
@@ -642,7 +654,6 @@
       flex-wrap: wrap;
     }
 
-    /* Toast Notification */
     .toast {
       position: fixed;
       top: 20px;
@@ -780,7 +791,7 @@
       <div class="modal-body">
         <div id="modalItemList"></div>
 
-        <!-- Mottaker og kontaktinfo med obligatoriske felter -->
+        <!-- Mottaker og kontaktinfo med gateadresse, postnummer og automatisk poststed -->
         <div class="buyer-info-section" id="buyerInfoSection">
           <div class="buyer-info-header">
             <div class="buyer-info-title">
@@ -791,7 +802,15 @@
           </div>
           <div class="form-grid">
             <input type="text" id="buyerName" class="buyer-input full-width" placeholder="Fullt navn *" oninput="handleInputClear(this)" />
-            <input type="text" id="buyerAddress" class="buyer-input full-width" placeholder="Gateadresse, postnr og sted *" oninput="handleInputClear(this)" />
+            
+            <!-- Gateadresse til venstre, postnummer til høyre -->
+            <div class="address-row">
+              <input type="text" id="buyerStreet" class="buyer-input" placeholder="Gateadresse *" oninput="handleInputClear(this)" />
+              <input type="text" id="buyerZip" class="buyer-input" placeholder="Postnr *" maxlength="4" oninput="handleZipInput(this)" />
+            </div>
+
+            <input type="text" id="buyerCity" class="buyer-input full-width" placeholder="Poststed (hentes automatisk)" disabled />
+
             <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobilnummer *" oninput="handleInputClear(this)" />
             <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
           </div>
@@ -815,25 +834,21 @@
 
       <div class="modal-footer">
         <div class="order-dispatch-buttons">
-          <!-- Kopier bestilling -->
           <button class="cart-btn cart-btn-primary" style="flex: 1.4;" onclick="copyOrder()">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             Kopier bestilling
           </button>
 
-          <!-- SMS -->
           <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendSmsOrder()" title="Send direkte som SMS">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             SMS
           </button>
 
-          <!-- E-post -->
           <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendEmailOrder()" title="Send direkte som e-post">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             E-post
           </button>
 
-          <!-- Tøm -->
           <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Tøm handlekurv">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           </button>
@@ -959,12 +974,16 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     let cart = [];
 
     function loadSavedBuyerInfo() {
-      const saved = localStorage.getItem("parfyme_buyer_info");
+      const saved = localStorage.getItem("parfyme_buyer_info_v2");
       if (saved) {
         try {
           const data = JSON.parse(saved);
           if (data.name) document.getElementById("buyerName").value = data.name;
-          if (data.address) document.getElementById("buyerAddress").value = data.address;
+          if (data.street) document.getElementById("buyerStreet").value = data.street;
+          if (data.zip) {
+            document.getElementById("buyerZip").value = data.zip;
+            lookupZip(data.zip);
+          }
           if (data.phone) document.getElementById("buyerPhone").value = data.phone;
           if (data.email) document.getElementById("buyerEmail").value = data.email;
         } catch(e) {}
@@ -974,11 +993,13 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     function saveBuyerInfo() {
       const data = {
         name: document.getElementById("buyerName").value.trim(),
-        address: document.getElementById("buyerAddress").value.trim(),
+        street: document.getElementById("buyerStreet").value.trim(),
+        zip: document.getElementById("buyerZip").value.trim(),
+        city: document.getElementById("buyerCity").value.trim(),
         phone: document.getElementById("buyerPhone").value.trim(),
         email: document.getElementById("buyerEmail").value.trim()
       };
-      localStorage.setItem("parfyme_buyer_info", JSON.stringify(data));
+      localStorage.setItem("parfyme_buyer_info_v2", JSON.stringify(data));
     }
 
     function handleInputClear(inputEl) {
@@ -986,10 +1007,53 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       saveBuyerInfo();
     }
 
-    // Obligatorisk validering av feltene
+    // Automatisk henting av poststed via Bring/Posten sitt API
+    async function lookupZip(zip) {
+      const cityInput = document.getElementById("buyerCity");
+      if (zip.length !== 4 || !/^\d{4}$/.test(zip)) {
+        cityInput.value = "";
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.bring.com/shippingguide/api/postalCode.json?clientUrl=${encodeURIComponent(window.location.href)}&pnr=${zip}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.result && data.valid) {
+            cityInput.value = data.result;
+            document.getElementById("buyerZip").classList.remove("input-error");
+            saveBuyerInfo();
+          } else {
+            cityInput.value = "Ugyldig postnummer";
+          }
+        }
+      } catch (err) {
+        // Fallback hvis nettverket blokkerer API-et
+        console.warn("Kunne ikke hente poststed automatisk", err);
+      }
+    }
+
+    function handleZipInput(el) {
+      el.value = el.value.replace(/\D/g, ""); // Kun siffer
+      handleInputClear(el);
+      if (el.value.length === 4) {
+        lookupZip(el.value);
+      } else {
+        document.getElementById("buyerCity").value = "";
+      }
+    }
+
+    // Validering av e-postformat (krever @ og gyldig domene med punktum)
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      return emailRegex.test(email);
+    }
+
+    // Fullstendig validering
     function validateBuyerInfo() {
       const nameInput = document.getElementById("buyerName");
-      const addressInput = document.getElementById("buyerAddress");
+      const streetInput = document.getElementById("buyerStreet");
+      const zipInput = document.getElementById("buyerZip");
       const phoneInput = document.getElementById("buyerPhone");
       const emailInput = document.getElementById("buyerEmail");
 
@@ -998,7 +1062,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
       const fields = [
         { el: nameInput, val: nameInput.value.trim() },
-        { el: addressInput, val: addressInput.value.trim() },
+        { el: streetInput, val: streetInput.value.trim() },
+        { el: zipInput, val: zipInput.value.trim() },
         { el: phoneInput, val: phoneInput.value.trim() },
         { el: emailInput, val: emailInput.value.trim() }
       ];
@@ -1014,10 +1079,24 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       });
 
       if (!isValid) {
-        showToast("⚠️ Vennligst fyll ut navn, adresse, mobil og e-post.", true);
-        if (firstMissing) {
-          firstMissing.focus();
-        }
+        showToast("⚠️ Vennligst fyll ut alle feltene.", true);
+        if (firstMissing) firstMissing.focus();
+        return false;
+      }
+
+      // Sjekk postnummer (4 siffer)
+      if (zipInput.value.trim().length !== 4) {
+        zipInput.classList.add("input-error");
+        showToast("⚠️ Postnummer må bestå av 4 siffer.", true);
+        zipInput.focus();
+        return false;
+      }
+
+      // Sjekk gyldig e-postformat
+      if (!isValidEmail(emailInput.value.trim())) {
+        emailInput.classList.add("input-error");
+        showToast("⚠️ Vennligst oppgi en gyldig e-postadresse (må inneholde @ og domene med .).", true);
+        emailInput.focus();
         return false;
       }
 
@@ -1028,7 +1107,9 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     function getBuyerDetails() {
       return {
         name: document.getElementById("buyerName").value.trim(),
-        address: document.getElementById("buyerAddress").value.trim(),
+        street: document.getElementById("buyerStreet").value.trim(),
+        zip: document.getElementById("buyerZip").value.trim(),
+        city: document.getElementById("buyerCity").value.trim(),
         phone: document.getElementById("buyerPhone").value.trim(),
         email: document.getElementById("buyerEmail").value.trim()
       };
@@ -1255,7 +1336,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
       text += `--- Mottaker og kontaktinfo ---\n`;
       text += `Navn: ${buyer.name}\n`;
-      text += `Adresse: ${buyer.address}\n`;
+      text += `Adresse: ${buyer.street}\n`;
+      text += `Postnr/Sted: ${buyer.zip} ${buyer.city}\n`;
       text += `Mobil: ${buyer.phone}\n`;
       text += `E-post: ${buyer.email}\n`;
 
@@ -1270,7 +1352,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         toast.classList.remove("toast-error");
       }
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2800);
+      setTimeout(() => toast.classList.remove("show"), 3200);
     }
 
     function copyOrder() {
@@ -1306,6 +1388,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       if (!validateBuyerInfo()) return;
 
       const orderText = generateOrderText();
+
       navigator.clipboard.writeText(orderText).then(() => {
         showToast("✓ Bestilling kopiert og E-post åpnes...");
       });
