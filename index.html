@@ -11,7 +11,7 @@
 
   <style>
     :root {
-      --bg: #f8f6f2;
+      --bg: #f8f6f2; /* Varm elfenben/kremtone */
       --card-bg: #ffffff;
       --text-main: #1c1b1a;
       --text-muted: #75716b;
@@ -579,7 +579,7 @@
 
   <!-- Topp-banner -->
   <div class="top-announcement">
-    ✨ <strong>Fri frakt</strong> på alle bestillinger over 1 000 kr!
+    ✨ <strong>Fri frakt</strong> (Norgespakke med sporing) på alle bestillinger over 1 000 kr!
   </div>
 
   <header>
@@ -654,8 +654,8 @@
           <span id="summarySubtotal">0 kr</span>
         </div>
         <div class="summary-line">
-          <span>Frakt:</span>
-          <span id="summaryShipping">45 kr</span>
+          <span>Frakt (Norgespakke liten, sporet):</span>
+          <span id="summaryShipping">76 kr</span>
         </div>
         <div class="summary-line total">
           <span>Totalbeløp:</span>
@@ -673,7 +673,7 @@
   <script>
     // Konfigurasjon for frakt
     const FREE_SHIPPING_THRESHOLD = 1000; // Grense for fri frakt i NOK
-    const STANDARD_SHIPPING_COST = 45;    // Standard fraktkostnad (juster etter ønske, f.eks. 45 kr brevpost eller 73 kr pakke)
+    const STANDARD_SHIPPING_COST = 76;    // Norgespakke liten (sporet)
 
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber
@@ -943,12 +943,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       document.getElementById("modalSummarySection").style.display = "flex";
       document.getElementById("shippingProgressContainer").style.display = "block";
 
-      // Oppdater fremdriftslinje for fri frakt
       const percent = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
       progressBarFill.style.width = `${percent}%`;
 
       if (hasFreeShipping) {
-        shippingProgressText.textContent = "🎉 Du har kvalifisert for fri frakt!";
+        shippingProgressText.textContent = "🎉 Du har kvalifisert for fri frakt (sporet Norgespakke)!";
         shippingProgressText.classList.add("unlocked");
         progressBarFill.classList.add("unlocked");
       } else {
@@ -958,7 +957,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         progressBarFill.classList.remove("unlocked");
       }
 
-      // Vareliste
       let html = "";
       cart.forEach((c, idx) => {
         html += `
@@ -973,7 +971,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       });
       modalItemList.innerHTML = html;
 
-      // Summering
       summarySubtotal.textContent = `${subtotal} kr`;
       if (hasFreeShipping) {
         summaryShipping.innerHTML = `<span class="free-shipping-tag">Gratis (0 kr)</span>`;
@@ -994,7 +991,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       });
 
       text += `\nDelsum: ${subtotal} kr\n`;
-      text += `Frakt: ${hasFreeShipping ? "Gratis (over 1000 kr)" : `${shippingCost} kr`}\n`;
+      text += `Frakt (Norgespakke liten, sporet): ${hasFreeShipping ? "Gratis (over 1000 kr)" : `${shippingCost} kr`}\n`;
       text += `Totalbeløp: ${total} kr`;
 
       navigator.clipboard.writeText(text).then(() => {
