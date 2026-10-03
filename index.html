@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eksklusive Dekanter & Prøver</title>
+  <title>Parfymeprøver fra nisje og designer – Privat Parfymesamling</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,7 @@
 
     header {
       text-align: center;
-      max-width: 650px;
+      max-width: 680px;
       margin: 0 auto 28px auto;
     }
 
@@ -67,10 +67,11 @@
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 38px;
+      font-size: 36px;
       font-weight: 700;
       letter-spacing: -0.5px;
       margin-bottom: 12px;
+      line-height: 1.25;
     }
 
     .header-subtext {
@@ -79,7 +80,7 @@
       line-height: 1.6;
     }
 
-    /* Eksklusiv tillitsbjelke / Kvalitetsgaranti */
+    /* Eksklusiv tillitsbjelke */
     .exclusive-guarantee {
       max-width: 980px;
       margin: 0 auto 36px auto;
@@ -401,6 +402,10 @@
       cursor: pointer;
       font-family: inherit;
       transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .cart-btn-primary { background: var(--accent-gold); color: #fff; }
@@ -431,8 +436,8 @@
       background: #fff;
       border-radius: var(--radius);
       width: 100%;
-      max-width: 480px;
-      max-height: 88vh;
+      max-width: 520px;
+      max-height: 90vh;
       display: flex;
       flex-direction: column;
       box-shadow: 0 24px 48px rgba(0,0,0,0.25);
@@ -465,7 +470,7 @@
     .progress-bar-fill { background: var(--accent-gold); height: 100%; width: 0%; transition: width 0.3s ease; }
     .progress-bar-fill.unlocked { background: var(--success-green); }
 
-    .modal-body { padding: 14px 20px; overflow-y: auto; flex-grow: 1; }
+    .modal-body { padding: 16px 20px; overflow-y: auto; flex-grow: 1; }
 
     .cart-item-row {
       display: flex;
@@ -494,6 +499,53 @@
     }
     .qty-btn:hover { background: var(--dark-btn); color: #fff; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
+
+    /* Kontaktskjema i modal */
+    .buyer-info-section {
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 16px;
+    }
+
+    .buyer-info-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .form-grid .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .buyer-input {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 13px;
+      border-radius: 8px;
+      border: 1px solid var(--border-dark);
+      background: #fff;
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+    }
+    .buyer-input:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 2px rgba(179, 135, 67, 0.15);
+    }
 
     .modal-summary-section {
       padding: 12px 20px;
@@ -526,6 +578,7 @@
     .order-dispatch-buttons {
       display: flex;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     /* Toast Notification */
@@ -563,9 +616,11 @@
   </div>
 
   <header>
-    <div class="brand-eyebrow">Privat Dekantsamling</div>
-    <h1>Eksklusive Parfymeprøver</h1>
-    <p class="header-subtext">Håndfylte prøver i 5 ml og 10 ml. Velg dine favoritter og send bestilling på få sekunder.</p>
+    <div class="brand-eyebrow">Privat Parfymesamling</div>
+    <h1>Parfymeprøver fra nisje og designer</h1>
+    <p class="header-subtext">
+      En parfyme utvikler seg unikt på huden gjennom dagen. Å teste en duft over tid med en 5 ml eller 10 ml prøve før man investerer i en hel flaske, er den beste måten å unngå bomkjøp og finne din sanne signaturduft.
+    </p>
   </header>
 
   <!-- Eksklusiv tillitsseksjon -->
@@ -651,7 +706,23 @@
         </div>
       </div>
 
-      <div class="modal-body" id="modalItemList"></div>
+      <div class="modal-body">
+        <div id="modalItemList"></div>
+
+        <!-- Kontaktopplysninger -->
+        <div class="buyer-info-section" id="buyerInfoSection">
+          <div class="buyer-info-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Mottaker og kontaktinfo
+          </div>
+          <div class="form-grid">
+            <input type="text" id="buyerName" class="buyer-input full-width" placeholder="Fullt navn" oninput="saveBuyerInfo()" />
+            <input type="text" id="buyerAddress" class="buyer-input full-width" placeholder="Gateadresse, postnr og sted" oninput="saveBuyerInfo()" />
+            <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Telefonnummer" oninput="saveBuyerInfo()" />
+            <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse" oninput="saveBuyerInfo()" />
+          </div>
+        </div>
+      </div>
 
       <div class="modal-summary-section" id="modalSummarySection">
         <div class="summary-line">
@@ -670,9 +741,28 @@
 
       <div class="modal-footer">
         <div class="order-dispatch-buttons">
-          <button class="cart-btn cart-btn-primary" style="flex:2;" onclick="copyOrder()">📋 Kopier bestilling</button>
-          <button class="cart-btn cart-btn-secondary" style="flex:1;" onclick="sendSmsOrder()">💬 SMS</button>
-          <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Tøm handlekurv">Tøm</button>
+          <!-- Kopier bestilling -->
+          <button class="cart-btn cart-btn-primary" style="flex: 1.4;" onclick="copyOrder()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Kopier bestilling
+          </button>
+
+          <!-- SMS -->
+          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendSmsOrder()" title="Send direkte som SMS">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            SMS
+          </button>
+
+          <!-- E-post -->
+          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendEmailOrder()" title="Send direkte som e-post">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            E-post
+          </button>
+
+          <!-- Tøm -->
+          <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Tøm handlekurv">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -684,7 +774,8 @@
   <script>
     const FREE_SHIPPING_THRESHOLD = 1000;
     const STANDARD_SHIPPING_COST = 76;
-    const YOUR_PHONE_NUMBER = ""; 
+    const TARGET_PHONE_NUMBER = "+4795825123";
+    const TARGET_EMAIL = "ronni.reiersen@gmail.com";
 
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber
@@ -793,6 +884,39 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
     let activeBrandFilter = "";
     let cart = [];
+
+    // Hent lagret kjøperinformasjon hvis det finnes
+    function loadSavedBuyerInfo() {
+      const saved = localStorage.getItem("parfyme_buyer_info");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.name) document.getElementById("buyerName").value = data.name;
+          if (data.address) document.getElementById("buyerAddress").value = data.address;
+          if (data.phone) document.getElementById("buyerPhone").value = data.phone;
+          if (data.email) document.getElementById("buyerEmail").value = data.email;
+        } catch(e) {}
+      }
+    }
+
+    function saveBuyerInfo() {
+      const data = {
+        name: document.getElementById("buyerName").value.trim(),
+        address: document.getElementById("buyerAddress").value.trim(),
+        phone: document.getElementById("buyerPhone").value.trim(),
+        email: document.getElementById("buyerEmail").value.trim()
+      };
+      localStorage.setItem("parfyme_buyer_info", JSON.stringify(data));
+    }
+
+    function getBuyerDetails() {
+      return {
+        name: document.getElementById("buyerName").value.trim(),
+        address: document.getElementById("buyerAddress").value.trim(),
+        phone: document.getElementById("buyerPhone").value.trim(),
+        email: document.getElementById("buyerEmail").value.trim()
+      };
+    }
 
     function renderProducts(list) {
       grid.innerHTML = "";
@@ -950,11 +1074,13 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         modalItemList.innerHTML = `<p style="text-align:center; color:#999; padding:20px;">Handlekurven er tom.</p>`;
         document.getElementById("modalSummarySection").style.display = "none";
         document.getElementById("shippingProgressContainer").style.display = "none";
+        document.getElementById("buyerInfoSection").style.display = "none";
         return;
       }
 
       document.getElementById("modalSummarySection").style.display = "flex";
       document.getElementById("shippingProgressContainer").style.display = "block";
+      document.getElementById("buyerInfoSection").style.display = "block";
 
       const percent = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
       progressBarFill.style.width = `${percent}%`;
@@ -999,6 +1125,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
     function generateOrderText() {
       const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
+      const buyer = getBuyerDetails();
+
       let text = "Hei! Jeg ønsker å bestille følgende parfymeprøver:\n\n";
       cart.forEach((c, idx) => {
         const qtyText = c.quantity > 1 ? ` (${c.quantity} stk)` : "";
@@ -1006,8 +1134,17 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       });
 
       text += `\nDelsum: ${subtotal} kr\n`;
-      text += `Frakt: ${hasFreeShipping ? "Gratis (Norgespakke)" : `${shippingCost} kr (Norgespakke)`}\n`;
-      text += `Total: ${total} kr`;
+      text += `Frakt (Norgespakke): ${hasFreeShipping ? "Gratis" : `${shippingCost} kr`}\n`;
+      text += `Total: ${total} kr\n`;
+
+      if (buyer.name || buyer.address || buyer.phone || buyer.email) {
+        text += `\n--- Kontakt- og leveringsinfo ---\n`;
+        if (buyer.name) text += `Navn: ${buyer.name}\n`;
+        if (buyer.address) text += `Adresse: ${buyer.address}\n`;
+        if (buyer.phone) text += `Tlf: ${buyer.phone}\n`;
+        if (buyer.email) text += `E-post: ${buyer.email}\n`;
+      }
+
       return text;
     }
 
@@ -1019,6 +1156,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
     function copyOrder() {
       if (cart.length === 0) return;
+      saveBuyerInfo();
       const text = generateOrderText();
       navigator.clipboard.writeText(text).then(() => {
         showToast("✓ Bestilling kopiert til utklippstavlen!");
@@ -1027,8 +1165,39 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
     function sendSmsOrder() {
       if (cart.length === 0) return;
-      const text = encodeURIComponent(generateOrderText());
-      window.location.href = `sms:${YOUR_PHONE_NUMBER}?&body=${text}`;
+      saveBuyerInfo();
+      const orderText = generateOrderText();
+      
+      // Kopierer teksten i bakgrunnen i tilfelle enheten kutter lange SMS-meldinger
+      navigator.clipboard.writeText(orderText).then(() => {
+        showToast("✓ Tekst kopiert og SMS åpnes...");
+      });
+
+      // iOS og Android krever litt ulik syntax for SMS-lenker:
+      const encodedBody = encodeURIComponent(orderText);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const delimiter = isIOS ? '&' : '?';
+
+      setTimeout(() => {
+        window.location.href = `sms:${TARGET_PHONE_NUMBER}${delimiter}body=${encodedBody}`;
+      }, 300);
+    }
+
+    function sendEmailOrder() {
+      if (cart.length === 0) return;
+      saveBuyerInfo();
+      const orderText = generateOrderText();
+
+      navigator.clipboard.writeText(orderText).then(() => {
+        showToast("✓ Tekst kopiert og E-post åpnes...");
+      });
+
+      const subject = encodeURIComponent("Bestilling av parfymeprøver");
+      const body = encodeURIComponent(orderText);
+
+      setTimeout(() => {
+        window.location.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+      }, 300);
     }
 
     function escapeHtml(str) {
@@ -1039,6 +1208,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return String(str).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', '\\"');
     }
 
+    // Initialiser
+    loadSavedBuyerInfo();
     handleFilter();
   </script>
 </body>
