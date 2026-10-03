@@ -302,7 +302,7 @@
       border-color: var(--border-dark);
     }
 
-    /* Studio-belysning med myk radial gradient bak flakongen */
+    /* Studio-belysning med radial gradient bak flakongen */
     .image-container {
       position: relative;
       background: radial-gradient(circle at center, #ffffff 45%, #f6f3eb 100%);
@@ -381,10 +381,6 @@
       align-items: center;
       gap: 5px;
     }
-    .notes-tagline span.dot {
-      color: var(--accent-gold);
-      font-weight: bold;
-    }
 
     .pricing {
       display: flex;
@@ -439,7 +435,7 @@
       border-color: var(--accent-gold) !important;
     }
 
-    /* Steg-for-steg seksjon nederst */
+    /* Steg-for-steg seksjon */
     .steps-section {
       max-width: 980px;
       margin: 60px auto 20px auto;
@@ -516,7 +512,7 @@
 
     .cart-btn {
       border: none;
-      padding: 10px 16px;
+      padding: 10px 14px;
       border-radius: 20px;
       font-size: 13px;
       font-weight: 600;
@@ -526,16 +522,16 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       line-height: 1;
       text-decoration: none;
     }
 
     .btn-icon {
-      width: 16px;
-      height: 16px;
-      min-width: 16px;
-      min-height: 16px;
+      width: 15px;
+      height: 15px;
+      min-width: 15px;
+      min-height: 15px;
       display: inline-block;
       vertical-align: middle;
       flex-shrink: 0;
@@ -600,7 +596,7 @@
       background: #fff;
       border-radius: var(--radius);
       width: 100%;
-      max-width: 520px;
+      max-width: 530px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
@@ -949,7 +945,7 @@
       <div class="step-box">
         <div class="step-number">02</div>
         <div class="step-header">Send henvendelse</div>
-        <div class="step-text">Fyll inn mottakerinfo og send listen direkte via SMS, e-post eller kopier den til en melding på Finn.no.</div>
+        <div class="step-text">Fyll inn mottakerinfo og send listen direkte via Gmail på nett, SMS, e-postapp eller kopier til melding på Finn.no.</div>
       </div>
       <div class="step-box">
         <div class="step-number">03</div>
@@ -1046,21 +1042,31 @@
 
       <div class="modal-footer">
         <div class="order-dispatch-buttons">
-          <button class="cart-btn cart-btn-primary" style="flex: 1.4;" onclick="copyOrder()">
+          <!-- Kopier bestilling -->
+          <button class="cart-btn cart-btn-primary" style="flex: 1.3;" onclick="copyOrder()">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            Kopier bestilling
+            Kopier
           </button>
 
-          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendSmsOrder()" title="Send direkte som SMS">
+          <!-- SMS -->
+          <button class="cart-btn cart-btn-secondary" style="flex: 0.9;" onclick="sendSmsOrder()" title="Send direkte som SMS">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             SMS
           </button>
 
-          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendEmailOrder()" title="Send direkte som e-post">
+          <!-- Gmail direkte i nettleser -->
+          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendGmailWebOrder()" title="Åpne ferdig utfylt i Gmail i nettleseren">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            E-post
+            Gmail
           </button>
 
+          <!-- Annen e-postklient (Mail / Outlook / App) -->
+          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendDefaultEmailOrder()" title="Åpne i datamaskinens eller mobilens e-postapp">
+            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            E-postapp
+          </button>
+
+          <!-- Tøm -->
           <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Tøm handlekurv">
             <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           </button>
@@ -1537,7 +1543,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         cart.push({ item, size, price, quantity: 1 });
       }
       updateCartUI();
-      handleFilter(); // Oppdaterer tall og in-cart stil på kortene
+      handleFilter();
     }
 
     function changeQty(index, delta) {
@@ -1712,14 +1718,31 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }, 300);
     }
 
-    function sendEmailOrder() {
+    // Åpner Gmail direkte i nettleseren med ferdig utfylt melding
+    function sendGmailWebOrder() {
       if (cart.length === 0) return;
       if (!validateBuyerInfo()) return;
 
       const orderText = generateOrderText();
-
       navigator.clipboard.writeText(orderText).then(() => {
-        showToast("✓ Bestilling kopiert og E-post åpnes...");
+        showToast("✓ Bestilling kopiert – åpner Gmail i ny fane...");
+      });
+
+      const subject = encodeURIComponent("Bestilling av parfymeprøver");
+      const body = encodeURIComponent(orderText);
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${TARGET_EMAIL}&su=${subject}&body=${body}`;
+
+      window.open(gmailUrl, "_blank");
+    }
+
+    // Åpner standard e-postapp via mailto: (Mail, Outlook osv.)
+    function sendDefaultEmailOrder() {
+      if (cart.length === 0) return;
+      if (!validateBuyerInfo()) return;
+
+      const orderText = generateOrderText();
+      navigator.clipboard.writeText(orderText).then(() => {
+        showToast("✓ Bestilling kopiert – åpner e-postapp...");
       });
 
       const subject = encodeURIComponent("Bestilling av parfymeprøver");
