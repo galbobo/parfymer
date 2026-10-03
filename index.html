@@ -145,49 +145,49 @@
   <div class="grid" id="productGrid"></div>
 
   <script>
-    // FORMAT: URL, PRIS 5ml, PRIS 10ml
+    // FORMAT: URL, PRIS 5ml, PRIS 10ml, VALGFRITT DISPLAY-NAVN
     const productDataRaw = `
-https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html
-https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html
-https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html
-https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html
-https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html
-https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html
-https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html
-https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html
-https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html
-https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html
-https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html
-https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html
-https://www.fragrantica.com/perfume/Creed/Green-Irish-Tweed-474.html
-https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html
-https://www.fragrantica.com/perfume/Creed/Aventus-9828.html
-https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html
-https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html
-https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html
-https://www.fragrantica.com/perfume/Roja-Dove/Elysium-Pour-Homme-Parfum-Cologne-46296.html
-https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html
-https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html
-https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html
-https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html
-https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html
-https://www.fragrantica.com/perfume/Guerlain/Herbes-Troublantes-69275.html
-https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html
-https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html
-https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html
-https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html
-https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html
-https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html
-https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html
+https://www.fragrantica.com/perfume/Amouage/The-Library-Collection-Opus-XVI-Timber-110057.html, 330, 600, Amouage – Opus XVI – Timber
+https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait)
+https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra
+https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum
+https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks
+https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP
+https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP
+https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023)
+https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus
+https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne
+https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage)
+https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 100, 170, French Avenue – Vulcan Feu
+https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum
+https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely
+https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-71089.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach
+https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP
+https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male
+https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim
+https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination
+https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole
+https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade
+https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer
+https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley
+https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme
+https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum
+https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato
+https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood
+https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy
+https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP
+https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme
+https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021 Original helsvart flaske – utgått)
+https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense
 `.trim();
 
     function titleCaseFromSlug(slug) {
@@ -195,11 +195,11 @@ https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.
     }
 
     function parseProductLine(line) {
-      // Deler opp linjen ved komma. Første del er lenke, andre er pris 5ml, tredje er pris 10ml.
-      const parts = line.split(",");
-      const url = parts[0].trim();
-      const price5 = parts[1] ? parts[1].trim() : null;
-      const price2 = parts[2] ? parts[2].trim() : null;
+      const parts = line.split(",").map(p => p.trim());
+      const url = parts[0];
+      const price5 = parts[1] || null;
+      const price2 = parts[2] || null;
+      const customTitle = parts[3] || null;
 
       const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
       if (!m) return null;
@@ -215,7 +215,7 @@ https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.
       const brand = titleCaseFromSlug(brandSlug);
       const perfume = titleCaseFromSlug(perfumeSlug);
 
-      const title = `${brand} – ${perfume}`;
+      const title = customTitle || `${brand} – ${perfume}`;
       const image = id
         ? `https://fimgs.net/mdimg/perfume-thumbs/375x500.${id}.2x.avif`
         : null;
@@ -243,8 +243,8 @@ https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.
         let pricingHtml = '';
         if (p.price5 || p.price2) {
           pricingHtml = `<div class="pricing">`;
-          if (p.price5) pricingHtml += `<span class="price-badge">5ml: ${escapeHtml(p.price5)}kr</span>`;
-          if (p.price2) pricingHtml += `<span class="price-badge">10ml: ${escapeHtml(p.price2)}kr</span>`;
+          if (p.price5) pricingHtml += `<span class="price-badge">5ml: ${escapeHtml(p.price5)} kr</span>`;
+          if (p.price2) pricingHtml += `<span class="price-badge">10ml: ${escapeHtml(p.price2)} kr</span>`;
           pricingHtml += `</div>`;
         }
 
