@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Eksklusive Dekanter & Prøver</title>
   
-  <!-- Skrifttyper: Playfair Display for luksus-serif + Plus Jakarta Sans for moderne lesbarhet -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #f8f6f2; /* Varm elfenben/kremtone */
+      --bg: #f8f6f2;
       --card-bg: #ffffff;
       --text-main: #1c1b1a;
       --text-muted: #75716b;
       --accent-gold: #b38743;
       --accent-gold-dark: #8e682c;
+      --success-green: #15803d;
       --border: #e9e5de;
       --border-dark: #d3ccc0;
       --dark-btn: #181716;
@@ -37,9 +37,24 @@
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       background-color: var(--bg);
       color: var(--text-main);
-      padding: 50px 20px 120px 20px;
+      padding: 0 20px 120px 20px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* Fri frakt-toppstripe */
+    .top-announcement {
+      background: var(--dark-btn);
+      color: #fff;
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      margin: 0 -20px 40px -20px;
+    }
+    .top-announcement strong {
+      color: #f7d08a;
     }
 
     header {
@@ -72,7 +87,6 @@
       line-height: 1.6;
     }
 
-    /* Søk og filtre */
     .controls-wrapper {
       max-width: 980px;
       margin: 0 auto 32px auto;
@@ -125,7 +139,6 @@
       border-color: var(--accent-gold);
     }
 
-    /* Merke-pills / hurtigfilter */
     .brand-pills {
       display: flex;
       gap: 8px;
@@ -156,7 +169,6 @@
       border-color: var(--dark-btn);
     }
 
-    /* Parfymekort */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -275,7 +287,6 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
-      position: relative;
     }
 
     .price-btn:hover {
@@ -291,7 +302,6 @@
       opacity: 0.7;
     }
 
-    /* Kort flash-animasjon ved klikk */
     .price-btn.added {
       background-color: var(--accent-gold) !important;
       color: #fff !important;
@@ -315,7 +325,7 @@
       z-index: 1000;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       width: calc(100% - 40px);
-      max-width: 580px;
+      max-width: 600px;
     }
 
     .cart-bar.active {
@@ -325,7 +335,6 @@
     .cart-summary {
       font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0.2px;
       white-space: nowrap;
       flex-grow: 1;
     }
@@ -400,7 +409,7 @@
       border-radius: var(--radius);
       width: 100%;
       max-width: 480px;
-      max-height: 80vh;
+      max-height: 85vh;
       display: flex;
       flex-direction: column;
       box-shadow: 0 24px 48px rgba(0,0,0,0.25);
@@ -434,6 +443,41 @@
       line-height: 1;
       color: var(--text-muted);
       cursor: pointer;
+    }
+
+    /* Progress bar for fri frakt inne i modal */
+    .shipping-progress-container {
+      padding: 14px 20px;
+      background: #fbf9f6;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .shipping-progress-text {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+    .shipping-progress-text.unlocked {
+      color: var(--success-green);
+    }
+
+    .progress-bar-bg {
+      background: #e7e3dc;
+      height: 6px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      background: var(--accent-gold);
+      height: 100%;
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+    .progress-bar-fill.unlocked {
+      background: var(--success-green);
     }
 
     .modal-body {
@@ -485,6 +529,34 @@
       color: white;
     }
 
+    /* Summering i modal */
+    .modal-summary-section {
+      padding: 14px 20px;
+      background: #fdfdfd;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+    .summary-line.total {
+      color: var(--text-main);
+      font-size: 16px;
+      font-weight: 700;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+      margin-top: 2px;
+    }
+    .free-shipping-tag {
+      color: var(--success-green);
+      font-weight: 700;
+    }
+
     .modal-footer {
       padding: 16px 20px;
       border-top: 1px solid var(--border);
@@ -492,11 +564,6 @@
       justify-content: space-between;
       align-items: center;
       background: #faf9f7;
-    }
-
-    .modal-total {
-      font-size: 15px;
-      font-weight: 700;
     }
 
     .empty-state {
@@ -509,6 +576,11 @@
 </head>
 
 <body>
+
+  <!-- Topp-banner -->
+  <div class="top-announcement">
+    ✨ <strong>Fri frakt</strong> på alle bestillinger over 1 000 kr!
+  </div>
 
   <header>
     <div class="brand-eyebrow">Privat Dekantsamling</div>
@@ -533,7 +605,6 @@
       </select>
     </div>
 
-    <!-- Hurtigfiltre for de mest populære husene -->
     <div class="brand-pills">
       <button class="pill active" onclick="filterByBrand('')">Alle</button>
       <button class="pill" onclick="filterByBrand('Creed')">Creed</button>
@@ -565,16 +636,45 @@
         <h2>Din bestilling</h2>
         <button class="close-btn" onclick="closeCartModal()">&times;</button>
       </div>
+
+      <!-- Fri frakt måler -->
+      <div class="shipping-progress-container" id="shippingProgressContainer">
+        <div class="shipping-progress-text" id="shippingProgressText">Legg til for 1 000 kr for fri frakt</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+
       <div class="modal-body" id="modalItemList"></div>
+
+      <!-- Summering med frakt -->
+      <div class="modal-summary-section" id="modalSummarySection">
+        <div class="summary-line">
+          <span>Delsum parfymer:</span>
+          <span id="summarySubtotal">0 kr</span>
+        </div>
+        <div class="summary-line">
+          <span>Frakt:</span>
+          <span id="summaryShipping">45 kr</span>
+        </div>
+        <div class="summary-line total">
+          <span>Totalbeløp:</span>
+          <span id="summaryTotal">0 kr</span>
+        </div>
+      </div>
+
       <div class="modal-footer">
         <button class="cart-btn cart-btn-danger" onclick="clearCart()">Tøm alt</button>
-        <div class="modal-total" id="modalTotal">Total: 0 kr</div>
         <button class="cart-btn cart-btn-primary" onclick="copyOrder()">Kopier melding</button>
       </div>
     </div>
   </div>
 
   <script>
+    // Konfigurasjon for frakt
+    const FREE_SHIPPING_THRESHOLD = 1000; // Grense for fri frakt i NOK
+    const STANDARD_SHIPPING_COST = 45;    // Standard fraktkostnad (juster etter ønske, f.eks. 45 kr brevpost eller 73 kr pakke)
+
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber
 https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait)
@@ -678,7 +778,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     const cartSummary = document.getElementById("cartSummary");
     const cartModal = document.getElementById("cartModal");
     const modalItemList = document.getElementById("modalItemList");
-    const modalTotal = document.getElementById("modalTotal");
+    const shippingProgressText = document.getElementById("shippingProgressText");
+    const progressBarFill = document.getElementById("progressBarFill");
+    const summarySubtotal = document.getElementById("summarySubtotal");
+    const summaryShipping = document.getElementById("summaryShipping");
+    const summaryTotal = document.getElementById("summaryTotal");
 
     let activeBrandFilter = "";
     let cart = [];
@@ -761,7 +865,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     }
 
     function addToCart(event, item, size, price) {
-      // Visuell klikk-effekt
       const btn = event.currentTarget;
       btn.classList.add("added");
       setTimeout(() => btn.classList.remove("added"), 250);
@@ -791,16 +894,26 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
     }
 
-    function updateCartUI() {
+    function getCartTotals() {
+      const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
       const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+      const hasFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+      const shippingCost = (subtotal === 0 || hasFreeShipping) ? 0 : STANDARD_SHIPPING_COST;
+      const total = subtotal + shippingCost;
+
+      return { subtotal, totalCount, hasFreeShipping, shippingCost, total };
+    }
+
+    function updateCartUI() {
+      const { subtotal, totalCount, hasFreeShipping } = getCartTotals();
 
       if (totalCount === 0) {
         cartBar.classList.remove("active");
         return;
       }
 
-      cartSummary.textContent = `${totalCount} valgt (${totalPrice} kr)`;
+      const shippingBadge = hasFreeShipping ? " • Fri frakt!" : "";
+      cartSummary.textContent = `${totalCount} valgt (${subtotal} kr${shippingBadge})`;
       cartBar.classList.add("active");
     }
 
@@ -818,15 +931,34 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     }
 
     function renderModalList() {
+      const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
+
       if (cart.length === 0) {
         modalItemList.innerHTML = `<p style="text-align:center; color:#999; padding:20px;">Handlekurven er tom.</p>`;
-        modalTotal.textContent = `Total: 0 kr`;
+        document.getElementById("modalSummarySection").style.display = "none";
+        document.getElementById("shippingProgressContainer").style.display = "none";
         return;
       }
 
-      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-      modalTotal.textContent = `Total: ${totalPrice} kr`;
+      document.getElementById("modalSummarySection").style.display = "flex";
+      document.getElementById("shippingProgressContainer").style.display = "block";
 
+      // Oppdater fremdriftslinje for fri frakt
+      const percent = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
+      progressBarFill.style.width = `${percent}%`;
+
+      if (hasFreeShipping) {
+        shippingProgressText.textContent = "🎉 Du har kvalifisert for fri frakt!";
+        shippingProgressText.classList.add("unlocked");
+        progressBarFill.classList.add("unlocked");
+      } else {
+        const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
+        shippingProgressText.textContent = `Legg til for ${remaining} kr til for å få fri frakt!`;
+        shippingProgressText.classList.remove("unlocked");
+        progressBarFill.classList.remove("unlocked");
+      }
+
+      // Vareliste
       let html = "";
       cart.forEach((c, idx) => {
         html += `
@@ -840,17 +972,30 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         `;
       });
       modalItemList.innerHTML = html;
+
+      // Summering
+      summarySubtotal.textContent = `${subtotal} kr`;
+      if (hasFreeShipping) {
+        summaryShipping.innerHTML = `<span class="free-shipping-tag">Gratis (0 kr)</span>`;
+      } else {
+        summaryShipping.textContent = `${shippingCost} kr`;
+      }
+      summaryTotal.textContent = `${total} kr`;
     }
 
     function copyOrder() {
       if (cart.length === 0) return;
-      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+      const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
+
       let text = "Hei! Jeg ønsker å bestille følgende prøver:\n\n";
       cart.forEach((c, idx) => {
         const qtyText = c.quantity > 1 ? ` (${c.quantity} stk)` : "";
         text += `${idx + 1}. ${c.item} [${c.size}]${qtyText} – ${c.price * c.quantity} kr\n`;
       });
-      text += `\nTotal: ${totalPrice} kr`;
+
+      text += `\nDelsum: ${subtotal} kr\n`;
+      text += `Frakt: ${hasFreeShipping ? "Gratis (over 1000 kr)" : `${shippingCost} kr`}\n`;
+      text += `Totalbeløp: ${total} kr`;
 
       navigator.clipboard.writeText(text).then(() => {
         alert("Bestillingslisten er kopiert til utklippstavlen! Du kan nå lime den inn i meldingen.");
