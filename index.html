@@ -80,7 +80,6 @@
       line-height: 1.6;
     }
 
-    /* Eksklusiv tillitsbjelke */
     .exclusive-guarantee {
       max-width: 980px;
       margin: 0 auto 36px auto;
@@ -141,7 +140,6 @@
       margin-top: 1px;
     }
 
-    /* Controls */
     .controls-wrapper {
       max-width: 980px;
       margin: 0 auto 30px auto;
@@ -228,7 +226,6 @@
       border-color: var(--dark-btn);
     }
 
-    /* Cards */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -395,7 +392,7 @@
 
     .cart-btn {
       border: none;
-      padding: 9px 15px;
+      padding: 10px 16px;
       border-radius: 20px;
       font-size: 13px;
       font-weight: 600;
@@ -405,15 +402,59 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
+      line-height: 1;
+      text-decoration: none;
     }
 
-    .cart-btn-primary { background: var(--accent-gold); color: #fff; }
-    .cart-btn-primary:hover { background: var(--accent-gold-dark); }
-    .cart-btn-secondary { background: rgba(255, 255, 255, 0.12); color: #fff; }
-    .cart-btn-secondary:hover { background: rgba(255, 255, 255, 0.22); }
-    .cart-btn-danger { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
-    .cart-btn-danger:hover { background: rgba(239, 68, 68, 0.35); color: #fff; }
+    /* Garante at ikonene aldri kollapser eller forsvinner */
+    .btn-icon {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .cart-btn-primary { 
+      background: var(--accent-gold); 
+      color: #ffffff !important; 
+    }
+    .cart-btn-primary:hover { 
+      background: var(--accent-gold-dark); 
+    }
+    .cart-btn-primary svg {
+      stroke: #ffffff;
+      fill: none;
+    }
+
+    .cart-btn-secondary { 
+      background: #2a2927; 
+      color: #ffffff !important; 
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .cart-btn-secondary:hover { 
+      background: #3d3b37; 
+    }
+    .cart-btn-secondary svg {
+      stroke: #ffffff;
+      fill: none;
+    }
+
+    .cart-btn-danger { 
+      background: rgba(239, 68, 68, 0.15); 
+      color: #fca5a5 !important; 
+    }
+    .cart-btn-danger:hover { 
+      background: rgba(239, 68, 68, 0.35); 
+      color: #ffffff !important; 
+    }
+    .cart-btn-danger svg {
+      stroke: currentColor;
+      fill: none;
+    }
 
     /* Modal */
     .modal-backdrop {
@@ -500,7 +541,6 @@
     .qty-btn:hover { background: var(--dark-btn); color: #fff; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
 
-    /* Kontaktskjema i modal */
     .buyer-info-section {
       background: #faf8f5;
       border: 1px solid var(--border);
@@ -581,7 +621,6 @@
       flex-wrap: wrap;
     }
 
-    /* Toast Notification */
     .toast {
       position: fixed;
       top: 20px;
@@ -623,7 +662,6 @@
     </p>
   </header>
 
-  <!-- Eksklusiv tillitsseksjon -->
   <div class="exclusive-guarantee">
     <div class="guarantee-item">
       <div class="guarantee-icon">✨</div>
@@ -687,7 +725,10 @@
     <div class="cart-summary" id="cartSummary">0 valgt (0 kr)</div>
     <div class="cart-actions">
       <button class="cart-btn cart-btn-secondary" onclick="openCartModal()">Vis kurv</button>
-      <button class="cart-btn cart-btn-primary" onclick="copyOrder()">Kopier</button>
+      <button class="cart-btn cart-btn-primary" onclick="copyOrder()">
+        <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Kopier
+      </button>
     </div>
   </div>
 
@@ -709,10 +750,9 @@
       <div class="modal-body">
         <div id="modalItemList"></div>
 
-        <!-- Kontaktopplysninger -->
         <div class="buyer-info-section" id="buyerInfoSection">
           <div class="buyer-info-title">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <svg class="btn-icon" style="stroke: var(--accent-gold); fill: none;" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             Mottaker og kontaktinfo
           </div>
           <div class="form-grid">
@@ -743,32 +783,31 @@
         <div class="order-dispatch-buttons">
           <!-- Kopier bestilling -->
           <button class="cart-btn cart-btn-primary" style="flex: 1.4;" onclick="copyOrder()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             Kopier bestilling
           </button>
 
           <!-- SMS -->
           <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendSmsOrder()" title="Send direkte som SMS">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             SMS
           </button>
 
           <!-- E-post -->
           <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendEmailOrder()" title="Send direkte som e-post">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             E-post
           </button>
 
           <!-- Tøm -->
           <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Tøm handlekurv">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toastMessage">Bestillingslisten er kopiert!</div>
 
   <script>
@@ -885,7 +924,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     let activeBrandFilter = "";
     let cart = [];
 
-    // Hent lagret kjøperinformasjon hvis det finnes
     function loadSavedBuyerInfo() {
       const saved = localStorage.getItem("parfyme_buyer_info");
       if (saved) {
@@ -1168,12 +1206,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       saveBuyerInfo();
       const orderText = generateOrderText();
       
-      // Kopierer teksten i bakgrunnen i tilfelle enheten kutter lange SMS-meldinger
       navigator.clipboard.writeText(orderText).then(() => {
         showToast("✓ Tekst kopiert og SMS åpnes...");
       });
 
-      // iOS og Android krever litt ulik syntax for SMS-lenker:
       const encodedBody = encodeURIComponent(orderText);
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       const delimiter = isIOS ? '&' : '?';
@@ -1208,7 +1244,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return String(str).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', '\\"');
     }
 
-    // Initialiser
     loadSavedBuyerInfo();
     handleFilter();
   </script>
