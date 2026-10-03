@@ -3,149 +3,321 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Parfymer</title>
+  <title>Eksklusive Dekanter & Prøver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    :root {
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #6c757d;
+      --primary: #111827;
+      --primary-hover: #374151;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 20px;
-      background-color: #f5f5f8;
+      padding: 0;
     }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 40px 20px 100px 20px;
+      line-height: 1.5;
+    }
+
+    header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+    }
+
     h1 {
-      text-align: center;
-      margin-bottom: 10px;
-      color: #333;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
     }
+
     .meta {
-      text-align: center;
-      color: #666;
-      margin-bottom: 20px;
-      font-size: 14px;
+      color: var(--text-muted);
+      font-size: 15px;
     }
-    #search {
-      display: block;
-      margin: 0 auto 20px auto;
-      width: 80%;
-      max-width: 420px;
-      padding: 10px 15px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      outline: none;
-    }
-    #search:focus {
-      border-color: #1a73e8;
-      box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      justify-items: center;
-    }
-    .product {
-      position: relative;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      transition: transform 0.3s;
-      background-color: #fff;
-      text-align: center;
-      width: 100%;
-      max-width: 320px;
+
+    .controls-wrapper {
+      max-width: 900px;
+      margin: 0 auto 30px auto;
       display: flex;
       flex-direction: column;
+      gap: 16px;
     }
+
+    .search-sort-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    #search {
+      flex: 1;
+      min-width: 240px;
+      padding: 12px 18px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    #search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    #sortSelect {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background-color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .product {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
     .product:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #d1d5db;
     }
+
     .image-container {
       position: relative;
-      overflow: hidden;
-      border-radius: 10px 10px 0 0;
-    }
-    .product img {
-      width: 100%;
-      display: block;
-      transition: transform 0.3s;
-      aspect-ratio: 3 / 4;
-      object-fit: cover;
-      background: #eee;
-    }
-    .product:hover img {
-      transform: scale(1.05);
-    }
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      background: #fff;
+      aspect-ratio: 1;
+      padding: 20px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      background-color: rgba(0,0,0,0.4);
-      opacity: 0;
-      transition: opacity 0.3s;
+      justify-content: center;
+      border-bottom: 1px solid #f1f3f5;
+    }
+
+    .product img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover img {
+      transform: scale(1.04);
+    }
+
+    .fragrantica-link {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11px;
+      padding: 4px 8px;
       text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      transition: all 0.2s;
     }
-    .image-container:hover .overlay {
-      opacity: 1;
+
+    .fragrantica-link:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
     }
+
     .product-info {
-      padding: 10px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
       justify-content: space-between;
     }
+
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
     .product-title {
-      font-weight: bold;
-      color: #1a73e8;
-      text-decoration: none;
-      line-height: 1.25;
-      margin-bottom: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 14px;
     }
-    .product-title:hover {
-      color: #0b53c1;
-      text-decoration: underline;
-    }
+
     .pricing {
       display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 5px;
+      gap: 8px;
     }
-    .price-badge {
-      background-color: #f0f2f5;
-      color: #333;
-      padding: 6px 12px;
+
+    .price-btn {
+      flex: 1;
+      background-color: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .price-btn:hover {
+      background-color: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .price-btn span.size {
+      font-size: 10px;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    /* Cart drawer / floating summary */
+    .cart-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cart-bar.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .cart-summary {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .cart-actions button {
+      background: #fff;
+      color: var(--primary);
+      border: none;
+      padding: 8px 16px;
       border-radius: 20px;
       font-size: 13px;
-      font-weight: bold;
-      border: 1px solid #e1e4e8;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .cart-actions button:hover {
+      background: #f1f3f5;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      grid-column: 1 / -1;
+      color: var(--text-muted);
     }
   </style>
 </head>
 
 <body>
-  <h1>Parfymer</h1>
-  <div class="meta"><span id="countText">Laster …</span></div>
 
-  <input
-    type="text"
-    id="search"
-    onkeyup="filterProducts()"
-    placeholder="Søk etter produktnavn…"
-    aria-label="Søk etter produktnavn"
-  />
+  <header>
+    <h1>Eksklusive Dekanter</h1>
+    <div class="meta"><span id="countText">Laster parfymer …</span></div>
+  </header>
+
+  <div class="controls-wrapper">
+    <div class="search-sort-bar">
+      <input
+        type="text"
+        id="search"
+        oninput="handleFilter()"
+        placeholder="Søk etter merke eller parfyme…"
+        aria-label="Søk etter merke eller parfyme"
+      />
+      <select id="sortSelect" onchange="handleFilter()">
+        <option value="name-asc">Navn (A – Å)</option>
+        <option value="name-desc">Navn (Å – A)</option>
+        <option value="price-asc">Pris (lavest først)</option>
+        <option value="price-desc">Pris (høyest først)</option>
+      </select>
+    </div>
+  </div>
 
   <div class="grid" id="productGrid"></div>
 
+  <!-- Flytende bestillingsoversikt -->
+  <div class="cart-bar" id="cartBar">
+    <div class="cart-summary" id="cartSummary">0 valgt (0 kr)</div>
+    <div class="cart-actions">
+      <button onclick="copyOrder()">Kopier bestilling</button>
+    </div>
+  </div>
+
   <script>
-    // FORMAT: URL, PRIS 5ml, PRIS 10ml, VALGFRITT DISPLAY-NAVN
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber
 https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait)
@@ -197,30 +369,44 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     function parseProductLine(line) {
       const parts = line.split(",").map(p => p.trim());
       const url = parts[0];
-      const price5 = parts[1] || null;
-      const price2 = parts[2] || null;
+      const price5 = parseInt(parts[1], 10) || null;
+      const price10 = parseInt(parts[2], 10) || null;
       const customTitle = parts[3] || null;
 
       const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
       if (!m) return null;
 
-      const brandSlug = m[1];
       const slugAndId = m[2];
-
       const idMatch = slugAndId.match(/-(\d+)$/);
       const id = idMatch ? idMatch[1] : null;
 
-      const perfumeSlug = id ? slugAndId.slice(0, -(id.length + 1)) : slugAndId;
+      let brand = "";
+      let perfume = "";
 
-      const brand = titleCaseFromSlug(brandSlug);
-      const perfume = titleCaseFromSlug(perfumeSlug);
+      if (customTitle && customTitle.includes("–")) {
+        const titleParts = customTitle.split("–");
+        brand = titleParts[0].trim();
+        perfume = titleParts.slice(1).join("–").trim();
+      } else {
+        brand = titleCaseFromSlug(m[1]);
+        const perfumeSlug = id ? slugAndId.slice(0, -(id.length + 1)) : slugAndId;
+        perfume = titleCaseFromSlug(perfumeSlug);
+      }
 
-      const title = customTitle || `${brand} – ${perfume}`;
       const image = id
         ? `https://fimgs.net/mdimg/perfume-thumbs/375x500.${id}.2x.avif`
         : null;
 
-      return { url, id, brand, perfume, title, image, price5, price2 };
+      return {
+        url,
+        id,
+        brand,
+        perfume,
+        title: `${brand} – ${perfume}`,
+        image,
+        price5,
+        price10
+      };
     }
 
     const products = productDataRaw
@@ -228,41 +414,111 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       .map(s => s.trim())
       .filter(Boolean)
       .map(parseProductLine)
-      .filter(Boolean)
-      .sort((a, b) => a.title.localeCompare(b.title, "no"));
+      .filter(Boolean);
 
     const grid = document.getElementById("productGrid");
     const countText = document.getElementById("countText");
+    const cartBar = document.getElementById("cartBar");
+    const cartSummary = document.getElementById("cartSummary");
+
+    let cart = [];
 
     function renderProducts(list) {
       grid.innerHTML = "";
+
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="empty-state">Ingen parfymer matcher søket ditt.</div>`;
+        countText.textContent = `0 av ${products.length} parfymer`;
+        return;
+      }
+
       for (const p of list) {
         const div = document.createElement("div");
         div.className = "product";
-        
-        let pricingHtml = '';
-        if (p.price5 || p.price2) {
-          pricingHtml = `<div class="pricing">`;
-          if (p.price5) pricingHtml += `<span class="price-badge">5ml: ${escapeHtml(p.price5)} kr</span>`;
-          if (p.price2) pricingHtml += `<span class="price-badge">10ml: ${escapeHtml(p.price2)} kr</span>`;
-          pricingHtml += `</div>`;
+
+        let pricingHtml = `<div class="pricing">`;
+        if (p.price5) {
+          pricingHtml += `
+            <button class="price-btn" onclick="addToCart('${escapeHtml(p.brand)} - ${escapeHtml(p.perfume)}', '5ml', ${p.price5})">
+              <span class="size">5 ml</span>
+              <span>${p.price5} kr</span>
+            </button>`;
         }
+        if (p.price10) {
+          pricingHtml += `
+            <button class="price-btn" onclick="addToCart('${escapeHtml(p.brand)} - ${escapeHtml(p.perfume)}', '10ml', ${p.price10})">
+              <span class="size">10 ml</span>
+              <span>${p.price10} kr</span>
+            </button>`;
+        }
+        pricingHtml += `</div>`;
 
         div.innerHTML = `
           <div class="image-container">
-            <img src="${p.image ?? ""}" alt="${escapeHtml(p.title)}" loading="lazy">
-            <a href="${p.url}" class="overlay" target="_blank" rel="noopener">Se på Fragrantica</a>
+            <a href="${p.url}" class="fragrantica-link" target="_blank" rel="noopener" title="Åpne på Fragrantica">Info ↗</a>
+            <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy">
           </div>
           <div class="product-info">
-            <a href="${p.url}" class="product-title" target="_blank" rel="noopener">
-              ${escapeHtml(p.title)}
-            </a>
+            <div>
+              <div class="brand-tag">${escapeHtml(p.brand)}</div>
+              <div class="product-title">${escapeHtml(p.perfume)}</div>
+            </div>
             ${pricingHtml}
           </div>
         `;
         grid.appendChild(div);
       }
       countText.textContent = `${list.length} av ${products.length} parfymer vises`;
+    }
+
+    function handleFilter() {
+      const query = document.getElementById("search").value.toLowerCase();
+      const sort = document.getElementById("sortSelect").value;
+
+      let filtered = products.filter(p =>
+        p.title.toLowerCase().includes(query) ||
+        p.brand.toLowerCase().includes(query) ||
+        p.perfume.toLowerCase().includes(query)
+      );
+
+      filtered.sort((a, b) => {
+        if (sort === "name-asc") return a.title.localeCompare(b.title, "no");
+        if (sort === "name-desc") return b.title.localeCompare(a.title, "no");
+        if (sort === "price-asc") return (a.price5 || 0) - (b.price5 || 0);
+        if (sort === "price-desc") return (b.price5 || 0) - (a.price5 || 0);
+        return 0;
+      });
+
+      renderProducts(filtered);
+    }
+
+    function addToCart(item, size, price) {
+      cart.push({ item, size, price });
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      if (cart.length === 0) {
+        cartBar.classList.remove("active");
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + i.price, 0);
+      cartSummary.textContent = `${cart.length} stk valgt (${total} kr)`;
+      cartBar.classList.add("active");
+    }
+
+    function copyOrder() {
+      if (cart.length === 0) return;
+      const total = cart.reduce((sum, i) => sum + i.price, 0);
+      let text = "Hei! Jeg ønsker å bestille følgende prøver:\n\n";
+      cart.forEach((c, idx) => {
+        text += `${idx + 1}. ${c.item} (${c.size}) – ${c.price} kr\n`;
+      });
+      text += `\nTotal: ${total} kr`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Bestillingslisten er kopiert til utklippstavlen! Du kan nå lime den inn i meldingen.");
+      });
     }
 
     function escapeHtml(str) {
@@ -274,13 +530,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         .replaceAll("'", "&#039;");
     }
 
-    function filterProducts() {
-      const input = document.getElementById("search").value.toLowerCase();
-      const filtered = products.filter(p => p.title.toLowerCase().includes(input));
-      renderProducts(filtered);
-    }
-
-    renderProducts(products);
+    // Første rendering
+    handleFilter();
   </script>
 </body>
 </html>
