@@ -586,7 +586,6 @@
       gap: 8px;
     }
 
-    /* Adresse med autocomplete dropdown */
     .autocomplete-wrapper {
       position: relative;
       width: 100%;
@@ -836,7 +835,7 @@
       <div class="modal-body">
         <div id="modalItemList"></div>
 
-        <!-- Mottaker og kontaktinfo med fornavn, etternavn og offisielt adresseoppslag -->
+        <!-- Mottaker og kontaktinfo med obligatorisk norsk mobil (starter på 4 eller 9) -->
         <div class="buyer-info-section" id="buyerInfoSection">
           <div class="buyer-info-header">
             <div class="buyer-info-title">
@@ -847,13 +846,11 @@
           </div>
 
           <div class="form-grid">
-            <!-- Delt opp i fornavn og etternavn -->
             <div class="form-row-split">
               <input type="text" id="buyerFirstName" class="buyer-input" placeholder="Fornavn *" oninput="handleInputClear(this)" />
               <input type="text" id="buyerLastName" class="buyer-input" placeholder="Etternavn *" oninput="handleInputClear(this)" />
             </div>
 
-            <!-- Gateadresse med autofullfør fra Kartverket -->
             <div class="autocomplete-wrapper">
               <input 
                 type="text" 
@@ -866,15 +863,13 @@
               <div id="addressSuggestions" class="address-suggestions"></div>
             </div>
 
-            <!-- Postnummer og poststed sammen på én linje -->
             <div class="zip-city-row">
               <input type="text" id="buyerZip" class="buyer-input" placeholder="Postnr *" maxlength="4" oninput="handleZipInput(this)" />
               <input type="text" id="buyerCity" class="buyer-input" placeholder="Poststed (hentes automatisk)" disabled />
             </div>
 
-            <!-- Mobil og e-post ved siden av hverandre -->
             <div class="form-row-split">
-              <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer) *" maxlength="12" oninput="handleInputClear(this)" />
+              <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer: 4x / 9x) *" maxlength="12" oninput="handlePhoneInput(this)" />
               <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
             </div>
           </div>
@@ -1040,7 +1035,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     let addressSearchTimeout = null;
 
     function loadSavedBuyerInfo() {
-      const saved = localStorage.getItem("parfyme_buyer_info_v4");
+      const saved = localStorage.getItem("parfyme_buyer_info_v5");
       if (saved) {
         try {
           const data = JSON.parse(saved);
@@ -1067,7 +1062,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         phone: document.getElementById("buyerPhone").value.trim(),
         email: document.getElementById("buyerEmail").value.trim()
       };
-      localStorage.setItem("parfyme_buyer_info_v4", JSON.stringify(data));
+      localStorage.setItem("parfyme_buyer_info_v5", JSON.stringify(data));
     }
 
     function handleInputClear(inputEl) {
@@ -1075,7 +1070,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       saveBuyerInfo();
     }
 
-    // Automatisk adresseoppslag via Kartverkets offisielle API
+    function handlePhoneInput(el) {
+      handleInputClear(el);
+    }
+
+    // Automatisk adresseoppslag via Kartverkets åpne API
     function handleStreetInput(el) {
       handleInputClear(el);
       clearTimeout(addressSearchTimeout);
@@ -1131,14 +1130,13 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       saveBuyerInfo();
     }
 
-    // Lukk forslag hvis bruker klikker utenfor
     document.addEventListener("click", (e) => {
       if (!e.target.closest(".autocomplete-wrapper")) {
         addressSuggestionsEl.style.display = "none";
       }
     });
 
-    // Bring postnummeroppslag (dersom noen endrer postnummer manuelt)
+    // Bring postnummeroppslag
     async function lookupZip(zip) {
       const cityInput = document.getElementById("buyerCity");
       if (zip.length !== 4 || !/^\d{4}$/.test(zip)) {
@@ -1176,31 +1174,35 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return emailRegex.test(email);
     }
 
+    // Tvinger norsk mobilnummer: nøyaktig 8 sifre OG må starte på 4 eller 9
     function cleanAndValidatePhone(phone) {
       const cleaned = phone.replace(/[\s\-\(\)\.]/g, "");
-      if (/^\d{8}$/.test(cleaned)) {
+      
+      // Direkte 8 siffer som starter med 4 eller 9
+      if (/^[49]\d{7}$/.test(cleaned)) {
         return { valid: true, number: cleaned };
       }
-      if (/^(\+47|0047)\d{8}$/.test(cleaned)) {
+      
+      // Med landskode +47 eller 0047, etterfulgt av 8 siffer som starter med 4 eller 9
+      if (/^(\+47|0047)[49]\d{7}$/.test(cleaned)) {
         return { valid: true, number: cleaned.slice(-8) };
       }
+
       return { valid: false, number: phone };
     }
 
-    // Streng validering
     function validateBuyerInfo() {
       const firstNameInput = document.getElementById("buyerFirstName");
       const lastNameInput = document.getElementById("buyerLastName");
       const streetInput = document.getElementById("buyerStreet");
       const zipInput = document.getElementById("buyerZip");
-      const cityInput = document.getElementById("buyerCity");
       const phoneInput = document.getElementById("buyerPhone");
       const emailInput = document.getElementById("buyerEmail");
 
       let isValid = true;
       let firstMissing = null;
 
-      // 1. Sjekk fornavn (minst 2 tegn)
+      // 1. Fornavn
       if (firstNameInput.value.trim().length < 2) {
         firstNameInput.classList.add("input-error");
         isValid = false;
@@ -1209,7 +1211,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         firstNameInput.classList.remove("input-error");
       }
 
-      // 2. Sjekk etternavn (minst 2 tegn)
+      // 2. Etternavn
       if (lastNameInput.value.trim().length < 2) {
         lastNameInput.classList.add("input-error");
         isValid = false;
@@ -1218,7 +1220,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         lastNameInput.classList.remove("input-error");
       }
 
-      // 3. Sjekk gateadresse (minst 4 tegn)
+      // 3. Gateadresse
       if (streetInput.value.trim().length < 4) {
         streetInput.classList.add("input-error");
         isValid = false;
@@ -1227,7 +1229,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         streetInput.classList.remove("input-error");
       }
 
-      // 4. Sjekk postnummer (4 siffer)
+      // 4. Postnummer
       if (zipInput.value.trim().length !== 4) {
         zipInput.classList.add("input-error");
         isValid = false;
@@ -1236,7 +1238,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         zipInput.classList.remove("input-error");
       }
 
-      // 5. Sjekk mobil (nøyaktig 8 siffer)
+      // 5. Mobilnummer (8 siffer og starter på 4 eller 9)
       const phoneValidation = cleanAndValidatePhone(phoneInput.value.trim());
       if (!phoneValidation.valid) {
         phoneInput.classList.add("input-error");
@@ -1246,7 +1248,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         phoneInput.classList.remove("input-error");
       }
 
-      // 6. Sjekk e-post (riktig format)
+      // 6. E-post
       if (!isValidEmail(emailInput.value.trim())) {
         emailInput.classList.add("input-error");
         isValid = false;
@@ -1257,13 +1259,13 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
       if (!isValid) {
         if (firstNameInput.value.trim().length < 2 || lastNameInput.value.trim().length < 2) {
-          showToast("⚠️ Vennligst oppgi både fornavn og etternavn.", true);
+          showToast("⚠️️ Vennligst oppgi både fornavn og etternavn.", true);
         } else if (!phoneValidation.valid) {
-          showToast("⚠️ Mobilnummer må bestå av 8 siffer.", true);
+          showToast("⚠️ Mobilnummer må være 8 siffer og starte på 4 eller 9.", true);
         } else if (!isValidEmail(emailInput.value.trim())) {
-          showToast("⚠️️ Vennligst oppgi en gyldig e-postadresse.", true);
+          showToast("⚠️ Vennligst oppgi en gyldig e-postadresse (må inneholde @ og .domene).", true);
         } else {
-          showToast("⚠️ Vennligst fyll ut alle feltene.", true);
+          showToast("⚠️ Vennligst fyll ut alle påkrevde felter.", true);
         }
 
         if (firstMissing) firstMissing.focus();
