@@ -16,6 +16,8 @@
       --primary: #111827;
       --primary-hover: #374151;
       --accent: #2563eb;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
       --border: #e5e7eb;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
       --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
@@ -32,7 +34,7 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      padding: 40px 20px 100px 20px;
+      padding: 40px 20px 110px 20px;
       line-height: 1.5;
     }
 
@@ -146,25 +148,29 @@
       transform: scale(1.04);
     }
 
+    /* Lagt til z-index: 10 for å sikre at knappen alltid ligger over det skalerte bildet */
     .fragrantica-link {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: rgba(255, 255, 255, 0.9);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--border);
       border-radius: 20px;
       font-size: 11px;
-      padding: 4px 8px;
+      padding: 4px 10px;
       text-decoration: none;
       color: var(--text-muted);
       font-weight: 600;
-      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      transition: all 0.2s ease;
     }
 
     .fragrantica-link:hover {
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
+      transform: scale(1.05);
     }
 
     .product-info {
@@ -226,51 +232,213 @@
       opacity: 0.75;
     }
 
-    /* Cart drawer / floating summary */
+    /* Floating Cart Bar */
     .cart-bar {
       position: fixed;
       bottom: 20px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(120%);
       background: var(--primary);
       color: white;
-      padding: 14px 24px;
+      padding: 12px 20px;
       border-radius: 30px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      width: calc(100% - 40px);
+      max-width: 620px;
     }
 
     .cart-bar.active {
-      opacity: 1;
-      pointer-events: auto;
       transform: translateX(-50%) translateY(0);
     }
 
     .cart-summary {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-grow: 1;
     }
 
-    .cart-actions button {
-      background: #fff;
-      color: var(--primary);
+    .cart-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .cart-btn {
       border: none;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 20px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      font-family: inherit;
+      transition: background 0.15s, transform 0.1s;
     }
 
-    .cart-actions button:hover {
+    .cart-btn:active {
+      transform: scale(0.96);
+    }
+
+    .cart-btn-primary {
+      background: #fff;
+      color: var(--primary);
+    }
+    .cart-btn-primary:hover {
       background: #f1f3f5;
+    }
+
+    .cart-btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    .cart-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .cart-btn-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+    .cart-btn-danger:hover {
+      background: rgba(239, 68, 68, 0.35);
+      color: #fff;
+    }
+
+    /* Modal / Drawer for redigering */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 1001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 500px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.open .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f3f5;
+      gap: 12px;
+    }
+
+    .cart-item-row:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cart-item-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .cart-item-delete {
+      background: #fee2e2;
+      color: var(--danger);
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .cart-item-delete:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    .modal-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+
+    .modal-total {
+      font-size: 15px;
+      font-weight: 700;
     }
 
     .empty-state {
@@ -309,11 +477,29 @@
 
   <div class="grid" id="productGrid"></div>
 
-  <!-- Flytende bestillingsoversikt -->
+  <!-- Flytende handlevogn-bjelke -->
   <div class="cart-bar" id="cartBar">
     <div class="cart-summary" id="cartSummary">0 valgt (0 kr)</div>
     <div class="cart-actions">
-      <button onclick="copyOrder()">Kopier bestilling</button>
+      <button class="cart-btn cart-btn-secondary" onclick="openCartModal()">Vis / Endre</button>
+      <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Nullstill handlekurv">Tøm</button>
+      <button class="cart-btn cart-btn-primary" onclick="copyOrder()">Kopier</button>
+    </div>
+  </div>
+
+  <!-- Modal for redigering av varer -->
+  <div class="modal-backdrop" id="cartModal" onclick="handleBackdropClick(event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Din bestilling</h2>
+        <button class="close-btn" onclick="closeCartModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalItemList"></div>
+      <div class="modal-footer">
+        <button class="cart-btn cart-btn-danger" onclick="clearCart()">Tøm alt</button>
+        <div class="modal-total" id="modalTotal">Total: 0 kr</div>
+        <button class="cart-btn cart-btn-primary" onclick="copyOrder()">Kopier liste</button>
+      </div>
     </div>
   </div>
 
@@ -420,6 +606,9 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     const countText = document.getElementById("countText");
     const cartBar = document.getElementById("cartBar");
     const cartSummary = document.getElementById("cartSummary");
+    const cartModal = document.getElementById("cartModal");
+    const modalItemList = document.getElementById("modalItemList");
+    const modalTotal = document.getElementById("modalTotal");
 
     let cart = [];
 
@@ -439,14 +628,14 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         let pricingHtml = `<div class="pricing">`;
         if (p.price5) {
           pricingHtml += `
-            <button class="price-btn" onclick="addToCart('${escapeHtml(p.brand)} - ${escapeHtml(p.perfume)}', '5ml', ${p.price5})">
+            <button class="price-btn" onclick="addToCart('${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})">
               <span class="size">5 ml</span>
               <span>${p.price5} kr</span>
             </button>`;
         }
         if (p.price10) {
           pricingHtml += `
-            <button class="price-btn" onclick="addToCart('${escapeHtml(p.brand)} - ${escapeHtml(p.perfume)}', '10ml', ${p.price10})">
+            <button class="price-btn" onclick="addToCart('${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})">
               <span class="size">10 ml</span>
               <span>${p.price10} kr</span>
             </button>`;
@@ -455,8 +644,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
         div.innerHTML = `
           <div class="image-container">
-            <a href="${p.url}" class="fragrantica-link" target="_blank" rel="noopener" title="Åpne på Fragrantica">Info ↗</a>
             <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy">
+            <a href="${p.url}" class="fragrantica-link" target="_blank" rel="noopener" title="Åpne på Fragrantica">Info ↗</a>
           </div>
           <div class="product-info">
             <div>
@@ -493,31 +682,98 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     }
 
     function addToCart(item, size, price) {
-      cart.push({ item, size, price });
+      const existing = cart.find(i => i.item === item && i.size === size);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ item, size, price, quantity: 1 });
+      }
       updateCartUI();
     }
 
-    function updateCartUI() {
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+      renderModalList();
       if (cart.length === 0) {
+        closeCartModal();
+      }
+    }
+
+    function clearCart() {
+      if (cart.length === 0) return;
+      if (confirm("Vil du tømme hele handlekurven?")) {
+        cart = [];
+        updateCartUI();
+        closeCartModal();
+      }
+    }
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+      if (totalCount === 0) {
         cartBar.classList.remove("active");
         return;
       }
-      const total = cart.reduce((sum, i) => sum + i.price, 0);
-      cartSummary.textContent = `${cart.length} stk valgt (${total} kr)`;
+
+      cartSummary.textContent = `${totalCount} valgt (${totalPrice} kr)`;
       cartBar.classList.add("active");
+    }
+
+    function openCartModal() {
+      renderModalList();
+      cartModal.classList.add("open");
+    }
+
+    function closeCartModal() {
+      cartModal.classList.remove("open");
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target === cartModal) {
+        closeCartModal();
+      }
+    }
+
+    function renderModalList() {
+      if (cart.length === 0) {
+        modalItemList.innerHTML = `<p style="text-align:center; color:#999; padding:20px;">Handlekurven er tom.</p>`;
+        modalTotal.textContent = `Total: 0 kr`;
+        return;
+      }
+
+      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+      modalTotal.textContent = `Total: ${totalPrice} kr`;
+
+      let html = "";
+      cart.forEach((c, idx) => {
+        html += `
+          <div class="cart-item-row">
+            <div class="cart-item-info">
+              <div class="cart-item-title">${escapeHtml(c.item)}</div>
+              <div class="cart-item-meta">${c.size} &times; ${c.quantity} stk &bull; ${c.price * c.quantity} kr</div>
+            </div>
+            <button class="cart-item-delete" onclick="removeFromCart(${idx})" title="Fjern fra listen">&times;</button>
+          </div>
+        `;
+      });
+      modalItemList.innerHTML = html;
     }
 
     function copyOrder() {
       if (cart.length === 0) return;
-      const total = cart.reduce((sum, i) => sum + i.price, 0);
+      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
       let text = "Hei! Jeg ønsker å bestille følgende prøver:\n\n";
       cart.forEach((c, idx) => {
-        text += `${idx + 1}. ${c.item} (${c.size}) – ${c.price} kr\n`;
+        const qtyText = c.quantity > 1 ? ` (${c.quantity} stk)` : "";
+        text += `${idx + 1}. ${c.item} [${c.size}]${qtyText} – ${c.price * c.quantity} kr\n`;
       });
-      text += `\nTotal: ${total} kr`;
+      text += `\nTotal: ${totalPrice} kr`;
 
       navigator.clipboard.writeText(text).then(() => {
-        alert("Bestillingslisten er kopiert til utklippstavlen! Du kan nå lime den inn i meldingen.");
+        alert("Bestillingslisten er kopiert til utklippstavlen!");
       });
     }
 
@@ -530,7 +786,13 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         .replaceAll("'", "&#039;");
     }
 
-    // Første rendering
+    function escapeJs(str) {
+      return String(str)
+        .replaceAll("\\", "\\\\")
+        .replaceAll("'", "\\'")
+        .replaceAll('"', '\\"');
+    }
+
     handleFilter();
   </script>
 </body>
