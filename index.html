@@ -39,6 +39,56 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Sticky Navigasjonstopp */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 990;
+      background: rgba(248, 246, 242, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      margin: 0 -20px 24px -20px;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sticky-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      color: var(--text-main);
+    }
+
+    .sticky-cart-trigger {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid var(--border-dark);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: all 0.2s;
+    }
+    .sticky-cart-trigger:hover {
+      border-color: var(--accent-gold);
+    }
+
+    .cart-badge {
+      background: var(--accent-gold);
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
     .top-announcement {
       background: var(--dark-btn);
       color: #fff;
@@ -47,7 +97,7 @@
       font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.3px;
-      margin: 0 -20px 36px -20px;
+      margin: -12px -20px 24px -20px;
     }
     .top-announcement strong { color: #f7d08a; }
 
@@ -252,11 +302,12 @@
       border-color: var(--border-dark);
     }
 
+    /* Studio-belysning med myk radial gradient bak flakongen */
     .image-container {
       position: relative;
-      background: #ffffff;
+      background: radial-gradient(circle at center, #ffffff 45%, #f6f3eb 100%);
       aspect-ratio: 1;
-      padding: 20px;
+      padding: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -268,7 +319,7 @@
       max-width: 100%;
       object-fit: contain;
       transition: transform 0.4s ease;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+      filter: drop-shadow(0 6px 12px rgba(28, 27, 26, 0.10));
     }
 
     .product:hover img { transform: scale(1.05); }
@@ -310,14 +361,29 @@
       text-transform: uppercase;
       letter-spacing: 1.2px;
       color: var(--accent-gold);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .product-title {
       font-size: 15px;
       font-weight: 600;
       line-height: 1.35;
-      margin-bottom: 16px;
+      margin-bottom: 6px;
+    }
+
+    /* Noter og aromaprofil */
+    .notes-tagline {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .notes-tagline span.dot {
+      color: var(--accent-gold);
+      font-weight: bold;
     }
 
     .pricing {
@@ -339,6 +405,7 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      position: relative;
     }
 
     .price-btn:hover {
@@ -354,10 +421,66 @@
       opacity: 0.7;
     }
 
+    /* Markert tilstand når varen ligger i kurven */
+    .price-btn.in-cart {
+      background-color: #fbf7ee;
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-dark);
+      font-weight: 700;
+    }
+    .price-btn.in-cart span.size {
+      color: var(--accent-gold-dark);
+      font-weight: 700;
+    }
+
     .price-btn.added {
       background-color: var(--accent-gold) !important;
       color: #fff !important;
       border-color: var(--accent-gold) !important;
+    }
+
+    /* Steg-for-steg seksjon nederst */
+    .steps-section {
+      max-width: 980px;
+      margin: 60px auto 20px auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-subtle);
+      text-align: center;
+    }
+    .steps-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      text-align: left;
+    }
+    .step-box {
+      padding: 12px;
+    }
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 6px;
+    }
+    .step-header {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .step-text {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
     }
 
     /* Cart Bar */
@@ -735,6 +858,15 @@
 
 <body>
 
+  <!-- Sticky navigasjonslinje -->
+  <nav class="sticky-nav">
+    <div class="sticky-logo">Privat Parfymesamling</div>
+    <div class="sticky-cart-trigger" onclick="openCartModal()">
+      <span>Handlekurv</span>
+      <span class="cart-badge" id="stickyCartBadge">0</span>
+    </div>
+  </nav>
+
   <div class="top-announcement">
     ✨ <strong>Fri frakt</strong> med Norgespakke på alle bestillinger over 1 000 kr!
   </div>
@@ -778,7 +910,7 @@
           type="text"
           id="search"
           oninput="handleFilter()"
-          placeholder="Søk på parfymenavn eller hus…"
+          placeholder="Søk på parfymenavn, hus eller noter (f.eks. vanilje, sitrus)…"
           aria-label="Søk etter parfyme"
         />
         <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()">&times;</button>
@@ -804,6 +936,28 @@
   </div>
 
   <div class="grid" id="productGrid"></div>
+
+  <!-- Slik fungerer det seksjon -->
+  <section class="steps-section">
+    <h2 class="steps-title">Slik fungerer bestillingen</h2>
+    <div class="steps-grid">
+      <div class="step-box">
+        <div class="step-number">01</div>
+        <div class="step-header">Velg dine prøver</div>
+        <div class="step-text">Legg 5 ml eller 10 ml prøver i handlekurven. Bestillinger over 1 000 kr kvalifiserer automatisk for fri frakt!</div>
+      </div>
+      <div class="step-box">
+        <div class="step-number">02</div>
+        <div class="step-header">Send henvendelse</div>
+        <div class="step-text">Fyll inn mottakerinfo og send listen direkte via SMS, e-post eller kopier den til en melding på Finn.no.</div>
+      </div>
+      <div class="step-box">
+        <div class="step-number">03</div>
+        <div class="step-header">Vipps & Levering</div>
+        <div class="step-text">Du mottar bekreftelse og Vipps-krav. Prøvene tappes ferskt, pakkes omhyggelig og sendes raskt med Norgespakke.</div>
+      </div>
+    </div>
+  </section>
 
   <!-- Handlevognbjelke -->
   <div class="cart-bar" id="cartBar">
@@ -835,7 +989,6 @@
       <div class="modal-body">
         <div id="modalItemList"></div>
 
-        <!-- Mottaker og kontaktinfo med obligatorisk norsk mobil (starter på 4 eller 9) -->
         <div class="buyer-info-section" id="buyerInfoSection">
           <div class="buyer-info-header">
             <div class="buyer-info-title">
@@ -924,48 +1077,49 @@
     const TARGET_PHONE_NUMBER = "+4795825123";
     const TARGET_EMAIL = "ronni.reiersen@gmail.com";
 
+    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER
     const productDataRaw = `
-https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber
-https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait)
-https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra
-https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum
-https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks
-https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP
-https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP
-https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023)
-https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus
-https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne
-https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage)
-https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 100, 170, French Avenue – Vulcan Feu
-https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum
-https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely
-https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach
-https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP
-https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male
-https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim
-https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination
-https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole
-https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade
-https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer
-https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley
-https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme
-https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum
-https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato
-https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood
-https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy
-https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP
-https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme
-https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021 Original helsvart flaske – utgått)
-https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense
+https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme
+https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav
+https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra, Eple • Kanel • Vanilje
+https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum, Ingefær • Treverk • Bourbon-vanilje
+https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel
+https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP, Sitronpai • Sandeltre • Kremet vanilje
+https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre
+https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk
+https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus, Ananas • Bjørk • Musk
+https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne, Mandarin • Ingefær • Vetiver
+https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage), Kokos • Lime • Rom
+https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 100, 170, French Avenue – Vulcan Feu, Mango • Ingefær • Rosa pepper
+https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum, Havnoter • Rosmarin • Røkelse
+https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum, Iris • Bergamott • Tonkabønne
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely, Rom • Kastanje • Vanilje
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely, Toffee • Kanel • Semsket skinn
+https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach, Mørk fersken • Bringebær • Sandeltre
+https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær
+https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje
+https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott
+https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott
+https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole, Pasjonsfrukt • Salt sjøsprøyt • Hvit musk
+https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade, Mango • Tomatblad • Lær
+https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli
+https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat, Ananas • Eikemose • Sedertre
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival, Lavendel • Mandarin • Ambroxan
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley, Mynte • Sitron • Rosmarin
+https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav
+https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum, Lavendel • Marine noter • Sandeltre
+https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato, Grapefrukt • Ingefær • Hvit musk
+https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme
+https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk
+https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan
+https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre
+https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021 Original helsvart flaske – utgått), Salvie • Eple • Sedertre
+https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense, Ingefær • Mandarin • Rav
 `.trim();
 
     function titleCaseFromSlug(slug) {
@@ -978,6 +1132,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       const price5 = parseInt(parts[1], 10) || null;
       const price10 = parseInt(parts[2], 10) || null;
       const customTitle = parts[3] || null;
+      const notes = parts[4] || "";
 
       const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
       if (!m) return null;
@@ -1004,7 +1159,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return {
         url, id, brand, perfume,
         title: `${brand} – ${perfume}`,
-        image, price5, price10
+        image, price5, price10, notes
       };
     }
 
@@ -1029,13 +1184,14 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     const clearSearchBtn = document.getElementById("clearSearchBtn");
     const toast = document.getElementById("toastMessage");
     const addressSuggestionsEl = document.getElementById("addressSuggestions");
+    const stickyCartBadge = document.getElementById("stickyCartBadge");
 
     let activeBrandFilter = "";
     let cart = [];
     let addressSearchTimeout = null;
 
     function loadSavedBuyerInfo() {
-      const saved = localStorage.getItem("parfyme_buyer_info_v5");
+      const saved = localStorage.getItem("parfyme_buyer_info_v6");
       if (saved) {
         try {
           const data = JSON.parse(saved);
@@ -1062,7 +1218,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         phone: document.getElementById("buyerPhone").value.trim(),
         email: document.getElementById("buyerEmail").value.trim()
       };
-      localStorage.setItem("parfyme_buyer_info_v5", JSON.stringify(data));
+      localStorage.setItem("parfyme_buyer_info_v6", JSON.stringify(data));
     }
 
     function handleInputClear(inputEl) {
@@ -1074,7 +1230,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       handleInputClear(el);
     }
 
-    // Automatisk adresseoppslag via Kartverkets åpne API
     function handleStreetInput(el) {
       handleInputClear(el);
       clearTimeout(addressSearchTimeout);
@@ -1136,7 +1291,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
     });
 
-    // Bring postnummeroppslag
     async function lookupZip(zip) {
       const cityInput = document.getElementById("buyerCity");
       if (zip.length !== 4 || !/^\d{4}$/.test(zip)) {
@@ -1174,20 +1328,14 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return emailRegex.test(email);
     }
 
-    // Tvinger norsk mobilnummer: nøyaktig 8 sifre OG må starte på 4 eller 9
     function cleanAndValidatePhone(phone) {
       const cleaned = phone.replace(/[\s\-\(\)\.]/g, "");
-      
-      // Direkte 8 siffer som starter med 4 eller 9
       if (/^[49]\d{7}$/.test(cleaned)) {
         return { valid: true, number: cleaned };
       }
-      
-      // Med landskode +47 eller 0047, etterfulgt av 8 siffer som starter med 4 eller 9
       if (/^(\+47|0047)[49]\d{7}$/.test(cleaned)) {
         return { valid: true, number: cleaned.slice(-8) };
       }
-
       return { valid: false, number: phone };
     }
 
@@ -1202,7 +1350,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       let isValid = true;
       let firstMissing = null;
 
-      // 1. Fornavn
       if (firstNameInput.value.trim().length < 2) {
         firstNameInput.classList.add("input-error");
         isValid = false;
@@ -1211,7 +1358,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         firstNameInput.classList.remove("input-error");
       }
 
-      // 2. Etternavn
       if (lastNameInput.value.trim().length < 2) {
         lastNameInput.classList.add("input-error");
         isValid = false;
@@ -1220,7 +1366,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         lastNameInput.classList.remove("input-error");
       }
 
-      // 3. Gateadresse
       if (streetInput.value.trim().length < 4) {
         streetInput.classList.add("input-error");
         isValid = false;
@@ -1229,7 +1374,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         streetInput.classList.remove("input-error");
       }
 
-      // 4. Postnummer
       if (zipInput.value.trim().length !== 4) {
         zipInput.classList.add("input-error");
         isValid = false;
@@ -1238,7 +1382,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         zipInput.classList.remove("input-error");
       }
 
-      // 5. Mobilnummer (8 siffer og starter på 4 eller 9)
       const phoneValidation = cleanAndValidatePhone(phoneInput.value.trim());
       if (!phoneValidation.valid) {
         phoneInput.classList.add("input-error");
@@ -1248,7 +1391,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         phoneInput.classList.remove("input-error");
       }
 
-      // 6. E-post
       if (!isValidEmail(emailInput.value.trim())) {
         emailInput.classList.add("input-error");
         isValid = false;
@@ -1259,11 +1401,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
       if (!isValid) {
         if (firstNameInput.value.trim().length < 2 || lastNameInput.value.trim().length < 2) {
-          showToast("⚠️️ Vennligst oppgi både fornavn og etternavn.", true);
+          showToast("⚠️ Vennligst oppgi både fornavn og etternavn.", true);
         } else if (!phoneValidation.valid) {
           showToast("⚠️ Mobilnummer må være 8 siffer og starte på 4 eller 9.", true);
         } else if (!isValidEmail(emailInput.value.trim())) {
-          showToast("⚠️ Vennligst oppgi en gyldig e-postadresse (må inneholde @ og .domene).", true);
+          showToast("⚠️ Vennligst oppgi en gyldig e-postadresse.", true);
         } else {
           showToast("⚠️ Vennligst fyll ut alle påkrevde felter.", true);
         }
@@ -1288,6 +1430,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       };
     }
 
+    function getCartItemQuantity(title, size) {
+      const found = cart.find(i => i.item === title && i.size === size);
+      return found ? found.quantity : 0;
+    }
+
     function renderProducts(list) {
       grid.innerHTML = "";
 
@@ -1300,18 +1447,21 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         const div = document.createElement("div");
         div.className = "product";
 
+        const q5 = getCartItemQuantity(p.title, '5ml');
+        const q10 = getCartItemQuantity(p.title, '10ml');
+
         let pricingHtml = `<div class="pricing">`;
         if (p.price5) {
           pricingHtml += `
-            <button class="price-btn" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})">
-              <span class="size">5 ml</span>
+            <button class="price-btn ${q5 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})">
+              <span class="size">5 ml ${q5 > 0 ? `(${q5})` : ''}</span>
               <span>${p.price5} kr</span>
             </button>`;
         }
         if (p.price10) {
           pricingHtml += `
-            <button class="price-btn" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})">
-              <span class="size">10 ml</span>
+            <button class="price-btn ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})">
+              <span class="size">10 ml ${q10 > 0 ? `(${q10})` : ''}</span>
               <span>${p.price10} kr</span>
             </button>`;
         }
@@ -1326,6 +1476,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
             <div>
               <div class="brand-tag">${escapeHtml(p.brand)}</div>
               <div class="product-title">${escapeHtml(p.perfume)}</div>
+              <div class="notes-tagline">${escapeHtml(p.notes)}</div>
             </div>
             ${pricingHtml}
           </div>
@@ -1352,7 +1503,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         const matchesBrand = activeBrandFilter === "" || p.brand.toLowerCase().includes(activeBrandFilter.toLowerCase());
         const matchesSearch = p.title.toLowerCase().includes(query) ||
                               p.brand.toLowerCase().includes(query) ||
-                              p.perfume.toLowerCase().includes(query);
+                              p.perfume.toLowerCase().includes(query) ||
+                              p.notes.toLowerCase().includes(query);
         return matchesBrand && matchesSearch;
       });
 
@@ -1385,6 +1537,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         cart.push({ item, size, price, quantity: 1 });
       }
       updateCartUI();
+      handleFilter(); // Oppdaterer tall og in-cart stil på kortene
     }
 
     function changeQty(index, delta) {
@@ -1394,6 +1547,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
       updateCartUI();
       renderModalList();
+      handleFilter();
       if (cart.length === 0) closeCartModal();
     }
 
@@ -1402,6 +1556,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       if (confirm("Vil du tømme hele listen?")) {
         cart = [];
         updateCartUI();
+        handleFilter();
         closeCartModal();
       }
     }
@@ -1418,6 +1573,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
     function updateCartUI() {
       const { subtotal, totalCount, hasFreeShipping } = getCartTotals();
+      stickyCartBadge.textContent = totalCount;
 
       if (totalCount === 0) {
         cartBar.classList.remove("active");
