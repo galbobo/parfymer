@@ -15,23 +15,36 @@
 
   <style>
     :root {
+      /* Base & Bakgrunn */
       --bg: #f8f6f2;
       --card-bg: #ffffff;
-      --text-main: #1c1b1a;
+      
+      /* Tekst (Myknet opp fra helt sort til dyp antrasitt/espresso) */
+      --text-main: #2a2825;
       --text-muted: #75716b;
-      --gold-gradient: linear-gradient(135deg, #c79f5e 0%, #9e7332 100%);
-      --gold-gradient-hover: linear-gradient(135deg, #d4ae6d 0%, #aa7d39 100%);
-      --accent-gold: #b38743;
-      --accent-gold-dark: #8e682c;
+      
+      /* Gulltoner (Kjølt ned til Champagne-gull) */
+      --gold-gradient: linear-gradient(135deg, #d4c3a3 0%, #a89467 100%);
+      --gold-gradient-hover: linear-gradient(135deg, #e3d5b8 0%, #bca87b 100%);
+      --accent-gold: #a89467;
+      --accent-gold-dark: #8c7a52;
+      
+      /* Statusfarger */
       --success-green: #15803d;
       --danger: #ef4444;
+      
+      /* Borders */
       --border: #e9e5de;
       --border-dark: #d3ccc0;
-      --dark-btn: #181716;
-      --dark-btn-hover: #262422;
+      
+      /* Knapper */
+      --dark-btn: #2a2825;
+      --dark-btn-hover: #3d3b37;
+      
+      /* Styling & Skygger (Mer svevende og transparent) */
       --radius: 14px;
-      --shadow-subtle: 0 4px 14px rgba(28, 27, 26, 0.04);
-      --shadow-hover: 0 16px 32px rgba(28, 27, 26, 0.08);
+      --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.03);
+      --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,11 +73,13 @@
       align-items: center;
     }
 
+    /* Minimalistisk / Editorial Logostil */
     .sticky-logo {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: 16px;
-      letter-spacing: 0.5px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       color: var(--text-main);
     }
 
@@ -85,7 +100,7 @@
     }
     .sticky-cart-trigger:hover {
       border-color: var(--accent-gold);
-      box-shadow: 0 3px 10px rgba(179, 135, 67, 0.15);
+      box-shadow: 0 3px 10px rgba(168, 148, 103, 0.15);
     }
 
     .cart-badge {
@@ -95,7 +110,7 @@
       padding: 2px 7px;
       border-radius: 12px;
       font-weight: 700;
-      box-shadow: 0 2px 4px rgba(158, 115, 50, 0.3);
+      box-shadow: 0 2px 4px rgba(168, 148, 103, 0.3);
     }
 
     .top-announcement {
@@ -108,7 +123,7 @@
       letter-spacing: 0.3px;
       margin: -12px -20px 28px -20px;
     }
-    .top-announcement strong { color: #f5d496; }
+    .top-announcement strong { color: #e3d5b8; }
 
     header {
       text-align: center;
@@ -133,6 +148,13 @@
       margin-bottom: 14px;
       line-height: 1.25;
     }
+    
+    /* Typografisk lek i headeren */
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent-gold);
+    }
 
     .header-subtext {
       color: var(--text-muted);
@@ -153,13 +175,7 @@
       box-shadow: var(--shadow-subtle);
     }
 
-    .guarantee-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 4px 8px;
-    }
-
+    .guarantee-item { display: flex; align-items: center; gap: 14px; padding: 4px 8px; }
     .guarantee-item:not(:last-child) { border-right: 1px solid var(--border); }
     @media (max-width: 768px) {
       .guarantee-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
@@ -167,18 +183,14 @@
 
     .guarantee-icon {
       width: 40px; height: 40px; border-radius: 50%;
-      background: #fbf9f6; border: 1px solid var(--border);
+      background: #fcfbf8; border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; flex-shrink: 0;
     }
-    .guarantee-title { font-size: 13px; font-weight: 700; letter-spacing: 0.3px; color: var(--text-main); text-transform: uppercase; }
+    .guarantee-title { font-size: 13px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; }
     .guarantee-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-top: 1px; }
 
-    .controls-wrapper {
-      max-width: 980px; margin: 0 auto 32px auto;
-      display: flex; flex-direction: column; gap: 14px;
-    }
-
+    .controls-wrapper { max-width: 980px; margin: 0 auto 32px auto; display: flex; flex-direction: column; gap: 14px; }
     .search-sort-bar { display: flex; gap: 12px; flex-wrap: wrap; }
     .search-input-wrapper { flex: 1; min-width: 260px; position: relative; }
 
@@ -188,36 +200,25 @@
       background: #fff; outline: none; font-family: inherit;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: all 0.2s;
     }
-    #search:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(179, 135, 67, 0.18); }
-
-    .clear-search-btn {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: var(--text-muted);
-      font-size: 18px; cursor: pointer; display: none;
-    }
+    #search:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(168, 148, 103, 0.18); }
+    .clear-search-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; display: none; }
 
     #sortSelect { padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border-dark); background-color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
     .brand-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .brand-pills::-webkit-scrollbar { display: none; }
-    .pill {
-      background: #ffffff; border: 1px solid var(--border); padding: 7px 15px;
-      border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--text-muted);
-      cursor: pointer; white-space: nowrap; transition: all 0.15s ease;
-    }
+    .pill { background: #ffffff; border: 1px solid var(--border); padding: 7px 15px; border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
     .pill:hover, .pill.active { background: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; max-width: 1280px; margin: 0 auto; }
 
-    .product {
-      background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border);
-      overflow: hidden; display: flex; flex-direction: column;
-      box-shadow: var(--shadow-subtle); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .product { background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-subtle); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .product:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: var(--border-dark); }
 
-    .image-container { position: relative; background: #ffffff; aspect-ratio: 1; padding: 22px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
-    .product img { max-height: 100%; max-width: 100%; object-fit: contain; transition: transform 0.35s ease; }
+    .image-container { position: relative; background: #fcfbf9; aspect-ratio: 1; padding: 22px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+    
+    /* mix-blend-mode: multiply sletter den hvite bakgrunnen på Fragrantica-bilder */
+    .product img { max-height: 100%; max-width: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.35s ease; }
     .product:hover img { transform: scale(1.04); }
 
     .fragrantica-link { position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(4px); border: 1px solid var(--border); border-radius: 20px; font-size: 11px; font-weight: 600; padding: 4px 10px; text-decoration: none; color: var(--text-muted); box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: all 0.2s; }
@@ -229,9 +230,16 @@
     .notes-tagline { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; margin-bottom: 14px; }
 
     .pricing { display: flex; gap: 8px; }
-    .price-btn { flex: 1; background-color: #faf9f7; border: 1px solid var(--border); padding: 9px 6px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s ease; display: flex; flex-direction: column; gap: 2px; }
+    
+    .price-btn { flex: 1; padding: 9px 6px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s ease; display: flex; flex-direction: column; gap: 2px; }
+    
+    /* Visuell adskillelse for 5ml og 10ml */
+    .price-btn.size-5ml { background-color: #ffffff; border: 1px solid var(--border-dark); }
+    .price-btn.size-10ml { background-color: #f7f6f2; border: 1px solid var(--border); }
+    
     .price-btn:hover { background-color: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
     .price-btn span.size { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; }
+    
     .price-btn.in-cart { background-color: #fbf7ee; border-color: var(--accent-gold); color: var(--accent-gold-dark); font-weight: 700; box-shadow: inset 0 0 0 1px var(--accent-gold); }
     .price-btn.in-cart span.size { color: var(--accent-gold-dark); font-weight: 700; }
     .price-btn.added { background: var(--gold-gradient) !important; color: #fff !important; border-color: var(--accent-gold) !important; }
@@ -249,7 +257,7 @@
 
     .cart-bar {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(140%);
-      background: rgba(24, 23, 22, 0.94); backdrop-filter: blur(16px); color: white;
+      background: rgba(42, 40, 37, 0.94); backdrop-filter: blur(16px); color: white;
       padding: 12px 20px; border-radius: 40px; display: flex; align-items: center; gap: 16px;
       box-shadow: 0 16px 36px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);
       z-index: 1000; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -261,23 +269,22 @@
 
     .cart-btn { border: none; padding: 10px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-icon { width: 15px; height: 15px; min-width: 15px; display: inline-block; vertical-align: middle; }
-    .cart-btn-primary { background: var(--gold-gradient); color: #ffffff !important; box-shadow: 0 3px 10px rgba(164, 118, 51, 0.25); }
-    .cart-btn-primary:hover { background: var(--gold-gradient-hover); box-shadow: 0 5px 15px rgba(164, 118, 51, 0.35); }
-    .cart-btn-secondary { background: #2a2927; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.12); }
-    .cart-btn-secondary:hover { background: #3d3b37; }
+    .cart-btn-primary { background: var(--gold-gradient); color: #ffffff !important; box-shadow: 0 3px 10px rgba(168, 148, 103, 0.25); }
+    .cart-btn-primary:hover { background: var(--gold-gradient-hover); box-shadow: 0 5px 15px rgba(168, 148, 103, 0.35); }
+    .cart-btn-secondary { background: #3d3b37; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.12); }
+    .cart-btn-secondary:hover { background: #4a4844; }
 
     /* Modal */
-    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 14, 13, 0.65); backdrop-filter: blur(6px); z-index: 1001; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 27, 26, 0.65); backdrop-filter: blur(6px); z-index: 1001; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .modal-backdrop.open { opacity: 1; pointer-events: auto; }
     .modal-content { background: #fff; border-radius: var(--radius); width: 100%; max-width: 530px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 48px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
     .modal-backdrop.open .modal-content { transform: scale(1); }
     .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .modal-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; }
-    
     .close-btn { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .close-btn:hover { background: var(--border); color: var(--text-main); }
 
-    .shipping-progress-container { padding: 12px 20px; background: #fbf9f6; border-bottom: 1px solid var(--border); }
+    .shipping-progress-container { padding: 12px 20px; background: #fcfbf9; border-bottom: 1px solid var(--border); }
     .shipping-progress-text { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
     .shipping-progress-text.unlocked { color: var(--success-green); }
     .progress-bar-bg { background: #e7e3dc; height: 6px; border-radius: 4px; overflow: hidden; }
@@ -290,11 +297,11 @@
     .cart-item-title { font-size: 14px; font-weight: 600; }
     .cart-item-meta { font-size: 12px; color: var(--text-muted); }
     .qty-controls { display: flex; align-items: center; gap: 6px; }
-    .qty-btn { background: #f1f0ec; border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-weight: 700; }
+    .qty-btn { background: #f1f0ec; border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-weight: 700; color: var(--text-main); }
     .qty-btn:hover { background: var(--dark-btn); color: #fff; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
 
-    .buyer-info-section { background: #faf8f5; border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 16px; }
+    .buyer-info-section { background: #fcfbf9; border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 16px; }
     .buyer-info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .buyer-info-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
     .required-badge { font-size: 11px; color: var(--text-muted); font-weight: 600; }
@@ -304,27 +311,27 @@
     .address-suggestions { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #ffffff; border: 1px solid var(--border-dark); border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); z-index: 1050; max-height: 180px; overflow-y: auto; display: none; }
     .address-suggestion-item { padding: 9px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid #f4f2ee; display: flex; justify-content: space-between; align-items: center; }
     .address-suggestion-item:last-child { border-bottom: none; }
-    .address-suggestion-item:hover { background: #fbf9f6; color: var(--accent-gold); }
+    .address-suggestion-item:hover { background: #fcfbf9; color: var(--accent-gold); }
     .address-suggestion-item .postal-hint { font-size: 11px; color: var(--text-muted); }
     .zip-city-row { display: grid; grid-template-columns: 85px 1fr; gap: 8px; }
     .buyer-input { width: 100%; padding: 9px 12px; font-size: 13px; border-radius: 8px; border: 1px solid var(--border-dark); background: #fff; font-family: inherit; color: var(--text-main); outline: none; transition: border-color 0.2s; }
-    .buyer-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 2px rgba(179, 135, 67, 0.15); }
+    .buyer-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 2px rgba(168, 148, 103, 0.15); }
     .buyer-input:disabled { background: #f4f2ee; color: #555; font-weight: 600; }
     .buyer-input.input-error { border-color: var(--danger) !important; background-color: #fef2f2 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important; }
 
-    .modal-summary-section { padding: 12px 20px; background: #fdfdfd; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+    .modal-summary-section { padding: 12px 20px; background: #ffffff; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
     .summary-line { display: flex; justify-content: space-between; color: var(--text-muted); }
     .summary-line.total { color: var(--text-main); font-size: 16px; font-weight: 700; padding-top: 6px; border-top: 1px dashed var(--border); }
     .free-shipping-tag { color: var(--success-green); font-weight: 700; }
 
-    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #faf9f7; display: flex; flex-direction: column; gap: 10px; }
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fcfbf9; display: flex; flex-direction: column; gap: 10px; }
     .order-dispatch-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
     .privacy-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
 
     .toast {
       position: fixed; bottom: 30px; left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: rgba(24, 23, 22, 0.95); backdrop-filter: blur(12px);
+      background: rgba(42, 40, 37, 0.95); backdrop-filter: blur(12px);
       color: #fff; padding: 12px 24px; border-radius: 30px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.25); border: 1px solid var(--accent-gold);
       font-size: 14px; font-weight: 600; z-index: 2000; opacity: 0; pointer-events: none;
@@ -352,7 +359,7 @@
 
   <header>
     <div class="brand-eyebrow">Privat Parfymesamling</div>
-    <h1>Parfymeprøver fra nisje og designer</h1>
+    <h1>Parfymeprøver fra <em>nisje</em> og designer</h1>
     <p class="header-subtext">
       En parfyme utvikler seg unikt på huden gjennom dagen. Å teste en duft over tid med en 5 ml eller 10 ml prøve før man investerer i en hel flaske, er den beste måten å unngå bomkjøp og finne din sanne signaturduft.
     </p>
@@ -525,7 +532,6 @@
     const EMAILJS_SERVICE_ID = "service_j1dywfl";
     const EMAILJS_TEMPLATE_ID = "template_nm4frit";
 
-    // Initialiserer EmailJS direkte
     (function() {
       if (window.emailjs) {
         emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -807,8 +813,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         const q10 = cart.find(i => i.item === p.title && i.size === '10ml')?.quantity || 0;
 
         let pricingHtml = `<div class="pricing">`;
-        if (p.price5) pricingHtml += `<button class="price-btn ${q5 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})"><span class="size">5 ml ${q5 > 0 ? `(${q5})` : ''}</span><span>${p.price5} kr</span></button>`;
-        if (p.price10) pricingHtml += `<button class="price-btn ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})"><span class="size">10 ml ${q10 > 0 ? `(${q10})` : ''}</span><span>${p.price10} kr</span></button>`;
+        if (p.price5) pricingHtml += `<button class="price-btn size-5ml ${q5 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})"><span class="size">5 ml ${q5 > 0 ? `(${q5})` : ''}</span><span>${p.price5} kr</span></button>`;
+        if (p.price10) pricingHtml += `<button class="price-btn size-10ml ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})"><span class="size">10 ml ${q10 > 0 ? `(${q10})` : ''}</span><span>${p.price10} kr</span></button>`;
         pricingHtml += `</div>`;
 
         div.innerHTML = `
