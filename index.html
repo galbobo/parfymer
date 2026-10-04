@@ -321,7 +321,6 @@
     .order-dispatch-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
     .privacy-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
 
-    /* Toast oppdatert for mobilvennlighet */
     .toast {
       position: fixed; bottom: 30px; left: 50%;
       transform: translateX(-50%) translateY(100px);
@@ -522,13 +521,13 @@
 
   <script>
     // --- START EMAILJS OPPSETT ---
-    // Lim inn dine ID-er fra EmailJS her når du har opprettet kontoen
     const EMAILJS_PUBLIC_KEY = "0ivZJSZVO0BvIXxF9";
     const EMAILJS_SERVICE_ID = "service_j1dywfl";
     const EMAILJS_TEMPLATE_ID = "template_nm4frit";
 
+    // Initialiserer EmailJS direkte
     (function() {
-      if (EMAILJS_PUBLIC_KEY !== "0ivZJSZVO0BvIXxF9") {
+      if (window.emailjs) {
         emailjs.init(EMAILJS_PUBLIC_KEY);
       }
     })();
@@ -948,17 +947,15 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       if (isError) toast.classList.add("toast-error");
       else toast.classList.remove("toast-error");
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3200);
+      setTimeout(() => toast.classList.remove("show"), 3500);
     }
 
-    function submitOrderViaEmailJS() {
+    async function submitOrderViaEmailJS() {
       if (cart.length === 0 || !validateBuyerInfo()) return;
-      if (EMAILJS_PUBLIC_KEY === "DIN_PUBLIC_KEY_HER") {
-        alert("EmailJS er ikke satt opp enda. Vennligst legg inn dine egne ID-er i koden.");
-        return;
-      }
 
       const btn = document.getElementById("submitOrderBtn");
+      const originalHtml = `<svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send bestilling`;
+      
       btn.textContent = "Sender...";
       btn.disabled = true;
 
@@ -985,20 +982,21 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         total_price: total + " kr"
       };
 
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        .then(() => {
-          showToast("✓ Bestilling sendt! Sjekk e-posten din for bekreftelse.");
-          cart = [];
-          updateCartUI();
-          handleFilter();
-          closeCartModal();
-          btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send bestilling`;
-          btn.disabled = false;
-        }, (error) => {
-          showToast("❌ Noe gikk galt. Vennligst prøv igjen senere.", true);
-          btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send bestilling`;
-          btn.disabled = false;
-        });
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
+        showToast("✓ Bestilling sendt! Sjekk e-posten din for bekreftelse.");
+        cart = [];
+        updateCartUI();
+        handleFilter();
+        closeCartModal();
+      } catch (error) {
+        console.error("EmailJS Error:", error);
+        const feilTekst = error?.text || error?.message || "Ukjent feil";
+        showToast(`❌ Feil: ${feilTekst}`, true);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
     }
 
     function escapeHtml(str) { return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
