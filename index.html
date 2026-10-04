@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Parfymeprøver fra nisje og designer – Privat Parfymesamling</title>
+  <meta name="description" content="Kjøp 5 ml og 10 ml parfymeprøver fra eksklusive nisje- og designerhus som Creed, Parfums de Marly, Louis Vuitton og Xerjoff. Finn din signaturduft i dag.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
   <style>
     :root {
@@ -41,7 +45,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Sticky Navigasjonstopp med glassmorphism */
     .sticky-nav {
       position: sticky;
       top: 0;
@@ -157,698 +160,179 @@
       padding: 4px 8px;
     }
 
-    .guarantee-item:not(:last-child) {
-      border-right: 1px solid var(--border);
-    }
-
+    .guarantee-item:not(:last-child) { border-right: 1px solid var(--border); }
     @media (max-width: 768px) {
-      .guarantee-item:not(:last-child) {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 14px;
-      }
+      .guarantee-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
     }
 
     .guarantee-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #fbf9f6;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #fbf9f6; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
     }
-
-    .guarantee-title {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      color: var(--text-main);
-      text-transform: uppercase;
-    }
-
-    .guarantee-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-top: 1px;
-    }
+    .guarantee-title { font-size: 13px; font-weight: 700; letter-spacing: 0.3px; color: var(--text-main); text-transform: uppercase; }
+    .guarantee-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-top: 1px; }
 
     .controls-wrapper {
-      max-width: 980px;
-      margin: 0 auto 32px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      max-width: 980px; margin: 0 auto 32px auto;
+      display: flex; flex-direction: column; gap: 14px;
     }
 
-    .search-sort-bar {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .search-input-wrapper {
-      flex: 1;
-      min-width: 260px;
-      position: relative;
-    }
+    .search-sort-bar { display: flex; gap: 12px; flex-wrap: wrap; }
+    .search-input-wrapper { flex: 1; min-width: 260px; position: relative; }
 
     #search {
-      width: 100%;
-      padding: 13px 40px 13px 18px;
-      font-size: 15px;
-      border-radius: 10px;
-      border: 1px solid var(--border-dark);
-      background: #fff;
-      outline: none;
-      font-family: inherit;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%; padding: 13px 40px 13px 18px;
+      font-size: 15px; border-radius: 10px; border: 1px solid var(--border-dark);
+      background: #fff; outline: none; font-family: inherit;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: all 0.2s;
     }
-    #search:focus {
-      border-color: var(--accent-gold);
-      box-shadow: 0 0 0 3px rgba(179, 135, 67, 0.18);
-    }
+    #search:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(179, 135, 67, 0.18); }
 
     .clear-search-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 18px;
-      cursor: pointer;
-      display: none;
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--text-muted);
+      font-size: 18px; cursor: pointer; display: none;
     }
 
-    #sortSelect {
-      padding: 13px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border-dark);
-      background-color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-    }
+    #sortSelect { padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border-dark); background-color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
-    .brand-pills {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
+    .brand-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .brand-pills::-webkit-scrollbar { display: none; }
-
     .pill {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      padding: 7px 15px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s ease;
+      background: #ffffff; border: 1px solid var(--border); padding: 7px 15px;
+      border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--text-muted);
+      cursor: pointer; white-space: nowrap; transition: all 0.15s ease;
     }
-    .pill:hover, .pill.active {
-      background: var(--dark-btn);
-      color: #fff;
-      border-color: var(--dark-btn);
-    }
+    .pill:hover, .pill.active { background: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 24px;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; max-width: 1280px; margin: 0 auto; }
 
     .product {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-subtle);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border);
+      overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: var(--shadow-subtle); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .product:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: var(--border-dark); }
 
-    .product:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--border-dark);
-    }
+    .image-container { position: relative; background: #ffffff; aspect-ratio: 1; padding: 22px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+    .product img { max-height: 100%; max-width: 100%; object-fit: contain; transition: transform 0.35s ease; }
+    .product:hover img { transform: scale(1.04); }
 
-    /* Ren hvit bildebakgrunn slik at Fragrantica-bildene smelter 100% naturlig inn */
-    .image-container {
-      position: relative;
-      background: #ffffff;
-      aspect-ratio: 1;
-      padding: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid var(--border);
-    }
+    .fragrantica-link { position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(4px); border: 1px solid var(--border); border-radius: 20px; font-size: 11px; font-weight: 600; padding: 4px 10px; text-decoration: none; color: var(--text-muted); box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: all 0.2s; }
+    .fragrantica-link:hover { background: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
 
-    .product img {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .product-info { padding: 18px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+    .brand-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-gold); margin-bottom: 3px; }
+    .product-title { font-size: 15px; font-weight: 600; line-height: 1.35; margin-bottom: 6px; }
+    .notes-tagline { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; margin-bottom: 14px; }
 
-    .product:hover img { 
-      transform: scale(1.04); 
-    }
+    .pricing { display: flex; gap: 8px; }
+    .price-btn { flex: 1; background-color: #faf9f7; border: 1px solid var(--border); padding: 9px 6px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s ease; display: flex; flex-direction: column; gap: 2px; }
+    .price-btn:hover { background-color: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
+    .price-btn span.size { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; }
+    .price-btn.in-cart { background-color: #fbf7ee; border-color: var(--accent-gold); color: var(--accent-gold-dark); font-weight: 700; box-shadow: inset 0 0 0 1px var(--accent-gold); }
+    .price-btn.in-cart span.size { color: var(--accent-gold-dark); font-weight: 700; }
+    .price-btn.added { background: var(--gold-gradient) !important; color: #fff !important; border-color: var(--accent-gold) !important; }
 
-    .fragrantica-link {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(4px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 10px;
-      text-decoration: none;
-      color: var(--text-muted);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-      transition: all 0.2s;
-    }
-
-    .fragrantica-link:hover {
-      background: var(--dark-btn);
-      color: #fff;
-      border-color: var(--dark-btn);
-    }
-
-    .product-info {
-      padding: 18px 16px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
-
-    .brand-tag {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      color: var(--accent-gold);
-      margin-bottom: 3px;
-    }
-
-    .product-title {
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.35;
-      margin-bottom: 6px;
-    }
-
-    .notes-tagline {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      line-height: 1.45;
-      margin-bottom: 14px;
-    }
-
-    .pricing {
-      display: flex;
-      gap: 8px;
-    }
-
-    .price-btn {
-      flex: 1;
-      background-color: #faf9f7;
-      border: 1px solid var(--border);
-      padding: 9px 6px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.15s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      position: relative;
-    }
-
-    .price-btn:hover {
-      background-color: var(--dark-btn);
-      color: #fff;
-      border-color: var(--dark-btn);
-    }
-
-    .price-btn span.size {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      opacity: 0.7;
-    }
-
-    .price-btn.in-cart {
-      background-color: #fbf7ee;
-      border-color: var(--accent-gold);
-      color: var(--accent-gold-dark);
-      font-weight: 700;
-      box-shadow: inset 0 0 0 1px var(--accent-gold);
-    }
-    .price-btn.in-cart span.size {
-      color: var(--accent-gold-dark);
-      font-weight: 700;
-    }
-
-    .price-btn.added {
-      background: var(--gold-gradient) !important;
-      color: #fff !important;
-      border-color: var(--accent-gold) !important;
-    }
-
-    /* Steg-for-steg og samlingsinfo */
-    .steps-section {
-      max-width: 980px;
-      margin: 60px auto 20px auto;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 34px 28px;
-      box-shadow: var(--shadow-subtle);
-      text-align: center;
-    }
-    .steps-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 24px;
-      text-align: left;
-    }
+    .steps-section { max-width: 980px; margin: 60px auto 20px auto; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 34px 28px; box-shadow: var(--shadow-subtle); text-align: center; }
+    .steps-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; text-align: left; }
     .step-box { padding: 10px; }
-    .step-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--accent-gold);
-      margin-bottom: 6px;
-    }
+    .step-number { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--accent-gold); margin-bottom: 6px; }
     .step-header { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
     .step-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
 
-    footer {
-      max-width: 980px;
-      margin: 30px auto 0 auto;
-      text-align: center;
-      padding: 20px;
-      color: var(--text-muted);
-      font-size: 12px;
-      border-top: 1px solid var(--border);
-      line-height: 1.7;
-    }
+    footer { max-width: 980px; margin: 30px auto 0 auto; text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); line-height: 1.7; }
     footer strong { color: var(--text-main); }
 
-    /* Cart Bar (Dark Glass) */
     .cart-bar {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(140%);
-      background: rgba(24, 23, 22, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.08);
-      z-index: 1000;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      width: calc(100% - 40px);
-      max-width: 600px;
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(140%);
+      background: rgba(24, 23, 22, 0.94); backdrop-filter: blur(16px); color: white;
+      padding: 12px 20px; border-radius: 40px; display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);
+      z-index: 1000; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      width: calc(100% - 40px); max-width: 600px;
     }
-
     .cart-bar.active { transform: translateX(-50%) translateY(0); }
-
-    .cart-summary {
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      flex-grow: 1;
-    }
-
+    .cart-summary { font-size: 14px; font-weight: 600; white-space: nowrap; flex-grow: 1; }
     .cart-actions { display: flex; gap: 8px; }
 
-    .cart-btn {
-      border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      line-height: 1;
-      text-decoration: none;
-    }
-
-    .btn-icon {
-      width: 15px;
-      height: 15px;
-      min-width: 15px;
-      min-height: 15px;
-      display: inline-block;
-      vertical-align: middle;
-      flex-shrink: 0;
-    }
-
-    .cart-btn-primary { 
-      background: var(--gold-gradient); 
-      color: #ffffff !important; 
-      box-shadow: 0 3px 10px rgba(164, 118, 51, 0.25);
-    }
-    .cart-btn-primary:hover { 
-      background: var(--gold-gradient-hover); 
-      box-shadow: 0 5px 15px rgba(164, 118, 51, 0.35);
-    }
-    .cart-btn-primary svg { stroke: #ffffff; fill: none; }
-
-    .cart-btn-secondary { 
-      background: #2a2927; 
-      color: #ffffff !important; 
-      border: 1px solid rgba(255,255,255,0.12);
-    }
+    .cart-btn { border: none; padding: 10px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-icon { width: 15px; height: 15px; min-width: 15px; display: inline-block; vertical-align: middle; }
+    .cart-btn-primary { background: var(--gold-gradient); color: #ffffff !important; box-shadow: 0 3px 10px rgba(164, 118, 51, 0.25); }
+    .cart-btn-primary:hover { background: var(--gold-gradient-hover); box-shadow: 0 5px 15px rgba(164, 118, 51, 0.35); }
+    .cart-btn-secondary { background: #2a2927; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.12); }
     .cart-btn-secondary:hover { background: #3d3b37; }
-    .cart-btn-secondary svg { stroke: #ffffff; fill: none; }
-
-    .cart-btn-danger { 
-      background: rgba(239, 68, 68, 0.15); 
-      color: #fca5a5 !important; 
-    }
-    .cart-btn-danger:hover { 
-      background: rgba(239, 68, 68, 0.35); 
-      color: #ffffff !important; 
-    }
-    .cart-btn-danger svg { stroke: currentColor; fill: none; }
 
     /* Modal */
-    .modal-backdrop {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 14, 13, 0.65);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 1001;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
+    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 14, 13, 0.65); backdrop-filter: blur(6px); z-index: 1001; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-
-    .modal-content {
-      background: #fff;
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 530px;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.25);
-      overflow: hidden;
-      transform: scale(0.96);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .modal-content { background: #fff; border-radius: var(--radius); width: 100%; max-width: 530px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 48px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
     .modal-backdrop.open .modal-content { transform: scale(1); }
-
-    .modal-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .modal-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; }
+    
+    .close-btn { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .close-btn:hover { background: var(--border); color: var(--text-main); }
 
-    .close-btn { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
-
-    .shipping-progress-container {
-      padding: 12px 20px;
-      background: #fbf9f6;
-      border-bottom: 1px solid var(--border);
-    }
+    .shipping-progress-container { padding: 12px 20px; background: #fbf9f6; border-bottom: 1px solid var(--border); }
     .shipping-progress-text { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
     .shipping-progress-text.unlocked { color: var(--success-green); }
-
     .progress-bar-bg { background: #e7e3dc; height: 6px; border-radius: 4px; overflow: hidden; }
     .progress-bar-fill { background: var(--gold-gradient); height: 100%; width: 0%; transition: width 0.3s ease; }
     .progress-bar-fill.unlocked { background: var(--success-green); }
 
     .modal-body { padding: 16px 20px; overflow-y: auto; flex-grow: 1; }
-
-    .cart-item-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #f4f2ee;
-      gap: 10px;
-    }
+    .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f4f2ee; gap: 10px; }
     .cart-item-row:last-child { border-bottom: none; }
     .cart-item-title { font-size: 14px; font-weight: 600; }
     .cart-item-meta { font-size: 12px; color: var(--text-muted); }
-
-    .qty-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .qty-btn {
-      background: #f1f0ec;
-      border: 1px solid var(--border);
-      width: 26px; height: 26px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 700;
-    }
+    .qty-controls { display: flex; align-items: center; gap: 6px; }
+    .qty-btn { background: #f1f0ec; border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-weight: 700; }
     .qty-btn:hover { background: var(--dark-btn); color: #fff; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
 
-    .buyer-info-section {
-      background: #faf8f5;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 16px;
-    }
-
-    .buyer-info-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .buyer-info-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent-gold);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .required-badge {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .form-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .form-row-split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .autocomplete-wrapper {
-      position: relative;
-      width: 100%;
-    }
-
-    .address-suggestions {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
-      background: #ffffff;
-      border: 1px solid var(--border-dark);
-      border-radius: 8px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      z-index: 1050;
-      max-height: 180px;
-      overflow-y: auto;
-      display: none;
-    }
-
-    .address-suggestion-item {
-      padding: 9px 12px;
-      font-size: 13px;
-      cursor: pointer;
-      border-bottom: 1px solid #f4f2ee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .buyer-info-section { background: #faf8f5; border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 16px; }
+    .buyer-info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .buyer-info-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
+    .required-badge { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .form-grid { display: flex; flex-direction: column; gap: 8px; }
+    .form-row-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .autocomplete-wrapper { position: relative; width: 100%; }
+    .address-suggestions { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #ffffff; border: 1px solid var(--border-dark); border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); z-index: 1050; max-height: 180px; overflow-y: auto; display: none; }
+    .address-suggestion-item { padding: 9px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid #f4f2ee; display: flex; justify-content: space-between; align-items: center; }
     .address-suggestion-item:last-child { border-bottom: none; }
-    .address-suggestion-item:hover {
-      background: #fbf9f6;
-      color: var(--accent-gold);
-    }
-    .address-suggestion-item .postal-hint {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
+    .address-suggestion-item:hover { background: #fbf9f6; color: var(--accent-gold); }
+    .address-suggestion-item .postal-hint { font-size: 11px; color: var(--text-muted); }
+    .zip-city-row { display: grid; grid-template-columns: 85px 1fr; gap: 8px; }
+    .buyer-input { width: 100%; padding: 9px 12px; font-size: 13px; border-radius: 8px; border: 1px solid var(--border-dark); background: #fff; font-family: inherit; color: var(--text-main); outline: none; transition: border-color 0.2s; }
+    .buyer-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 2px rgba(179, 135, 67, 0.15); }
+    .buyer-input:disabled { background: #f4f2ee; color: #555; font-weight: 600; }
+    .buyer-input.input-error { border-color: var(--danger) !important; background-color: #fef2f2 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important; }
 
-    .zip-city-row {
-      display: grid;
-      grid-template-columns: 85px 1fr;
-      gap: 8px;
-    }
-
-    .buyer-input {
-      width: 100%;
-      padding: 9px 12px;
-      font-size: 13px;
-      border-radius: 8px;
-      border: 1px solid var(--border-dark);
-      background: #fff;
-      font-family: inherit;
-      color: var(--text-main);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
-    }
-    .buyer-input:focus {
-      border-color: var(--accent-gold);
-      box-shadow: 0 0 0 2px rgba(179, 135, 67, 0.15);
-    }
-
-    .buyer-input:disabled {
-      background: #f4f2ee;
-      color: #555;
-      font-weight: 600;
-      cursor: default;
-      border-color: var(--border);
-    }
-
-    .buyer-input.input-error {
-      border-color: var(--danger) !important;
-      background-color: #fef2f2 !important;
-      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
-    }
-
-    .modal-summary-section {
-      padding: 12px 20px;
-      background: #fdfdfd;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 14px;
-    }
+    .modal-summary-section { padding: 12px 20px; background: #fdfdfd; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
     .summary-line { display: flex; justify-content: space-between; color: var(--text-muted); }
-    .summary-line.total {
-      color: var(--text-main);
-      font-size: 16px;
-      font-weight: 700;
-      padding-top: 6px;
-      border-top: 1px dashed var(--border);
-    }
+    .summary-line.total { color: var(--text-main); font-size: 16px; font-weight: 700; padding-top: 6px; border-top: 1px dashed var(--border); }
     .free-shipping-tag { color: var(--success-green); font-weight: 700; }
 
-    .modal-footer {
-      padding: 14px 20px;
-      border-top: 1px solid var(--border);
-      background: #faf9f7;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #faf9f7; display: flex; flex-direction: column; gap: 10px; }
+    .order-dispatch-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .privacy-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
 
-    .order-dispatch-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
+    /* Toast oppdatert for mobilvennlighet */
     .toast {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: rgba(24, 23, 22, 0.95);
-      backdrop-filter: blur(12px);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 30px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      border: 1px solid var(--accent-gold);
-      font-size: 14px;
-      font-weight: 600;
-      z-index: 2000;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      max-width: 90%;
-      text-align: center;
+      position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(24, 23, 22, 0.95); backdrop-filter: blur(12px);
+      color: #fff; padding: 12px 24px; border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25); border: 1px solid var(--accent-gold);
+      font-size: 14px; font-weight: 600; z-index: 2000; opacity: 0; pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-width: 90%; text-align: center;
     }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
-    .toast.toast-error {
-      border-color: var(--danger);
-      background: #2a1111;
-      color: #fca5a5;
-    }
-
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.toast-error { border-color: var(--danger); background: #2a1111; color: #fca5a5; }
     .empty-state { text-align: center; padding: 60px 20px; grid-column: 1 / -1; color: var(--text-muted); }
   </style>
 </head>
@@ -864,7 +348,7 @@
   </nav>
 
   <div class="top-announcement">
-    ✨ <strong>Fri frakt</strong> med Norgespakke på alle bestillinger over 1 000 kr!
+    ✨ <strong>Fri frakt</strong> med Norgespakke™ liten på alle bestillinger over 1 000 kr!
   </div>
 
   <header>
@@ -893,7 +377,7 @@
     <div class="guarantee-item">
       <div class="guarantee-icon">📦</div>
       <div>
-        <div class="guarantee-title">Norgespakke</div>
+        <div class="guarantee-title">Norgespakke™ med sporing</div>
         <div class="guarantee-desc">Omhyggelig pakket og trygt levert.</div>
       </div>
     </div>
@@ -902,13 +386,7 @@
   <div class="controls-wrapper">
     <div class="search-sort-bar">
       <div class="search-input-wrapper">
-        <input
-          type="text"
-          id="search"
-          oninput="handleFilter()"
-          placeholder="Søk på parfymenavn, hus eller noter (f.eks. vanilje, sitrus)…"
-          aria-label="Søk etter parfyme"
-        />
+        <input type="text" id="search" oninput="handleFilter()" placeholder="Søk på parfymenavn, hus eller noter (f.eks. vanilje, sitrus)…" aria-label="Søk etter parfyme" />
         <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()">&times;</button>
       </div>
       <select id="sortSelect" onchange="handleFilter()">
@@ -933,7 +411,6 @@
 
   <div class="grid" id="productGrid"></div>
 
-  <!-- Slik fungerer bestillingen -->
   <section class="steps-section">
     <h2 class="steps-title">Slik fungerer bestillingen</h2>
     <div class="steps-grid">
@@ -944,34 +421,28 @@
       </div>
       <div class="step-box">
         <div class="step-number">02</div>
-        <div class="step-header">Send henvendelse</div>
-        <div class="step-text">Fyll inn mottakerinfo og send listen direkte via Gmail på nett, SMS, e-postapp eller kopier til melding på Finn.no.</div>
+        <div class="step-header">Send inn bestilling</div>
+        <div class="step-text">Fyll inn dine detaljer i kassen og trykk på 'Send bestilling'. Vi mottar orderen din umiddelbart i vårt system.</div>
       </div>
       <div class="step-box">
         <div class="step-number">03</div>
         <div class="step-header">Vipps & Levering</div>
-        <div class="step-text">Du mottar bekreftelse og Vipps-krav. Prøvene tappes ferskt, pakkes omhyggelig og sendes raskt med Norgespakke.</div>
+        <div class="step-text">Du mottar betalingsinfo på e-post/SMS. Prøvene tappes ferskt og sendes med sporing samme eller påfølgende dag.</div>
       </div>
     </div>
   </section>
 
   <footer>
-    <strong>Kvalitetsgaranti & Oppbevaring:</strong> Alle flakonger i samlingen oppbevares mørkt, tørt og i stabil temperatur for å bevare topp- og bunnnoter i perfekt stand.
+    <strong>Kvalitetsgaranti & Oppbevaring:</strong> Alle flakonger i samlingen oppbevares mørkt, tørt og i stabil temperatur for å bevare duftene i perfekt stand.
   </footer>
 
-  <!-- Handlevognbjelke -->
   <div class="cart-bar" id="cartBar">
     <div class="cart-summary" id="cartSummary">0 valgt (0 kr)</div>
     <div class="cart-actions">
-      <button class="cart-btn cart-btn-secondary" onclick="openCartModal()">Vis kurv</button>
-      <button class="cart-btn cart-btn-primary" onclick="copyOrder()">
-        <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        Bestill
-      </button>
+      <button class="cart-btn cart-btn-primary" onclick="openCartModal()">Gå til kassen</button>
     </div>
   </div>
 
-  <!-- Modal -->
   <div class="modal-backdrop" id="cartModal" onclick="handleBackdropClick(event)">
     <div class="modal-content">
       <div class="modal-header">
@@ -991,10 +462,7 @@
 
         <div class="buyer-info-section" id="buyerInfoSection">
           <div class="buyer-info-header">
-            <div class="buyer-info-title">
-              <svg class="btn-icon" style="stroke: var(--accent-gold); fill: none;" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              Leverings- og kontaktinfo
-            </div>
+            <div class="buyer-info-title">Leverings- og kontaktinfo</div>
             <span class="required-badge">* Alle felter er obligatoriske</span>
           </div>
 
@@ -1005,27 +473,21 @@
             </div>
 
             <div class="autocomplete-wrapper">
-              <input 
-                type="text" 
-                id="buyerStreet" 
-                class="buyer-input" 
-                placeholder="Gateadresse og husnummer (begynn å skrive for forslag) *" 
-                autocomplete="off"
-                oninput="handleStreetInput(this)" 
-              />
+              <input type="text" id="buyerStreet" class="buyer-input" placeholder="Gateadresse og husnummer *" autocomplete="off" oninput="handleStreetInput(this)" />
               <div id="addressSuggestions" class="address-suggestions"></div>
             </div>
 
             <div class="zip-city-row">
               <input type="text" id="buyerZip" class="buyer-input" placeholder="Postnr *" maxlength="4" oninput="handleZipInput(this)" />
-              <input type="text" id="buyerCity" class="buyer-input" placeholder="Poststed (hentes automatisk)" disabled />
+              <input type="text" id="buyerCity" class="buyer-input" placeholder="Poststed" disabled />
             </div>
 
             <div class="form-row-split">
-              <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer: 4x / 9x) *" maxlength="12" oninput="handlePhoneInput(this)" />
+              <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer) *" maxlength="12" oninput="handlePhoneInput(this)" />
               <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
             </div>
           </div>
+          <div class="privacy-text">🔒 Informasjonen din lagres kun midlertidig i din nettleser for å forenkle bestillingen, og deles aldri med tredjeparter.</div>
         </div>
       </div>
 
@@ -1035,7 +497,7 @@
           <span id="summarySubtotal">0 kr</span>
         </div>
         <div class="summary-line">
-          <span>Frakt (Norgespakke):</span>
+          <span>Frakt (Norgespakke™ med sporing):</span>
           <span id="summaryShipping">76 kr</span>
         </div>
         <div class="summary-line total">
@@ -1046,43 +508,35 @@
 
       <div class="modal-footer">
         <div class="order-dispatch-buttons">
-          <button class="cart-btn cart-btn-primary" style="flex: 1.3;" onclick="copyOrder()">
-            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            Kopier
+          <button class="cart-btn cart-btn-primary" id="submitOrderBtn" style="flex: 1; padding: 14px;" onclick="submitOrderViaEmailJS()">
+            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            Send bestilling
           </button>
-
-          <button class="cart-btn cart-btn-secondary" style="flex: 0.9;" onclick="sendSmsOrder()" title="Send direkte som SMS">
-            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            SMS
-          </button>
-
-          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendGmailWebOrder()" title="Åpne ferdig utfylt i Gmail i nettleseren">
-            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            Gmail
-          </button>
-
-          <button class="cart-btn cart-btn-secondary" style="flex: 1;" onclick="sendDefaultEmailOrder()" title="Åpne i datamaskinens eller mobilens e-postapp">
-            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            E-postapp
-          </button>
-
-          <button class="cart-btn cart-btn-danger" onclick="clearCart()" title="Tøm handlekurv">
-            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-          </button>
+          <button class="cart-btn cart-btn-secondary" style="flex: 0.3;" onclick="closeCartModal()">Lukk</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toastMessage">Bestillingslisten er kopiert!</div>
+  <div class="toast" id="toastMessage">Varsel</div>
 
   <script>
+    // --- START EMAILJS OPPSETT ---
+    // Lim inn dine ID-er fra EmailJS her når du har opprettet kontoen
+    const EMAILJS_PUBLIC_KEY = "service_j1dywfl";
+    const EMAILJS_SERVICE_ID = "service_j1dywfl";
+    const EMAILJS_TEMPLATE_ID = "service_j1dywfl";
+
+    (function() {
+      if (EMAILJS_PUBLIC_KEY !== "service_j1dywfl") {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+      }
+    })();
+    // --- SLUTT EMAILJS OPPSETT ---
+
     const FREE_SHIPPING_THRESHOLD = 1000;
     const STANDARD_SHIPPING_COST = 76;
-    const TARGET_PHONE_NUMBER = "+4795825123";
-    const TARGET_EMAIL = "ronni.reiersen@gmail.com";
 
-    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme
 https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav
@@ -1105,7 +559,6 @@ https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.h
 https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha
 https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje
 https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje
-https://www.announcements/placeholder.html, 0, 0, Placeholder – Ingen, Ingen
 https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott
 https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott
 https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole, Pasjonsfrukt • Salt sjøsprøyt • Hvit musk
@@ -1124,13 +577,11 @@ https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 
 https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre
 https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel
 https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021 Original helsvart flaske – utgått), Salvie • Eple • Sedertre
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021), Salvie • Eple • Sedertre
 https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense, Ingefær • Mandarin • Rav
 `.trim();
 
-    function titleCaseFromSlug(slug) {
-      return slug.replace(/-/g, " ").replace(/\s+/g, " ").trim();
-    }
+    function titleCaseFromSlug(slug) { return slug.replace(/-/g, " ").replace(/\s+/g, " ").trim(); }
 
     function parseProductLine(line) {
       const parts = line.split(",").map(p => p.trim());
@@ -1147,9 +598,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       const idMatch = slugAndId.match(/-(\d+)$/);
       const id = idMatch ? idMatch[1] : null;
 
-      let brand = "";
-      let perfume = "";
-
+      let brand = "", perfume = "";
       if (customTitle && customTitle.includes("–")) {
         const titleParts = customTitle.split("–");
         brand = titleParts[0].trim();
@@ -1159,22 +608,12 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         const perfumeSlug = id ? slugAndId.slice(0, -(id.length + 1)) : slugAndId;
         perfume = titleCaseFromSlug(perfumeSlug);
       }
-
       const image = id ? `https://fimgs.net/mdimg/perfume-thumbs/375x500.${id}.2x.avif` : null;
 
-      return {
-        url, id, brand, perfume,
-        title: `${brand} – ${perfume}`,
-        image, price5, price10, notes
-      };
+      return { url, id, brand, perfume, title: `${brand} – ${perfume}`, image, price5, price10, notes };
     }
 
-    const products = productDataRaw
-      .split("\n")
-      .map(s => s.trim())
-      .filter(Boolean)
-      .map(parseProductLine)
-      .filter(Boolean);
+    const products = productDataRaw.split("\n").map(s => s.trim()).filter(Boolean).map(parseProductLine).filter(Boolean);
 
     const grid = document.getElementById("productGrid");
     const cartBar = document.getElementById("cartBar");
@@ -1204,10 +643,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
           if (data.firstName) document.getElementById("buyerFirstName").value = data.firstName;
           if (data.lastName) document.getElementById("buyerLastName").value = data.lastName;
           if (data.street) document.getElementById("buyerStreet").value = data.street;
-          if (data.zip) {
-            document.getElementById("buyerZip").value = data.zip;
-            lookupZip(data.zip);
-          }
+          if (data.zip) { document.getElementById("buyerZip").value = data.zip; lookupZip(data.zip); }
           if (data.phone) document.getElementById("buyerPhone").value = data.phone;
           if (data.email) document.getElementById("buyerEmail").value = data.email;
         } catch(e) {}
@@ -1232,9 +668,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       saveBuyerInfo();
     }
 
-    function handlePhoneInput(el) {
-      handleInputClear(el);
-    }
+    function handlePhoneInput(el) { handleInputClear(el); }
 
     function handleStreetInput(el) {
       handleInputClear(el);
@@ -1243,6 +677,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
       if (query.length < 3) {
         addressSuggestionsEl.style.display = "none";
+        addressSuggestionsEl.innerHTML = "";
         return;
       }
 
@@ -1251,15 +686,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
           const res = await fetch(`https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(query)}&treffPerSide=5`);
           if (res.ok) {
             const data = await res.json();
-            if (data.adresser && data.adresser.length > 0) {
-              renderAddressSuggestions(data.adresser);
-            } else {
-              addressSuggestionsEl.style.display = "none";
-            }
+            if (data.adresser && data.adresser.length > 0) renderAddressSuggestions(data.adresser);
+            else addressSuggestionsEl.style.display = "none";
           }
-        } catch(err) {
-          addressSuggestionsEl.style.display = "none";
-        }
+        } catch(err) { addressSuggestionsEl.style.display = "none"; }
       }, 250);
     }
 
@@ -1267,14 +697,11 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       let html = "";
       adresser.forEach(a => {
         const fullAddr = `${a.adressetekst}`;
-        const postnr = a.postnummer;
-        const poststed = a.poststed;
         html += `
-          <div class="address-suggestion-item" onclick="selectAddress('${escapeJs(fullAddr)}', '${postnr}', '${escapeJs(poststed)}')">
+          <div class="address-suggestion-item" onclick="selectAddress('${escapeJs(fullAddr)}', '${a.postnummer}', '${escapeJs(a.poststed)}')">
             <span><strong>${escapeHtml(fullAddr)}</strong></span>
-            <span class="postal-hint">${postnr} ${escapeHtml(poststed)}</span>
-          </div>
-        `;
+            <span class="postal-hint">${a.postnummer} ${escapeHtml(a.poststed)}</span>
+          </div>`;
       });
       addressSuggestionsEl.innerHTML = html;
       addressSuggestionsEl.style.display = "block";
@@ -1284,7 +711,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       document.getElementById("buyerStreet").value = street;
       document.getElementById("buyerZip").value = zip;
       document.getElementById("buyerCity").value = city;
-      
       document.getElementById("buyerStreet").classList.remove("input-error");
       document.getElementById("buyerZip").classList.remove("input-error");
       addressSuggestionsEl.style.display = "none";
@@ -1292,18 +718,12 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     }
 
     document.addEventListener("click", (e) => {
-      if (!e.target.closest(".autocomplete-wrapper")) {
-        addressSuggestionsEl.style.display = "none";
-      }
+      if (!e.target.closest(".autocomplete-wrapper")) addressSuggestionsEl.style.display = "none";
     });
 
     async function lookupZip(zip) {
       const cityInput = document.getElementById("buyerCity");
-      if (zip.length !== 4 || !/^\d{4}$/.test(zip)) {
-        cityInput.value = "";
-        return;
-      }
-
+      if (zip.length !== 4 || !/^\d{4}$/.test(zip)) { cityInput.value = ""; return; }
       try {
         const res = await fetch(`https://api.bring.com/shippingguide/api/postalCode.json?clientUrl=${encodeURIComponent(window.location.href)}&pnr=${zip}`);
         if (res.ok) {
@@ -1312,9 +732,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
             cityInput.value = data.result;
             document.getElementById("buyerZip").classList.remove("input-error");
             saveBuyerInfo();
-          } else {
-            cityInput.value = "Ugyldig postnr";
-          }
+          } else { cityInput.value = "Ugyldig postnr"; }
         }
       } catch (err) {}
     }
@@ -1322,100 +740,45 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     function handleZipInput(el) {
       el.value = el.value.replace(/\D/g, "");
       handleInputClear(el);
-      if (el.value.length === 4) {
-        lookupZip(el.value);
-      } else {
-        document.getElementById("buyerCity").value = "";
-      }
+      if (el.value.length === 4) lookupZip(el.value);
+      else document.getElementById("buyerCity").value = "";
     }
 
-    function isValidEmail(email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-      return emailRegex.test(email);
-    }
+    function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email); }
 
     function cleanAndValidatePhone(phone) {
       const cleaned = phone.replace(/[\s\-\(\)\.]/g, "");
-      if (/^[49]\d{7}$/.test(cleaned)) {
-        return { valid: true, number: cleaned };
-      }
-      if (/^(\+47|0047)[49]\d{7}$/.test(cleaned)) {
-        return { valid: true, number: cleaned.slice(-8) };
-      }
+      if (/^[49]\d{7}$/.test(cleaned)) return { valid: true, number: cleaned };
+      if (/^(\+47|0047)[49]\d{7}$/.test(cleaned)) return { valid: true, number: cleaned.slice(-8) };
       return { valid: false, number: phone };
     }
 
     function validateBuyerInfo() {
-      const firstNameInput = document.getElementById("buyerFirstName");
-      const lastNameInput = document.getElementById("buyerLastName");
-      const streetInput = document.getElementById("buyerStreet");
-      const zipInput = document.getElementById("buyerZip");
-      const phoneInput = document.getElementById("buyerPhone");
-      const emailInput = document.getElementById("buyerEmail");
+      const fields = [
+        { id: "buyerFirstName", val: v => v.length >= 2 },
+        { id: "buyerLastName", val: v => v.length >= 2 },
+        { id: "buyerStreet", val: v => v.length >= 4 },
+        { id: "buyerZip", val: v => v.length === 4 },
+        { id: "buyerPhone", val: v => cleanAndValidatePhone(v).valid },
+        { id: "buyerEmail", val: v => isValidEmail(v) }
+      ];
 
       let isValid = true;
       let firstMissing = null;
 
-      if (firstNameInput.value.trim().length < 2) {
-        firstNameInput.classList.add("input-error");
-        isValid = false;
-        if (!firstMissing) firstMissing = firstNameInput;
-      } else {
-        firstNameInput.classList.remove("input-error");
-      }
-
-      if (lastNameInput.value.trim().length < 2) {
-        lastNameInput.classList.add("input-error");
-        isValid = false;
-        if (!firstMissing) firstMissing = lastNameInput;
-      } else {
-        lastNameInput.classList.remove("input-error");
-      }
-
-      if (streetInput.value.trim().length < 4) {
-        streetInput.classList.add("input-error");
-        isValid = false;
-        if (!firstMissing) firstMissing = streetInput;
-      } else {
-        streetInput.classList.remove("input-error");
-      }
-
-      if (zipInput.value.trim().length !== 4) {
-        zipInput.classList.add("input-error");
-        isValid = false;
-        if (!firstMissing) firstMissing = zipInput;
-      } else {
-        zipInput.classList.remove("input-error");
-      }
-
-      const phoneValidation = cleanAndValidatePhone(phoneInput.value.trim());
-      if (!phoneValidation.valid) {
-        phoneInput.classList.add("input-error");
-        isValid = false;
-        if (!firstMissing) firstMissing = phoneInput;
-      } else {
-        phoneInput.classList.remove("input-error");
-      }
-
-      if (!isValidEmail(emailInput.value.trim())) {
-        emailInput.classList.add("input-error");
-        isValid = false;
-        if (!firstMissing) firstMissing = emailInput;
-      } else {
-        emailInput.classList.remove("input-error");
-      }
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        if (!f.val(el.value.trim())) {
+          el.classList.add("input-error");
+          isValid = false;
+          if (!firstMissing) firstMissing = el;
+        } else {
+          el.classList.remove("input-error");
+        }
+      });
 
       if (!isValid) {
-        if (firstNameInput.value.trim().length < 2 || lastNameInput.value.trim().length < 2) {
-          showToast("⚠️ Vennligst oppgi både fornavn og etternavn.", true);
-        } else if (!phoneValidation.valid) {
-          showToast("⚠️ Mobilnummer må være 8 siffer og starte på 4 eller 9.", true);
-        } else if (!isValidEmail(emailInput.value.trim())) {
-          showToast("⚠️ Vennligst oppgi en gyldig e-postadresse.", true);
-        } else {
-          showToast("⚠️ Vennligst fyll ut alle påkrevde felter.", true);
-        }
-
+        showToast("⚠️ Vennligst fyll ut alle feltene riktig.", true);
         if (firstMissing) firstMissing.focus();
         return false;
       }
@@ -1424,53 +787,29 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       return true;
     }
 
-    function getBuyerDetails() {
-      const phoneValidation = cleanAndValidatePhone(document.getElementById("buyerPhone").value.trim());
-      return {
-        name: `${document.getElementById("buyerFirstName").value.trim()} ${document.getElementById("buyerLastName").value.trim()}`,
-        street: document.getElementById("buyerStreet").value.trim(),
-        zip: document.getElementById("buyerZip").value.trim(),
-        city: document.getElementById("buyerCity").value.trim(),
-        phone: phoneValidation.valid ? phoneValidation.number : document.getElementById("buyerPhone").value.trim(),
-        email: document.getElementById("buyerEmail").value.trim()
-      };
-    }
-
-    function getCartItemQuantity(title, size) {
-      const found = cart.find(i => i.item === title && i.size === size);
-      return found ? found.quantity : 0;
+    function getCartTotals() {
+      const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+      const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+      const hasFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+      const shippingCost = (subtotal === 0 || hasFreeShipping) ? 0 : STANDARD_SHIPPING_COST;
+      const total = subtotal + shippingCost;
+      return { subtotal, totalCount, hasFreeShipping, shippingCost, total };
     }
 
     function renderProducts(list) {
       grid.innerHTML = "";
-
-      if (list.length === 0) {
-        grid.innerHTML = `<div class="empty-state">Ingen parfymer matcher søket ditt.</div>`;
-        return;
-      }
+      if (list.length === 0) { grid.innerHTML = `<div class="empty-state">Ingen parfymer matcher søket ditt.</div>`; return; }
 
       for (const p of list) {
         const div = document.createElement("div");
         div.className = "product";
 
-        const q5 = getCartItemQuantity(p.title, '5ml');
-        const q10 = getCartItemQuantity(p.title, '10ml');
+        const q5 = cart.find(i => i.item === p.title && i.size === '5ml')?.quantity || 0;
+        const q10 = cart.find(i => i.item === p.title && i.size === '10ml')?.quantity || 0;
 
         let pricingHtml = `<div class="pricing">`;
-        if (p.price5) {
-          pricingHtml += `
-            <button class="price-btn ${q5 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})">
-              <span class="size">5 ml ${q5 > 0 ? `(${q5})` : ''}</span>
-              <span>${p.price5} kr</span>
-            </button>`;
-        }
-        if (p.price10) {
-          pricingHtml += `
-            <button class="price-btn ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})">
-              <span class="size">10 ml ${q10 > 0 ? `(${q10})` : ''}</span>
-              <span>${p.price10} kr</span>
-            </button>`;
-        }
+        if (p.price5) pricingHtml += `<button class="price-btn ${q5 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})"><span class="size">5 ml ${q5 > 0 ? `(${q5})` : ''}</span><span>${p.price5} kr</span></button>`;
+        if (p.price10) pricingHtml += `<button class="price-btn ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})"><span class="size">10 ml ${q10 > 0 ? `(${q10})` : ''}</span><span>${p.price10} kr</span></button>`;
         pricingHtml += `</div>`;
 
         div.innerHTML = `
@@ -1485,32 +824,25 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
               <div class="notes-tagline">${escapeHtml(p.notes)}</div>
             </div>
             ${pricingHtml}
-          </div>
-        `;
+          </div>`;
         grid.appendChild(div);
       }
     }
 
     function filterByBrand(brand) {
       activeBrandFilter = brand;
-      document.querySelectorAll(".pill").forEach(p => {
-        p.classList.toggle("active", p.textContent === (brand || "Alle"));
-      });
+      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.textContent === (brand || "Alle")));
       handleFilter();
     }
 
     function handleFilter() {
       const query = searchInput.value.toLowerCase().trim();
       clearSearchBtn.style.display = query.length > 0 ? "block" : "none";
-
       const sort = document.getElementById("sortSelect").value;
 
       let filtered = products.filter(p => {
         const matchesBrand = activeBrandFilter === "" || p.brand.toLowerCase().includes(activeBrandFilter.toLowerCase());
-        const matchesSearch = p.title.toLowerCase().includes(query) ||
-                              p.brand.toLowerCase().includes(query) ||
-                              p.perfume.toLowerCase().includes(query) ||
-                              p.notes.toLowerCase().includes(query);
+        const matchesSearch = p.title.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.perfume.toLowerCase().includes(query) || p.notes.toLowerCase().includes(query);
         return matchesBrand && matchesSearch;
       });
 
@@ -1525,11 +857,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       renderProducts(filtered);
     }
 
-    function clearSearch() {
-      searchInput.value = "";
-      handleFilter();
-      searchInput.focus();
-    }
+    function clearSearch() { searchInput.value = ""; handleFilter(); searchInput.focus(); }
 
     function addToCart(event, item, size, price) {
       const btn = event.currentTarget;
@@ -1537,71 +865,37 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       setTimeout(() => btn.classList.remove("added"), 250);
 
       const existing = cart.find(i => i.item === item && i.size === size);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({ item, size, price, quantity: 1 });
-      }
+      if (existing) existing.quantity += 1;
+      else cart.push({ item, size, price, quantity: 1 });
+
       updateCartUI();
       handleFilter();
     }
 
     function changeQty(index, delta) {
       cart[index].quantity += delta;
-      if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
-      }
+      if (cart[index].quantity <= 0) cart.splice(index, 1);
       updateCartUI();
       renderModalList();
       handleFilter();
       if (cart.length === 0) closeCartModal();
     }
 
-    function clearCart() {
-      if (cart.length === 0) return;
-      if (confirm("Vil du tømme hele listen?")) {
-        cart = [];
-        updateCartUI();
-        handleFilter();
-        closeCartModal();
-      }
-    }
-
-    function getCartTotals() {
-      const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-      const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-      const hasFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-      const shippingCost = (subtotal === 0 || hasFreeShipping) ? 0 : STANDARD_SHIPPING_COST;
-      const total = subtotal + shippingCost;
-
-      return { subtotal, totalCount, hasFreeShipping, shippingCost, total };
-    }
-
     function updateCartUI() {
       const { subtotal, totalCount, hasFreeShipping } = getCartTotals();
       stickyCartBadge.textContent = totalCount;
-
-      if (totalCount === 0) {
-        cartBar.classList.remove("active");
-        return;
-      }
-
+      if (totalCount === 0) { cartBar.classList.remove("active"); return; }
       const shippingBadge = hasFreeShipping ? " • Fri frakt!" : "";
       cartSummary.textContent = `${totalCount} valgt (${subtotal} kr${shippingBadge})`;
       cartBar.classList.add("active");
     }
 
-    function openCartModal() {
-      renderModalList();
-      cartModal.classList.add("open");
-    }
-
+    function openCartModal() { renderModalList(); cartModal.classList.add("open"); }
     function closeCartModal() { cartModal.classList.remove("open"); }
     function handleBackdropClick(e) { if (e.target === cartModal) closeCartModal(); }
 
     function renderModalList() {
       const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
-
       if (cart.length === 0) {
         modalItemList.innerHTML = `<p style="text-align:center; color:#999; padding:20px;">Handlekurven er tom.</p>`;
         document.getElementById("modalSummarySection").style.display = "none";
@@ -1641,123 +935,74 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
               <span class="qty-num">${c.quantity}</span>
               <button class="qty-btn" onclick="changeQty(${idx}, 1)">&plus;</button>
             </div>
-          </div>
-        `;
+          </div>`;
       });
       modalItemList.innerHTML = html;
-
       summarySubtotal.textContent = `${subtotal} kr`;
-      if (hasFreeShipping) {
-        summaryShipping.innerHTML = `<span class="free-shipping-tag">Gratis (0 kr)</span>`;
-      } else {
-        summaryShipping.textContent = `${shippingCost} kr`;
-      }
+      summaryShipping.innerHTML = hasFreeShipping ? `<span class="free-shipping-tag">Gratis (0 kr)</span>` : `${shippingCost} kr`;
       summaryTotal.textContent = `${total} kr`;
-    }
-
-    function generateOrderText() {
-      const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
-      const buyer = getBuyerDetails();
-
-      let text = "Hei! Jeg ønsker å bestille følgende parfymeprøver:\n\n";
-      cart.forEach((c, idx) => {
-        const qtyText = c.quantity > 1 ? ` (${c.quantity} stk)` : "";
-        text += `${idx + 1}. ${c.item} [${c.size}]${qtyText} – ${c.price * c.quantity} kr\n`;
-      });
-
-      text += `\nDelsum: ${subtotal} kr\n`;
-      text += `Frakt (Norgespakke): ${hasFreeShipping ? "Gratis" : `${shippingCost} kr`}\n`;
-      text += `Total: ${total} kr\n\n`;
-
-      text += `--- Mottaker og kontaktinfo ---\n`;
-      text += `Navn: ${buyer.name}\n`;
-      text += `Adresse: ${buyer.street}\n`;
-      text += `Postnr/Sted: ${buyer.zip} ${buyer.city}\n`;
-      text += `Mobil: ${buyer.phone}\n`;
-      text += `E-post: ${buyer.email}\n`;
-
-      return text;
     }
 
     function showToast(msg, isError = false) {
       toast.textContent = msg;
-      if (isError) {
-        toast.classList.add("toast-error");
-      } else {
-        toast.classList.remove("toast-error");
-      }
+      if (isError) toast.classList.add("toast-error");
+      else toast.classList.remove("toast-error");
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 3200);
     }
 
-    function copyOrder() {
-      if (cart.length === 0) return;
-      if (!validateBuyerInfo()) return;
+    function submitOrderViaEmailJS() {
+      if (cart.length === 0 || !validateBuyerInfo()) return;
+      if (EMAILJS_PUBLIC_KEY === "DIN_PUBLIC_KEY_HER") {
+        alert("EmailJS er ikke satt opp enda. Vennligst legg inn dine egne ID-er i koden.");
+        return;
+      }
 
-      const text = generateOrderText();
-      navigator.clipboard.writeText(text).then(() => {
-        showToast("✓ Bestilling og kontaktinfo kopiert til utklippstavlen!");
+      const btn = document.getElementById("submitOrderBtn");
+      btn.textContent = "Sender...";
+      btn.disabled = true;
+
+      const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
+      
+      let cartText = "";
+      cart.forEach((c, idx) => {
+        cartText += `${idx + 1}. ${c.item} [${c.size}] (${c.quantity} stk) – ${c.price * c.quantity} kr\n`;
       });
+      
+      const buyerName = `${document.getElementById("buyerFirstName").value.trim()} ${document.getElementById("buyerLastName").value.trim()}`;
+      const buyerEmail = document.getElementById("buyerEmail").value.trim();
+      const buyerPhone = cleanAndValidatePhone(document.getElementById("buyerPhone").value.trim()).number;
+      const buyerAddress = `${document.getElementById("buyerStreet").value.trim()}, ${document.getElementById("buyerZip").value.trim()} ${document.getElementById("buyerCity").value.trim()}`;
+
+      const templateParams = {
+        buyer_name: buyerName,
+        buyer_email: buyerEmail,
+        buyer_phone: buyerPhone,
+        buyer_address: buyerAddress,
+        order_details: cartText,
+        subtotal: subtotal + " kr",
+        shipping: hasFreeShipping ? "Gratis" : shippingCost + " kr",
+        total_price: total + " kr"
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then(() => {
+          showToast("✓ Bestilling sendt! Sjekk e-posten din for bekreftelse.");
+          cart = [];
+          updateCartUI();
+          handleFilter();
+          closeCartModal();
+          btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send bestilling`;
+          btn.disabled = false;
+        }, (error) => {
+          showToast("❌ Noe gikk galt. Vennligst prøv igjen senere.", true);
+          btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send bestilling`;
+          btn.disabled = false;
+        });
     }
 
-    function sendSmsOrder() {
-      if (cart.length === 0) return;
-      if (!validateBuyerInfo()) return;
-
-      const orderText = generateOrderText();
-      navigator.clipboard.writeText(orderText).then(() => {
-        showToast("✓ Bestilling kopiert og SMS åpnes...");
-      });
-
-      const encodedBody = encodeURIComponent(orderText);
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      const delimiter = isIOS ? '&' : '?';
-
-      setTimeout(() => {
-        window.location.href = `sms:${TARGET_PHONE_NUMBER}${delimiter}body=${encodedBody}`;
-      }, 300);
-    }
-
-    function sendGmailWebOrder() {
-      if (cart.length === 0) return;
-      if (!validateBuyerInfo()) return;
-
-      const orderText = generateOrderText();
-      navigator.clipboard.writeText(orderText).then(() => {
-        showToast("✓ Bestilling kopiert – åpner Gmail i ny fane...");
-      });
-
-      const subject = encodeURIComponent("Bestilling av parfymeprøver");
-      const body = encodeURIComponent(orderText);
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${TARGET_EMAIL}&su=${subject}&body=${body}`;
-
-      window.open(gmailUrl, "_blank");
-    }
-
-    function sendDefaultEmailOrder() {
-      if (cart.length === 0) return;
-      if (!validateBuyerInfo()) return;
-
-      const orderText = generateOrderText();
-      navigator.clipboard.writeText(orderText).then(() => {
-        showToast("✓ Bestilling kopiert – åpner e-postapp...");
-      });
-
-      const subject = encodeURIComponent("Bestilling av parfymeprøver");
-      const body = encodeURIComponent(orderText);
-
-      setTimeout(() => {
-        window.location.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
-      }, 300);
-    }
-
-    function escapeHtml(str) {
-      return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
-    }
-
-    function escapeJs(str) {
-      return String(str).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', '\\"');
-    }
+    function escapeHtml(str) { return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
+    function escapeJs(str) { return String(str).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', '\\"'); }
 
     loadSavedBuyerInfo();
     handleFilter();
