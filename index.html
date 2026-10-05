@@ -496,7 +496,7 @@
               <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
             </div>
           </div>
-          <div class="privacy-text">🔒 Informasjonen din lagres kun midlertidig i din nettleser for å forenkle bestillingen, og deles aldri med tredjeparter.</div>
+          <div class="privacy-text">🔒 Informasjonen din lagres kun lokalt i nettleseren din i maksimalt 24 timer, og deles aldri med tredjeparter.</div>
         </div>
       </div>
 
@@ -644,10 +644,22 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     let addressSearchTimeout = null;
 
     function loadSavedBuyerInfo() {
-      const saved = localStorage.getItem("parfyme_buyer_info_v6");
+      // Slett den gamle, evigvarende lagringen hvis den finnes
+      localStorage.removeItem("parfyme_buyer_info_v6");
+
+      const saved = localStorage.getItem("parfyme_buyer_info_v7");
       if (saved) {
         try {
           const data = JSON.parse(saved);
+          const now = new Date().getTime();
+          const tidsgrense = 24 * 60 * 60 * 1000; // 24 timer regnet i millisekunder
+
+          // Hvis informasjonen er eldre enn 24 timer, slett den og avbryt
+          if (!data.timestamp || (now - data.timestamp > tidsgrense)) {
+            localStorage.removeItem("parfyme_buyer_info_v7");
+            return; 
+          }
+
           if (data.firstName) document.getElementById("buyerFirstName").value = data.firstName;
           if (data.lastName) document.getElementById("buyerLastName").value = data.lastName;
           if (data.street) document.getElementById("buyerStreet").value = data.street;
@@ -666,9 +678,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         zip: document.getElementById("buyerZip").value.trim(),
         city: document.getElementById("buyerCity").value.trim(),
         phone: document.getElementById("buyerPhone").value.trim(),
-        email: document.getElementById("buyerEmail").value.trim()
+        email: document.getElementById("buyerEmail").value.trim(),
+        timestamp: new Date().getTime() // Stempler inn nøyaktig tidspunkt for lagring
       };
-      localStorage.setItem("parfyme_buyer_info_v6", JSON.stringify(data));
+      localStorage.setItem("parfyme_buyer_info_v7", JSON.stringify(data));
     }
 
     function handleInputClear(inputEl) {
