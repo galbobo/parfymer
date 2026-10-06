@@ -203,11 +203,11 @@
 
     #sortSelect { padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border-dark); background-color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
+    /* Separate filter-rader */
+    .filter-group { display: flex; flex-direction: column; gap: 10px; }
     .brand-pills-wrapper { position: relative; }
     .brand-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; align-items: center; }
     .brand-pills::-webkit-scrollbar { display: none; }
-    
-    .pill-divider { width: 1px; height: 20px; background-color: var(--border-dark); margin: 0 4px; flex-shrink: 0; }
 
     .pills-fade {
       position: absolute; right: 0; top: 0; bottom: 4px; width: 45px;
@@ -442,40 +442,47 @@
       <select id="sortSelect" onchange="handleFilter()">
         <option value="name-asc">Navn (A – Å)</option>
         <option value="name-desc">Navn (Å – A)</option>
+        <option value="rating-desc">Høyest vurdert (Fragrantica)</option>
         <option value="price-asc">Pris: Lav til Høy</option>
         <option value="price-desc">Pris: Høy til Lav</option>
       </select>
     </div>
 
-    <!-- Oppdatert med tydelige ikoner: ☀️ og ❄️ -->
-    <div class="brand-pills-wrapper">
-      <div class="brand-pills" id="brandPills">
-        <button class="pill active" data-filter="" onclick="filterByCategory('')">Alle</button>
-        <div class="pill-divider"></div>
-        <button class="pill" data-filter="Vår/Sommer" onclick="filterByCategory('Vår/Sommer')">Sommer ☀️</button>
-        <button class="pill" data-filter="Høst/Vinter" onclick="filterByCategory('Høst/Vinter')">Vinter ❄️</button>
-        <button class="pill" data-filter="Allsidig" onclick="filterByCategory('Allsidig')">Helårs ☀️❄️</button>
-        <div class="pill-divider"></div>
-        <button class="pill" data-filter="Creed" onclick="filterByCategory('Creed')">Creed</button>
-        <button class="pill" data-filter="Parfums de Marly" onclick="filterByCategory('Parfums de Marly')">Parfums de Marly</button>
-        <button class="pill" data-filter="Louis Vuitton" onclick="filterByCategory('Louis Vuitton')">Louis Vuitton</button>
-        <button class="pill" data-filter="Giorgio Armani" onclick="filterByCategory('Giorgio Armani')">Armani</button>
-        <button class="pill" data-filter="Jean Paul Gaultier" onclick="filterByCategory('Jean Paul Gaultier')">JPG</button>
-        <button class="pill" data-filter="Xerjoff" onclick="filterByCategory('Xerjoff')">Xerjoff</button>
-        <button class="pill" data-filter="Amouage" onclick="filterByCategory('Amouage')">Amouage</button>
+    <!-- Todelte filtre: Sesong og Merke -->
+    <div class="filter-group">
+      <div class="brand-pills-wrapper">
+        <div class="brand-pills" id="seasonPills">
+          <button class="pill active" data-season="" onclick="filterBySeason('')">Alle sesonger</button>
+          <button class="pill" data-season="Vår/Sommer" onclick="filterBySeason('Vår/Sommer')">Sommer ☀️</button>
+          <button class="pill" data-season="Høst/Vinter" onclick="filterBySeason('Høst/Vinter')">Vinter ❄️</button>
+          <button class="pill" data-season="Allsidig" onclick="filterBySeason('Allsidig')">Helårs ☀️❄️</button>
+        </div>
       </div>
-      <div class="pills-fade" id="pillsFade"></div>
+
+      <div class="brand-pills-wrapper">
+        <div class="brand-pills" id="brandPills">
+          <button class="pill active" data-brand="" onclick="filterByBrand('')">Alle merker</button>
+          <button class="pill" data-brand="Creed" onclick="filterByBrand('Creed')">Creed</button>
+          <button class="pill" data-brand="Parfums de Marly" onclick="filterByBrand('Parfums de Marly')">Parfums de Marly</button>
+          <button class="pill" data-brand="Louis Vuitton" onclick="filterByBrand('Louis Vuitton')">Louis Vuitton</button>
+          <button class="pill" data-brand="Giorgio Armani" onclick="filterByBrand('Giorgio Armani')">Armani</button>
+          <button class="pill" data-brand="Jean Paul Gaultier" onclick="filterByBrand('Jean Paul Gaultier')">JPG</button>
+          <button class="pill" data-brand="Xerjoff" onclick="filterByBrand('Xerjoff')">Xerjoff</button>
+          <button class="pill" data-brand="Amouage" onclick="filterByBrand('Amouage')">Amouage</button>
+        </div>
+        <div class="pills-fade" id="pillsFade"></div>
+      </div>
     </div>
   </div>
 
   <div class="grid" id="productGrid"></div>
 
-  <!-- Om Samleren seksjon -->
+  <!-- Om Samleren seksjon - Nøytralisert uten navn -->
   <section class="content-section centered">
     <h2 class="section-title">Kuratert med lidenskap</h2>
     <div class="about-text">
-      <p>Hei, jeg heter Ronni. Min lidenskap for nisjeparfymer startet for flere år siden, ut av en genuin interesse for hvordan dufter er bygd opp og utvikler seg over tid.</p>
-      <p>Å finne sin sanne signaturduft krever mer enn et raskt spray på et kjøpesenter. Derfor tapper jeg ferske dekanter direkte fra min private samling av originale flakonger. Alt oppbevares mørkt, tørt og temperert, slik at du kan utforske disse eksklusive dråpene i ditt eget tempo og oppleve dem nøyaktig slik parfymøren skapte dem.</p>
+      <p>Lidenskapen for nisjeparfymer startet for flere år siden, ut av en genuin interesse for hvordan komplekse dufter er bygd opp og utvikler seg over tid.</p>
+      <p>Å finne sin sanne signaturduft krever mer enn et raskt spray på et kjøpesenter. Derfor tappes ferske dekanter direkte fra en privat samling av originale flakonger. Alt oppbevares mørkt, tørt og temperert, slik at du kan utforske disse eksklusive dråpene i ditt eget tempo og oppleve dem nøyaktig slik parfymøren skapte dem.</p>
     </div>
   </section>
 
@@ -510,7 +517,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">Er parfymene 100% autentiske?</div>
-        <div class="faq-a">Garantert. Hver eneste bestilling tappes ferskt med sterile sprøyter direkte fra den originale flakongen hjemme i min samling.</div>
+        <div class="faq-a">Garantert. Hver eneste bestilling tappes ferskt med sterile sprøyter direkte fra originale flakonger fra en nøye ivaretatt privatsamling.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Hvordan og når sendes pakken?</div>
@@ -627,6 +634,9 @@
     const FREE_SHIPPING_THRESHOLD = 1000;
     const STANDARD_SHIPPING_COST = 76;
 
+    // SVG-fallback for manglende eller brutte bilder
+    const FALLBACK_BOTTLE_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='200' viewBox='0 0 24 24' fill='none' stroke='%23d3ccc0' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'><rect x='5' y='8' width='14' height='14' rx='2'/><path d='M9 8V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4'/><line x1='12' y1='3' x2='12' y2='1'/></svg>`;
+
     // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER, RATING, SESONG
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme, 4.2, Høst/Vinter ❄️
@@ -724,7 +734,8 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     const addressSuggestionsEl = document.getElementById("addressSuggestions");
     const stickyCartBadge = document.getElementById("stickyCartBadge");
 
-    let activeCategoryFilter = "";
+    let activeBrandFilter = "";
+    let activeSeasonFilter = "";
     let cart = [];
     let addressSearchTimeout = null;
 
@@ -963,7 +974,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
 
         div.innerHTML = `
           <div class="image-container">
-            <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy" style="opacity: 0; transition: opacity 0.6s ease-in-out;" onload="this.style.opacity=1">
+            <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy" 
+                 onerror="this.onerror=null; this.src='${FALLBACK_BOTTLE_IMG}'; this.style.opacity=1;" 
+                 style="opacity: 0; transition: opacity 0.6s ease-in-out;" 
+                 onload="this.style.opacity=1">
             <a href="${p.url}" class="fragrantica-link" target="_blank" rel="noopener" title="Åpne på Fragrantica">Info ↗</a>
           </div>
           <div class="product-info">
@@ -984,9 +998,16 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
     }
 
-    function filterByCategory(filterValue) {
-      activeCategoryFilter = filterValue;
-      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.dataset.filter === filterValue));
+    // Kombinerte filtre for sesong og merke
+    function filterBySeason(seasonValue) {
+      activeSeasonFilter = seasonValue;
+      document.querySelectorAll("#seasonPills .pill").forEach(p => p.classList.toggle("active", p.dataset.season === seasonValue));
+      handleFilter();
+    }
+
+    function filterByBrand(brandValue) {
+      activeBrandFilter = brandValue;
+      document.querySelectorAll("#brandPills .pill").forEach(p => p.classList.toggle("active", p.dataset.brand === brandValue));
       handleFilter();
     }
 
@@ -996,17 +1017,16 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       const sort = document.getElementById("sortSelect").value;
 
       let filtered = products.filter(p => {
-        const matchesCategory = activeCategoryFilter === "" || 
-          p.brand.toLowerCase().includes(activeCategoryFilter.toLowerCase()) || 
-          p.season.toLowerCase().includes(activeCategoryFilter.toLowerCase());
-          
+        const matchesBrand = activeBrandFilter === "" || p.brand.toLowerCase().includes(activeBrandFilter.toLowerCase());
+        const matchesSeason = activeSeasonFilter === "" || p.season.toLowerCase().includes(activeSeasonFilter.toLowerCase());
         const matchesSearch = p.title.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.perfume.toLowerCase().includes(query) || p.notes.toLowerCase().includes(query);
-        return matchesCategory && matchesSearch;
+        return matchesBrand && matchesSeason && matchesSearch;
       });
 
       filtered.sort((a, b) => {
         if (sort === "name-asc") return a.title.localeCompare(b.title, "no");
         if (sort === "name-desc") return b.title.localeCompare(a.title, "no");
+        if (sort === "rating-desc") return (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
         if (sort === "price-asc") return (a.price5 || 0) - (b.price5 || 0);
         if (sort === "price-desc") return (b.price5 || 0) - (a.price5 || 0);
         return 0;
