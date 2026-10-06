@@ -73,6 +73,7 @@
       align-items: center;
     }
 
+    /* Minimalistisk / Editorial Logostil */
     .sticky-logo {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
@@ -204,9 +205,11 @@
     #sortSelect { padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border-dark); background-color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
     .brand-pills-wrapper { position: relative; }
-    .brand-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .brand-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; align-items: center; }
     .brand-pills::-webkit-scrollbar { display: none; }
     
+    .pill-divider { width: 1px; height: 20px; background-color: var(--border-dark); margin: 0 4px; flex-shrink: 0; }
+
     .pills-fade {
       position: absolute; right: 0; top: 0; bottom: 4px; width: 45px;
       background: linear-gradient(to right, rgba(248,246,242,0) 0%, rgba(248,246,242,1) 90%);
@@ -232,7 +235,6 @@
     .brand-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-gold); margin-bottom: 3px; }
     .product-title { font-size: 15px; font-weight: 600; line-height: 1.35; margin-bottom: 6px; }
     
-    /* NY META-BAR FOR RATING OG SESONG */
     .meta-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 11px; font-weight: 600; color: var(--text-main); }
     .meta-rating { display: flex; align-items: center; gap: 3px; color: var(--accent-gold); }
     .meta-season { color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
@@ -255,13 +257,28 @@
     .price-btn.in-cart .size-label { color: var(--accent-gold-dark); font-weight: 700; opacity: 1; }
     .price-btn.added { background: var(--gold-gradient) !important; color: #fff !important; border-color: var(--accent-gold) !important; }
 
-    .steps-section { max-width: 980px; margin: 60px auto 20px auto; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 34px 28px; box-shadow: var(--shadow-subtle); text-align: center; }
-    .steps-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+    /* Felles Content-seksjoner (Steg, Om, FAQ) */
+    .content-section { max-width: 980px; margin: 40px auto; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 34px 28px; box-shadow: var(--shadow-subtle); }
+    .content-section.centered { text-align: center; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    
+    /* Steg */
     .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; text-align: left; }
     .step-box { padding: 10px; }
     .step-number { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--accent-gold); margin-bottom: 6px; }
     .step-header { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
     .step-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Om samleren */
+    .about-text { max-width: 680px; margin: 0 auto; font-size: 14px; color: var(--text-muted); line-height: 1.7; text-align: center; }
+    .about-text p { margin-bottom: 16px; }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    /* FAQ */
+    .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; text-align: left; }
+    .faq-item { background: #fcfbf9; padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
+    .faq-q { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+    .faq-a { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
 
     footer { max-width: 980px; margin: 30px auto 0 auto; text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); line-height: 1.7; }
     footer strong { color: var(--text-main); }
@@ -299,14 +316,17 @@
 
     .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 27, 26, 0.65); backdrop-filter: blur(6px); z-index: 1001; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .modal-content { background: #fff; border-radius: var(--radius); width: 100%; max-width: 530px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 48px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    
+    /* MODAL: Footer gjort "Sticky" i bunnen uansett scroll */
+    .modal-content { background: #fff; border-radius: var(--radius); width: 100%; max-width: 530px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 48px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; }
     .modal-backdrop.open .modal-content { transform: scale(1); }
-    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    
+    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
     .modal-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; }
     .close-btn { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .close-btn:hover { background: var(--border); color: var(--text-main); }
 
-    .shipping-progress-container { padding: 12px 20px; background: #fcfbf9; border-bottom: 1px solid var(--border); }
+    .shipping-progress-container { padding: 12px 20px; background: #fcfbf9; border-bottom: 1px solid var(--border); flex-shrink: 0; }
     .shipping-progress-text { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
     .shipping-progress-text.unlocked { color: var(--success-green); }
     .progress-bar-bg { background: #e7e3dc; height: 6px; border-radius: 4px; overflow: hidden; }
@@ -341,12 +361,13 @@
     .buyer-input:disabled { background: #f4f2ee; color: #555; font-weight: 600; }
     .buyer-input.input-error { border-color: var(--danger) !important; background-color: #fef2f2 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important; }
 
-    .modal-summary-section { padding: 12px 20px; background: #ffffff; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+    .modal-summary-section { padding: 12px 20px; background: #ffffff; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; font-size: 14px; flex-shrink: 0; }
     .summary-line { display: flex; justify-content: space-between; color: var(--text-muted); }
     .summary-line.total { color: var(--text-main); font-size: 16px; font-weight: 700; padding-top: 6px; border-top: 1px dashed var(--border); }
     .free-shipping-tag { color: var(--success-green); font-weight: 700; }
 
-    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fcfbf9; display: flex; flex-direction: column; gap: 10px; }
+    /* Låst footer over innhold */
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fcfbf9; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); z-index: 10; }
     .order-dispatch-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
     .privacy-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
 
@@ -430,16 +451,22 @@
       </select>
     </div>
 
+    <!-- Oppdatert med sesong-filtre -->
     <div class="brand-pills-wrapper">
       <div class="brand-pills" id="brandPills">
-        <button class="pill active" onclick="filterByBrand('')">Alle</button>
-        <button class="pill" onclick="filterByBrand('Creed')">Creed</button>
-        <button class="pill" onclick="filterByBrand('Parfums de Marly')">Parfums de Marly</button>
-        <button class="pill" onclick="filterByBrand('Louis Vuitton')">Louis Vuitton</button>
-        <button class="pill" onclick="filterByBrand('Giorgio Armani')">Armani</button>
-        <button class="pill" onclick="filterByBrand('Jean Paul Gaultier')">JPG</button>
-        <button class="pill" onclick="filterByBrand('Xerjoff')">Xerjoff</button>
-        <button class="pill" onclick="filterByBrand('Amouage')">Amouage</button>
+        <button class="pill active" data-filter="" onclick="filterByCategory('')">Alle</button>
+        <div class="pill-divider"></div>
+        <button class="pill" data-filter="Vår/Sommer" onclick="filterByCategory('Vår/Sommer')">Sommer ☀️</button>
+        <button class="pill" data-filter="Høst/Vinter" onclick="filterByCategory('Høst/Vinter')">Vinter 🌙</button>
+        <button class="pill" data-filter="Allsidig" onclick="filterByCategory('Allsidig')">Allsidig ☀️🌙</button>
+        <div class="pill-divider"></div>
+        <button class="pill" data-filter="Creed" onclick="filterByCategory('Creed')">Creed</button>
+        <button class="pill" data-filter="Parfums de Marly" onclick="filterByCategory('Parfums de Marly')">Parfums de Marly</button>
+        <button class="pill" data-filter="Louis Vuitton" onclick="filterByCategory('Louis Vuitton')">Louis Vuitton</button>
+        <button class="pill" data-filter="Giorgio Armani" onclick="filterByCategory('Giorgio Armani')">Armani</button>
+        <button class="pill" data-filter="Jean Paul Gaultier" onclick="filterByCategory('Jean Paul Gaultier')">JPG</button>
+        <button class="pill" data-filter="Xerjoff" onclick="filterByCategory('Xerjoff')">Xerjoff</button>
+        <button class="pill" data-filter="Amouage" onclick="filterByCategory('Amouage')">Amouage</button>
       </div>
       <div class="pills-fade" id="pillsFade"></div>
     </div>
@@ -447,8 +474,17 @@
 
   <div class="grid" id="productGrid"></div>
 
-  <section class="steps-section">
-    <h2 class="steps-title">Slik fungerer bestillingen</h2>
+  <!-- Om Samleren seksjon -->
+  <section class="content-section centered">
+    <h2 class="section-title">Kuratert med lidenskap</h2>
+    <div class="about-text">
+      <p>Hei! Min lidenskap for nisjeparfymer startet for flere år siden, ut av en genuin interesse for hvordan dufter er bygd opp og utvikler seg over tid.</p>
+      <p>Å finne sin sanne signaturduft krever mer enn et raskt spray på et kjøpesenter. Derfor tapper jeg ferske dekanter direkte fra min private samling av originale flakonger. Alt oppbevares mørkt, tørt og temperert, slik at du kan utforske disse eksklusive dråpene i ditt eget tempo og oppleve dem nøyaktig slik parfymøren skapte dem.</p>
+    </div>
+  </section>
+
+  <section class="content-section centered">
+    <h2 class="section-title">Slik fungerer bestillingen</h2>
     <div class="steps-grid">
       <div class="step-box">
         <div class="step-number">01</div>
@@ -464,6 +500,25 @@
         <div class="step-number">03</div>
         <div class="step-header">Vipps & Levering</div>
         <div class="step-text">Du mottar betalingsinfo på e-post/SMS. Prøvene tappes ferskt og sendes med sporing samme eller påfølgende dag.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ seksjon -->
+  <section class="content-section">
+    <h2 class="section-title">Ofte stilte spørsmål</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q">Hvor mange spray gir en prøve?</div>
+        <div class="faq-a">En dekanter på 5 ml gir ca. 70–80 spray, noe som som regel holder til en hel måneds bruk. 10 ml gir ca. 140–160 spray.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Er parfymene 100% autentiske?</div>
+        <div class="faq-a">Garantert. Hver eneste bestilling tappes ferskt med sterile sprøyter direkte fra den originale flakongen hjemme i min samling.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Hvordan og når sendes pakken?</div>
+        <div class="faq-a">Alle bestillinger pakkes trygt og sendes vanligvis innen 24 timer. De sendes med Norgespakke™ (som inkluderer sporing), og du har pakken normalt på 2-4 virkedager.</div>
       </div>
     </div>
   </section>
@@ -523,6 +578,7 @@
             </div>
 
             <div class="form-row-split">
+              <!-- Maks lengde endret til 11 pga automatisk formatering med mellomrom -->
               <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer) *" maxlength="11" oninput="handlePhoneInput(this)" />
               <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
             </div>
@@ -546,6 +602,7 @@
         </div>
       </div>
 
+      <!-- Klebrig footer i bunnen av skjemaet -->
       <div class="modal-footer" id="modalFooter">
         <div class="order-dispatch-buttons">
           <button class="cart-btn cart-btn-primary" id="submitOrderBtn" style="flex: 1; padding: 14px;" onclick="submitOrderViaEmailJS()">
@@ -576,7 +633,7 @@
     const FREE_SHIPPING_THRESHOLD = 1000;
     const STANDARD_SHIPPING_COST = 76;
 
-    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER, RATING, SESONG
+    // Absolu Aventus er rettet til Allsidig og 4.42
     const productDataRaw = `
 https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme, 4.1, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav, 4.2, Allsidig ☀️🌙
@@ -585,7 +642,7 @@ https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 10
 https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel, 4.5, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP, Sitronpai • Sandeltre • Kremet vanilje, 4.4, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre, 4.3, Allsidig ☀️🌙
-https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk, 4.1, Høst/Vinter 🌙
+https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk, 4.42, Allsidig ☀️🌙
 https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus, Ananas • Bjørk • Musk, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne, Mandarin • Ingefær • Vetiver, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage), Kokos • Lime • Rom, 4.3, Sommer ☀️
@@ -598,22 +655,22 @@ https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-P
 https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær, 4.4, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha, 4.2, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje, 4.5, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje, 4.3, Vinter/Fest 🌙
-https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott, 4.3, Sommer ☀️
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje, 4.3, Høst/Vinter 🌙
+https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott, 4.3, Sommer ☀️️
 https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott, 4.6, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole, Pasjonsfrukt • Salt sjøsprøyt • Hvit musk, 4.4, Sommer ☀️
 https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade, Mango • Tomatblad • Lær, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli, 4.2, Allsidig ☀️️🌙
+https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli, 4.2, Allsidig ☀️🌙
 https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat, Ananas • Eikemose • Sedertre, 4.2, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme, 4.5, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival, Lavendel • Mandarin • Ambroxan, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley, Mynte • Sitron • Rosmarin, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav, 4.4, Allsidig ☀️
+https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav, 4.4, Allsidig ☀️🌙
 https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum, Lavendel • Marine noter • Sandeltre, 4.0, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato, Grapefrukt • Ingefær • Hvit musk, 4.5, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme, 4.4, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk, 4.3, Allsidig ☀️🌙
-https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan, 4.3, Vinter/Fest 🌙
+https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan, 4.3, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel, 4.6, Høst/Vinter 🌙
 https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk, 4.3, Allsidig ☀️🌙
@@ -673,7 +730,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     const addressSuggestionsEl = document.getElementById("addressSuggestions");
     const stickyCartBadge = document.getElementById("stickyCartBadge");
 
-    let activeBrandFilter = "";
+    let activeCategoryFilter = "";
     let cart = [];
     let addressSearchTimeout = null;
 
@@ -876,7 +933,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       });
 
       if (!isValid) {
-        showToast("⚠️️ Vennligst fyll ut alle feltene riktig.", true);
+        showToast("⚠ Vennligst fyll ut alle feltene riktig.", true);
         if (firstMissing) firstMissing.focus();
         return false;
       }
@@ -910,9 +967,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         if (p.price10) pricingHtml += `<button class="price-btn size-10ml ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})"><div class="size-label"><span class="decant-icon vol-10"></span> 10 ml ${q10 > 0 ? `(${q10})` : ''}</div><span>${p.price10} kr</span></button>`;
         pricingHtml += `</div>`;
 
+        // CSS fade-in implementert på img for en myk premium-lastning
         div.innerHTML = `
           <div class="image-container">
-            <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy">
+            <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy" style="opacity: 0; transition: opacity 0.6s ease-in-out;" onload="this.style.opacity=1">
             <a href="${p.url}" class="fragrantica-link" target="_blank" rel="noopener" title="Åpne på Fragrantica">Info ↗</a>
           </div>
           <div class="product-info">
@@ -933,9 +991,10 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
     }
 
-    function filterByBrand(brand) {
-      activeBrandFilter = brand;
-      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.textContent === (brand || "Alle")));
+    // Oppdatert filterfunksjon for både merke og sesong
+    function filterByCategory(filterValue) {
+      activeCategoryFilter = filterValue;
+      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.dataset.filter === filterValue));
       handleFilter();
     }
 
@@ -945,9 +1004,12 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       const sort = document.getElementById("sortSelect").value;
 
       let filtered = products.filter(p => {
-        const matchesBrand = activeBrandFilter === "" || p.brand.toLowerCase().includes(activeBrandFilter.toLowerCase());
+        const matchesCategory = activeCategoryFilter === "" || 
+          p.brand.toLowerCase().includes(activeCategoryFilter.toLowerCase()) || 
+          p.season.toLowerCase().includes(activeCategoryFilter.toLowerCase());
+          
         const matchesSearch = p.title.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.perfume.toLowerCase().includes(query) || p.notes.toLowerCase().includes(query);
-        return matchesBrand && matchesSearch;
+        return matchesCategory && matchesSearch;
       });
 
       filtered.sort((a, b) => {
@@ -1128,6 +1190,7 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
     function escapeHtml(str) { return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
     function escapeJs(str) { return String(str).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', '\\"'); }
 
+    // Init
     loadSavedBuyerInfo();
     loadSavedCart();
     handleFilter();
