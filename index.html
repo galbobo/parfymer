@@ -73,7 +73,6 @@
       align-items: center;
     }
 
-    /* Minimalistisk / Editorial Logostil */
     .sticky-logo {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
@@ -257,7 +256,7 @@
     .price-btn.in-cart .size-label { color: var(--accent-gold-dark); font-weight: 700; opacity: 1; }
     .price-btn.added { background: var(--gold-gradient) !important; color: #fff !important; border-color: var(--accent-gold) !important; }
 
-    /* Felles Content-seksjoner (Steg, Om, FAQ) */
+    /* Felles Content-seksjoner */
     .content-section { max-width: 980px; margin: 40px auto; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 34px 28px; box-shadow: var(--shadow-subtle); }
     .content-section.centered { text-align: center; }
     .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; text-align: center; }
@@ -316,8 +315,6 @@
 
     .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 27, 26, 0.65); backdrop-filter: blur(6px); z-index: 1001; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    
-    /* MODAL: Footer gjort "Sticky" i bunnen uansett scroll */
     .modal-content { background: #fff; border-radius: var(--radius); width: 100%; max-width: 530px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 48px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; }
     .modal-backdrop.open .modal-content { transform: scale(1); }
     
@@ -366,7 +363,6 @@
     .summary-line.total { color: var(--text-main); font-size: 16px; font-weight: 700; padding-top: 6px; border-top: 1px dashed var(--border); }
     .free-shipping-tag { color: var(--success-green); font-weight: 700; }
 
-    /* Låst footer over innhold */
     .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fcfbf9; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); z-index: 10; }
     .order-dispatch-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
     .privacy-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
@@ -451,14 +447,14 @@
       </select>
     </div>
 
-    <!-- Oppdatert med sesong-filtre -->
+    <!-- Oppdatert med tydelige ikoner: ☀️ og ❄️ -->
     <div class="brand-pills-wrapper">
       <div class="brand-pills" id="brandPills">
         <button class="pill active" data-filter="" onclick="filterByCategory('')">Alle</button>
         <div class="pill-divider"></div>
         <button class="pill" data-filter="Vår/Sommer" onclick="filterByCategory('Vår/Sommer')">Sommer ☀️</button>
-        <button class="pill" data-filter="Høst/Vinter" onclick="filterByCategory('Høst/Vinter')">Vinter 🌙</button>
-        <button class="pill" data-filter="Allsidig" onclick="filterByCategory('Allsidig')">Allsidig ☀️🌙</button>
+        <button class="pill" data-filter="Høst/Vinter" onclick="filterByCategory('Høst/Vinter')">Vinter ❄️</button>
+        <button class="pill" data-filter="Allsidig" onclick="filterByCategory('Allsidig')">Helårs ☀️❄️</button>
         <div class="pill-divider"></div>
         <button class="pill" data-filter="Creed" onclick="filterByCategory('Creed')">Creed</button>
         <button class="pill" data-filter="Parfums de Marly" onclick="filterByCategory('Parfums de Marly')">Parfums de Marly</button>
@@ -478,7 +474,7 @@
   <section class="content-section centered">
     <h2 class="section-title">Kuratert med lidenskap</h2>
     <div class="about-text">
-      <p>Hei! Min lidenskap for nisjeparfymer startet for flere år siden, ut av en genuin interesse for hvordan dufter er bygd opp og utvikler seg over tid.</p>
+      <p>Hei, jeg heter Ronni. Min lidenskap for nisjeparfymer startet for flere år siden, ut av en genuin interesse for hvordan dufter er bygd opp og utvikler seg over tid.</p>
       <p>Å finne sin sanne signaturduft krever mer enn et raskt spray på et kjøpesenter. Derfor tapper jeg ferske dekanter direkte fra min private samling av originale flakonger. Alt oppbevares mørkt, tørt og temperert, slik at du kan utforske disse eksklusive dråpene i ditt eget tempo og oppleve dem nøyaktig slik parfymøren skapte dem.</p>
     </div>
   </section>
@@ -578,7 +574,6 @@
             </div>
 
             <div class="form-row-split">
-              <!-- Maks lengde endret til 11 pga automatisk formatering med mellomrom -->
               <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer) *" maxlength="11" oninput="handlePhoneInput(this)" />
               <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
             </div>
@@ -602,7 +597,6 @@
         </div>
       </div>
 
-      <!-- Klebrig footer i bunnen av skjemaet -->
       <div class="modal-footer" id="modalFooter">
         <div class="order-dispatch-buttons">
           <button class="cart-btn cart-btn-primary" id="submitOrderBtn" style="flex: 1; padding: 14px;" onclick="submitOrderViaEmailJS()">
@@ -633,48 +627,48 @@
     const FREE_SHIPPING_THRESHOLD = 1000;
     const STANDARD_SHIPPING_COST = 76;
 
-    // Absolu Aventus er rettet til Allsidig og 4.42
+    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER, RATING, SESONG
     const productDataRaw = `
-https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme, 4.1, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav, 4.2, Allsidig ☀️🌙
-https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra, Eple • Kanel • Vanilje, 4.1, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum, Ingefær • Treverk • Bourbon-vanilje, 4.4, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel, 4.5, Høst/Vinter 🌙
+https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme, 4.1, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav, 4.2, Allsidig ☀️❄️
+https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 70, 120, Armaf – Odyssey Spectra, Eple • Kanel • Vanilje, 4.1, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum, Ingefær • Treverk • Bourbon-vanilje, 4.4, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel, 4.5, Høst/Vinter ❄️
 https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP, Sitronpai • Sandeltre • Kremet vanilje, 4.4, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre, 4.3, Allsidig ☀️🌙
-https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk, 4.42, Allsidig ☀️🌙
+https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre, 4.3, Allsidig ☀️❄️
+https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk, 4.42, Allsidig ☀️❄️
 https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus, Ananas • Bjørk • Musk, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne, Mandarin • Ingefær • Vetiver, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage), Kokos • Lime • Rom, 4.3, Sommer ☀️
 https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 100, 170, French Avenue – Vulcan Feu, Mango • Ingefær • Rosa pepper, 4.2, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum, Havnoter • Rosmarin • Røkelse, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum, Iris • Bergamott • Tonkabønne, 4.3, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely, Rom • Kastanje • Vanilje, 4.5, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely, Toffee • Kanel • Semsket skinn, 4.4, Høst/Vinter 🌙
+https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum, Iris • Bergamott • Tonkabønne, 4.3, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely, Rom • Kastanje • Vanilje, 4.5, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely, Toffee • Kanel • Semsket skinn, 4.4, Høst/Vinter ❄️
 https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach, Mørk fersken • Bringebær • Sandeltre, 4.1, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær, 4.4, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha, 4.2, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje, 4.5, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje, 4.3, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott, 4.3, Sommer ☀️️
+https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær, 4.4, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 225, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha, 4.2, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje, 4.5, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje, 4.3, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott, 4.3, Sommer ☀️
 https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott, 4.6, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Loumari/Porthole-83054.html, 260, 500, Loumari – Porthole, Pasjonsfrukt • Salt sjøsprøyt • Hvit musk, 4.4, Sommer ☀️
 https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade, Mango • Tomatblad • Lær, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli, 4.2, Allsidig ☀️🌙
+https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli, 4.2, Allsidig ☀️❄️
 https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat, Ananas • Eikemose • Sedertre, 4.2, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme, 4.5, Høst/Vinter 🌙
+https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme, 4.5, Høst/Vinter ❄️
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival, Lavendel • Mandarin • Ambroxan, 4.3, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley, Mynte • Sitron • Rosmarin, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav, 4.4, Allsidig ☀️🌙
+https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav, 4.4, Allsidig ☀️❄️
 https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum, Lavendel • Marine noter • Sandeltre, 4.0, Vår/Sommer ☀️
 https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 370, Sospiro – Vibrato, Grapefrukt • Ingefær • Hvit musk, 4.5, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme, 4.4, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk, 4.3, Allsidig ☀️🌙
-https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan, 4.3, Høst/Vinter 🌙
+https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme, 4.4, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk, 4.3, Allsidig ☀️❄️️
+https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan, 4.3, Høst/Vinter ❄️
 https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel, 4.6, Høst/Vinter 🌙
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk, 4.3, Allsidig ☀️🌙
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021), Salvie • Eple • Sedertre, 4.3, Allsidig ☀️🌙
+https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 150, 300, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel, 4.6, Høst/Vinter ❄️
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk, 4.3, Allsidig ☀️❄️
+https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021), Salvie • Eple • Sedertre, 4.3, Allsidig ☀️❄️
 https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense, Ingefær • Mandarin • Rav, 4.2, Vår/Sommer ☀️
 `.trim();
 
@@ -967,7 +961,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
         if (p.price10) pricingHtml += `<button class="price-btn size-10ml ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})"><div class="size-label"><span class="decant-icon vol-10"></span> 10 ml ${q10 > 0 ? `(${q10})` : ''}</div><span>${p.price10} kr</span></button>`;
         pricingHtml += `</div>`;
 
-        // CSS fade-in implementert på img for en myk premium-lastning
         div.innerHTML = `
           <div class="image-container">
             <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy" style="opacity: 0; transition: opacity 0.6s ease-in-out;" onload="this.style.opacity=1">
@@ -991,7 +984,6 @@ https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-9
       }
     }
 
-    // Oppdatert filterfunksjon for både merke og sesong
     function filterByCategory(filterValue) {
       activeCategoryFilter = filterValue;
       document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.dataset.filter === filterValue));
