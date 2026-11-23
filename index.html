@@ -1,1354 +1,756 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Parfymeprøver fra nisje og designer – Privat Parfymesamling</title>
-  <meta name="description" content="Kjøp 5 ml og 10 ml parfymeprøver fra eksklusive nisje- og designerhus som Creed, Parfums de Marly, Louis Vuitton og Xerjoff. Finn din signaturduft i dag.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-  <style>
-    :root {
-      /* Base & Bakgrunn */
-      --bg: #f8f6f2;
-      --card-bg: #ffffff;
-      
-      /* Tekst */
-      --text-main: #2a2825;
-      --text-muted: #75716b;
-      
-      /* Gulltoner */
-      --gold-gradient: linear-gradient(135deg, #d4c3a3 0%, #a89467 100%);
-      --gold-gradient-hover: linear-gradient(135deg, #e3d5b8 0%, #bca87b 100%);
-      --accent-gold: #a89467;
-      --accent-gold-dark: #8c7a52;
-      
-      /* Statusfarger */
-      --success-green: #15803d;
-      --danger: #ef4444;
-      
-      /* Borders */
-      --border: #e9e5de;
-      --border-dark: #d3ccc0;
-      
-      /* Knapper */
-      --dark-btn: #2a2825;
-      --dark-btn-hover: #3d3b37;
-      
-      /* Styling & Skygger */
-      --radius: 14px;
-      --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.03);
-      --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.06);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      padding: 0 20px 120px 20px;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .sticky-nav {
-      position: sticky;
-      top: 0;
-      z-index: 990;
-      background: rgba(248, 246, 242, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      margin: 0 -20px 24px -20px;
-      padding: 12px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sticky-logo {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--text-main);
-    }
-
-    .sticky-cart-trigger {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      background: #fff;
-      border: 1px solid var(--border-dark);
-      padding: 7px 15px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-main);
-      transition: all 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-    .sticky-cart-trigger:hover {
-      border-color: var(--accent-gold);
-      box-shadow: 0 3px 10px rgba(168, 148, 103, 0.15);
-    }
-
-    .cart-badge {
-      background: var(--gold-gradient);
-      color: #fff;
-      font-size: 11px;
-      padding: 2px 7px;
-      border-radius: 12px;
-      font-weight: 700;
-      box-shadow: 0 2px 4px rgba(168, 148, 103, 0.3);
-    }
-
-    .top-announcement {
-      background: var(--dark-btn);
-      color: #fff;
-      text-align: center;
-      padding: 10px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      margin: -12px -20px 28px -20px;
-    }
-    .top-announcement strong { color: #e3d5b8; }
-
-    header {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 32px auto;
-    }
-
-    .brand-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent-gold);
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 38px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 14px;
-      line-height: 1.25;
-    }
-    
-    h1 em {
-      font-style: italic;
-      font-weight: 400;
-      color: var(--accent-gold);
-    }
-
-    .header-subtext {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.65;
-    }
-
-    .exclusive-guarantee {
-      max-width: 980px;
-      margin: 0 auto 36px auto;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .guarantee-item { display: flex; align-items: center; gap: 14px; padding: 4px 8px; }
-    .guarantee-item:not(:last-child) { border-right: 1px solid var(--border); }
-    @media (max-width: 768px) {
-      .guarantee-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
-    }
-
-    .guarantee-icon {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: #fcfbf8; border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0;
-    }
-    .guarantee-title { font-size: 13px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; }
-    .guarantee-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-top: 1px; }
-
-    .controls-wrapper { max-width: 980px; margin: 0 auto 32px auto; display: flex; flex-direction: column; gap: 14px; }
-    .search-sort-bar { display: flex; gap: 12px; flex-wrap: wrap; }
-    .search-input-wrapper { flex: 1; min-width: 260px; position: relative; }
-
-    #search {
-      width: 100%; padding: 13px 40px 13px 18px;
-      font-size: 15px; border-radius: 10px; border: 1px solid var(--border-dark);
-      background: #fff; outline: none; font-family: inherit;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: all 0.2s;
-    }
-    #search:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(168, 148, 103, 0.18); }
-    .clear-search-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; display: none; }
-
-    #sortSelect { padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border-dark); background-color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-
-    /* Filterseksjoner */
-    .filter-group { display: flex; flex-direction: column; gap: 10px; }
-    .brand-pills-wrapper { position: relative; }
-    .brand-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; align-items: center; }
-    .brand-pills::-webkit-scrollbar { display: none; }
-
-    .pills-fade {
-      position: absolute; right: 0; top: 0; bottom: 4px; width: 45px;
-      background: linear-gradient(to right, rgba(248,246,242,0) 0%, rgba(248,246,242,1) 90%);
-      pointer-events: none; transition: opacity 0.3s;
-    }
-
-    .pill { background: #ffffff; border: 1px solid var(--border); padding: 7px 15px; border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
-    .pill:hover, .pill.active { background: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
-
-    /* Filter status & Reset bar */
-    .filter-status-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      padding: 0 4px;
-      min-height: 22px;
-    }
-    .reset-filters-btn {
-      background: none;
-      border: none;
-      color: var(--accent-gold-dark);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      padding: 0;
-      display: none;
-    }
-    .reset-filters-btn:hover {
-      color: var(--text-main);
-    }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; max-width: 1280px; margin: 0 auto; }
-
-    /* Produktkort med :has() fremheving */
-    .product { 
-      background: var(--card-bg); 
-      border-radius: var(--radius); 
-      border: 1px solid var(--border); 
-      overflow: hidden; 
-      display: flex; 
-      flex-direction: column; 
-      box-shadow: var(--shadow-subtle); 
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
-    }
-    .product:hover { 
-      transform: translateY(-5px); 
-      box-shadow: var(--shadow-hover); 
-      border-color: var(--border-dark); 
-    }
-    .product:has(.price-btn.in-cart) {
-      border-color: var(--accent-gold);
-      box-shadow: 0 12px 32px rgba(168, 148, 103, 0.16);
-    }
-
-    .image-container { position: relative; background: #fcfbf9; aspect-ratio: 1; padding: 22px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
-    .product img { max-height: 100%; max-width: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.35s ease; }
-    .product:hover img { transform: scale(1.04); }
-
-    .fragrantica-link { position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(4px); border: 1px solid var(--border); border-radius: 20px; font-size: 11px; font-weight: 600; padding: 4px 10px; text-decoration: none; color: var(--text-muted); box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: all 0.2s; }
-    .fragrantica-link:hover { background: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
-
-    .product-info { padding: 18px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-    
-    /* Typografiske finpussinger */
-    .brand-tag { 
-      font-size: 10px; 
-      font-weight: 700; 
-      text-transform: uppercase; 
-      letter-spacing: 1.8px; 
-      color: var(--accent-gold); 
-      margin-bottom: 4px; 
-    }
-    .product-title { font-size: 15px; font-weight: 600; line-height: 1.35; margin-bottom: 6px; }
-    
-    .meta-bar { 
-      display: flex; 
-      align-items: center; 
-      gap: 6px; 
-      margin-bottom: 12px; 
-      font-size: 11px; 
-      font-weight: 600; 
-      color: var(--text-main); 
-    }
-    .meta-rating { 
-      display: flex; 
-      align-items: center; 
-      gap: 3px; 
-      color: var(--accent-gold-dark); 
-    }
-    .meta-separator {
-      color: var(--border-dark);
-      font-weight: 400;
-    }
-    .meta-season { color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
-
-    .notes-tagline { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; margin-bottom: 14px; }
-
-    .pricing { display: flex; gap: 8px; }
-    
-    .price-btn { flex: 1; padding: 10px 6px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s ease; display: flex; flex-direction: column; align-items: center; gap: 4px; background-color: #ffffff; border: 1px solid var(--border-dark); }
-    .price-btn:hover { background-color: var(--dark-btn); color: #fff; border-color: var(--dark-btn); }
-    
-    .size-label { display: flex; align-items: flex-end; justify-content: center; gap: 6px; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; height: 16px; line-height: 1.1; margin-bottom: 1px; }
-    
-    .decant-icon { position: relative; width: 7px; border: 1.5px solid currentColor; border-radius: 1px 1px 2px 2px; display: inline-block; transition: color 0.15s ease;}
-    .decant-icon::before { content: ""; position: absolute; top: -3px; left: 1px; width: 2px; height: 2px; background: currentColor; border-radius: 0.5px; }
-    .decant-icon.vol-5 { height: 8px; }
-    .decant-icon.vol-10 { height: 13px; }
-    
-    .price-btn.in-cart { background-color: #fbf7ee; border-color: var(--accent-gold); color: var(--accent-gold-dark); font-weight: 700; box-shadow: inset 0 0 0 1px var(--accent-gold); }
-    .price-btn.in-cart .size-label { color: var(--accent-gold-dark); font-weight: 700; opacity: 1; }
-    .price-btn.added { background: var(--gold-gradient) !important; color: #fff !important; border-color: var(--accent-gold) !important; }
-
-    /* Felles Content-seksjoner */
-    .content-section { max-width: 980px; margin: 40px auto; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 34px 28px; box-shadow: var(--shadow-subtle); }
-    .content-section.centered { text-align: center; }
-    .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; text-align: center; }
-    
-    /* Steg */
-    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; text-align: left; }
-    .step-box { padding: 10px; }
-    .step-number { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--accent-gold); margin-bottom: 6px; }
-    .step-header { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-    .step-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
-
-    /* Om samleren */
-    .about-text { max-width: 680px; margin: 0 auto; font-size: 14px; color: var(--text-muted); line-height: 1.7; text-align: center; }
-    .about-text p { margin-bottom: 16px; }
-    .about-text p:last-child { margin-bottom: 0; }
-
-    /* FAQ */
-    .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; text-align: left; }
-    .faq-item { background: #fcfbf9; padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
-    .faq-q { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
-    .faq-a { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
-
-    footer { max-width: 980px; margin: 30px auto 0 auto; text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); line-height: 1.7; }
-    footer strong { color: var(--text-main); }
-
-    .cart-bar {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(140%);
-      background: rgba(42, 40, 37, 0.94); backdrop-filter: blur(16px); color: white;
-      padding: 12px 20px; border-radius: 40px; display: flex; align-items: center; gap: 16px;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);
-      z-index: 1000; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      width: calc(100% - 40px); max-width: 600px;
-    }
-    .cart-bar.active { transform: translateX(-50%) translateY(0); }
-    .cart-summary { font-size: 14px; font-weight: 600; white-space: nowrap; flex-grow: 1; }
-    .cart-actions { display: flex; gap: 8px; }
-
-    .cart-btn { border: none; padding: 10px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-icon { width: 15px; height: 15px; min-width: 15px; display: inline-block; vertical-align: middle; }
-    .cart-btn-primary { background: var(--gold-gradient); color: #ffffff !important; box-shadow: 0 3px 10px rgba(168, 148, 103, 0.25); }
-    .cart-btn-primary:hover { background: var(--gold-gradient-hover); box-shadow: 0 5px 15px rgba(168, 148, 103, 0.35); }
-    .cart-btn-secondary { background: #3d3b37; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.12); }
-    .cart-btn-secondary:hover { background: #4a4844; }
-
-    #backToTopBtn {
-      position: fixed; bottom: 90px; right: 20px; z-index: 990;
-      background: var(--card-bg); border: 1px solid var(--border-dark); color: var(--text-main);
-      width: 44px; height: 44px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08); cursor: pointer;
-      opacity: 0; pointer-events: none; transform: translateY(15px); transition: all 0.3s ease;
-    }
-    #backToTopBtn.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    #backToTopBtn:hover { background: var(--bg); border-color: var(--accent-gold); color: var(--accent-gold-dark); }
-    @media (max-width: 768px) { #backToTopBtn { bottom: 100px; right: 16px; width: 40px; height: 40px; } }
-
-    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 27, 26, 0.65); backdrop-filter: blur(6px); z-index: 1001; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
-    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .modal-content { background: #fff; border-radius: var(--radius); width: 100%; max-width: 530px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 48px rgba(0,0,0,0.25); transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; }
-    .modal-backdrop.open .modal-content { transform: scale(1); }
-    
-    /* Sticky header og fraktfremgang i kassen */
-    .modal-header { 
-      padding: 16px 20px; 
-      border-bottom: 1px solid var(--border); 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      flex-shrink: 0;
-      background: #fff;
-    }
-    .modal-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; }
-    .close-btn { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-    .close-btn:hover { background: var(--border); color: var(--text-main); }
-
-    .shipping-progress-container { 
-      padding: 12px 20px; 
-      background: #fcfbf9; 
-      border-bottom: 1px solid var(--border); 
-      flex-shrink: 0; 
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-    .shipping-progress-text { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .shipping-progress-text.unlocked { color: var(--success-green); }
-    .progress-bar-bg { background: #e7e3dc; height: 6px; border-radius: 4px; overflow: hidden; }
-    .progress-bar-fill { background: var(--gold-gradient); height: 100%; width: 0%; transition: width 0.3s ease; }
-    .progress-bar-fill.unlocked { background: var(--success-green); }
-
-    .modal-body { padding: 16px 20px; overflow-y: auto; flex-grow: 1; }
-    .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f4f2ee; gap: 10px; }
-    .cart-item-row:last-child { border-bottom: none; }
-    .cart-item-title { font-size: 14px; font-weight: 600; }
-    .cart-item-meta { font-size: 12px; color: var(--text-muted); }
-    .qty-controls { display: flex; align-items: center; gap: 6px; }
-    .qty-btn { background: #f1f0ec; border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-weight: 700; color: var(--text-main); }
-    .qty-btn:hover { background: var(--dark-btn); color: #fff; }
-    .qty-num { font-size: 13px; font-weight: 600; min-width: 16px; text-align: center; }
-
-    .buyer-info-section { background: #fcfbf9; border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 16px; }
-    .buyer-info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .buyer-info-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
-    .required-badge { font-size: 11px; color: var(--text-muted); font-weight: 600; }
-    .form-grid { display: flex; flex-direction: column; gap: 8px; }
-    .form-row-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .autocomplete-wrapper { position: relative; width: 100%; }
-    .address-suggestions { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #ffffff; border: 1px solid var(--border-dark); border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); z-index: 1050; max-height: 180px; overflow-y: auto; display: none; }
-    .address-suggestion-item { padding: 9px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid #f4f2ee; display: flex; justify-content: space-between; align-items: center; }
-    .address-suggestion-item:last-child { border-bottom: none; }
-    .address-suggestion-item:hover { background: #fcfbf9; color: var(--accent-gold); }
-    .address-suggestion-item .postal-hint { font-size: 11px; color: var(--text-muted); }
-    .zip-city-row { display: grid; grid-template-columns: 85px 1fr; gap: 8px; }
-    .buyer-input { width: 100%; padding: 9px 12px; font-size: 13px; border-radius: 8px; border: 1px solid var(--border-dark); background: #fff; font-family: inherit; color: var(--text-main); outline: none; transition: border-color 0.2s; }
-    .buyer-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 2px rgba(168, 148, 103, 0.15); }
-    .buyer-input:disabled { background: #f4f2ee; color: #555; font-weight: 600; }
-    .buyer-input.input-error { border-color: var(--danger) !important; background-color: #fef2f2 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important; }
-
-    .modal-summary-section { padding: 12px 20px; background: #ffffff; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; font-size: 14px; flex-shrink: 0; }
-    .summary-line { display: flex; justify-content: space-between; color: var(--text-muted); }
-    .summary-line.total { color: var(--text-main); font-size: 16px; font-weight: 700; padding-top: 6px; border-top: 1px dashed var(--border); }
-    .free-shipping-tag { color: var(--success-green); font-weight: 700; }
-
-    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fcfbf9; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); z-index: 10; }
-    .order-dispatch-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-    .privacy-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px; }
-
-    .toast {
-      position: fixed; bottom: 30px; left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(42, 40, 37, 0.95); backdrop-filter: blur(12px);
-      color: #fff; padding: 14px 28px; border-radius: 30px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25); border: 1px solid var(--accent-gold);
-      font-size: 14px; font-weight: 600; z-index: 2000; opacity: 0; pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-width: 90%; text-align: center;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .toast.toast-error { border-color: var(--danger); background: #2a1111; color: #fca5a5; }
-    
-    .empty-cart-state { text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
-    .empty-cart-state svg { width: 44px; height: 44px; stroke: var(--border-dark); margin-bottom: 12px; fill: none; stroke-width: 1.5; }
-    .empty-cart-state p { color: var(--text-muted); margin-bottom: 20px; font-size: 14px; }
-    
-    .empty-state { text-align: center; padding: 60px 20px; grid-column: 1 / -1; color: var(--text-muted); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parfymeprøver fra nisje og designer – Privat Parfymesamling</title>
+<meta name="description" content="Kjøp 5 ml og 10 ml parfymeprøver fra nisje- og designerhus som Creed, Parfums de Marly, Louis Vuitton og Xerjoff. Finn din signaturduft.">
+<link rel="canonical" href="https://DITT-DOMENE.no/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Parfymeprøver fra nisje og designer">
+<meta property="og:description" content="5 ml og 10 ml prøver fra originalflakonger. Fri frakt over 600 kr.">
+<meta property="og:locale" content="nb_NO">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧴</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f6f2;--card:#fff;--text:#2a2825;--muted:#5f5b55;--gold:#a89467;--gold-text:#78653a;--grad:linear-gradient(135deg,#d4c3a3,#a89467);--ok:#15803d;--danger:#c62828;--line:#e9e5de;--line2:#d3ccc0;--dark:#2a2825;--r:14px;--sh:0 10px 30px rgba(0,0,0,.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:0 20px 120px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top)}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold-text);outline-offset:2px}
+.announce{background:var(--dark);color:#fff;text-align:center;padding:10px 16px;font-size:13px;margin:0 -20px}
+.announce strong{color:#e3d5b8}
+.nav{position:sticky;top:0;z-index:990;background:rgba(248,246,242,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin:0 -20px 28px;padding:10px 24px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:2px}
+.cart-trigger{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line2);padding:7px 15px;border-radius:30px;cursor:pointer;font-size:13px;font-weight:600}
+.cart-trigger:hover{border-color:var(--gold)}
+.badge{background:var(--grad);color:#fff;font-size:12px;padding:2px 8px;border-radius:12px;font-weight:700;display:inline-block}
+.badge.bump{animation:bump .35s}
+@keyframes bump{40%{transform:scale(1.35)}}
+header{text-align:center;max-width:680px;margin:0 auto 28px}
+h1{font-family:'Playfair Display',serif;font-size:38px;line-height:1.25;margin-bottom:14px}
+h1 em{font-style:italic;font-weight:400;color:var(--gold-text)}
+.sub{color:var(--muted);font-size:15px;line-height:1.65;margin-bottom:20px}
+.cta{display:inline-block;background:var(--dark);color:#fff;text-decoration:none;padding:12px 26px;border-radius:30px;font-weight:600;font-size:14px}
+.cta:hover{background:#3d3b37}
+.trust{max-width:980px;margin:0 auto 32px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;box-shadow:var(--sh)}
+.trust div{font-size:13px;color:var(--muted)}
+.trust b{display:block;color:var(--text);font-size:14px}
+.controls{max-width:980px;margin:0 auto 24px;display:flex;flex-direction:column;gap:12px}
+.bar{display:flex;gap:12px;flex-wrap:wrap}
+.sw{flex:1;min-width:240px;position:relative}
+#search{width:100%;padding:13px 40px 13px 18px;font-size:15px;border-radius:10px;border:1px solid var(--line2);background:#fff;font-family:inherit}
+#search:focus,select:focus,.inp:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(168,148,103,.2)}
+#clearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:22px;cursor:pointer;display:none;padding:4px 8px;color:var(--muted)}
+select{padding:13px 16px;border-radius:10px;border:1px solid var(--line2);background:#fff;font-size:14px;font-weight:600;font-family:inherit}
+.pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{background:#fff;border:1px solid var(--line);padding:7px 14px;border-radius:30px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+.pill:hover,.pill.on{background:var(--dark);color:#fff;border-color:var(--dark)}
+.pill small{opacity:.7;font-weight:500}
+.status{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);min-height:22px}
+.linkbtn{background:none;border:none;color:var(--gold-text);font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px;max-width:1280px;margin:0 auto;scroll-margin-top:70px}
+.prod{background:var(--card);border-radius:var(--r);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh);transition:transform .3s,box-shadow .3s}
+.prod:hover{transform:translateY(-4px);border-color:var(--line2)}
+.prod:has(.pb.in){border-color:var(--gold);box-shadow:0 12px 32px rgba(168,148,103,.18)}
+.img{position:relative;aspect-ratio:1;padding:22px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);background:linear-gradient(100deg,#f6f3ed 30%,#fcfbf9 50%,#f6f3ed 70%) 0 0/200% 100%;animation:sk 1.4s infinite linear}
+.img.loaded{animation:none;background:#fcfbf9}
+@keyframes sk{to{background-position:-200% 0}}
+.img img{max-height:100%;max-width:100%;object-fit:contain;mix-blend-mode:multiply;opacity:0;transition:opacity .5s}
+.img.loaded img{opacity:1}
+.info-link{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:20px;font-size:12px;font-weight:600;padding:4px 10px;text-decoration:none;color:var(--muted)}
+.info-link:hover{background:var(--dark);color:#fff}
+.pinfo{padding:16px;display:flex;flex-direction:column;flex-grow:1;justify-content:space-between}
+.brand{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-text)}
+.ptitle{font-size:16px;font-weight:600;line-height:1.35;margin:2px 0 6px}
+.meta{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap}
+.meta b{color:var(--gold-text)}
+.notes{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.pricing{display:flex;gap:8px}
+.pb{flex:1;padding:9px 6px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;border:1px solid var(--line2);display:flex;flex-direction:column;align-items:center;gap:1px}
+.pb:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.pb .sz{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.pb .pm{font-size:11px;font-weight:500;opacity:.75}
+.pb.in{background:#fbf7ee;border-color:var(--gold);color:var(--gold-text);box-shadow:inset 0 0 0 1px var(--gold)}
+.pb.in:hover{background:var(--dark);color:#fff}
+.sec{max-width:980px;margin:40px auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:32px 28px;box-shadow:var(--sh)}
+.sec h2{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:18px;text-align:center}
+.sec p,.sec li{font-size:14px;color:var(--muted);line-height:1.7}
+.sec p+p{margin-top:12px}
+.sec ul{padding-left:20px}
+.legal h2{font-size:20px;text-align:left}
+.legal h3{font-size:14px;margin:14px 0 4px}
+.about{max-width:680px;margin:0 auto;text-align:center}
+.steps,.faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.step h3,.faq h3{font-size:14px;margin-bottom:4px}
+.step span{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold-text);display:block}
+.faq div{background:#fcfbf9;padding:18px;border-radius:10px;border:1px solid var(--line)}
+footer{max-width:980px;margin:30px auto 0;text-align:center;padding:20px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.8}
+footer a{color:var(--gold-text)}
+.cartbar{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(150%);background:rgba(42,40,37,.95);backdrop-filter:blur(16px);color:#fff;padding:12px 20px;border-radius:40px;display:flex;align-items:center;gap:16px;box-shadow:0 16px 36px rgba(0,0,0,.35);z-index:1000;transition:transform .35s;width:calc(100% - 40px);max-width:560px}
+.cartbar.on{transform:translateX(-50%)}
+.cartbar span{flex-grow:1;font-size:14px;font-weight:600}
+.btn{border:none;padding:10px 16px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-p{background:var(--grad);color:#fff}
+.btn-p:hover{filter:brightness(1.07)}
+.btn-s{background:#fff;border:1px solid var(--line2)}
+.btn-s:hover{background:#f1efe9}
+#top{position:fixed;bottom:calc(96px + env(safe-area-inset-bottom));right:16px;z-index:990;background:#fff;border:1px solid var(--line2);width:42px;height:42px;border-radius:50%;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s;font-size:18px}
+#top.show{opacity:1;pointer-events:auto}
+.back{position:fixed;inset:0;background:rgba(28,27,26,.65);backdrop-filter:blur(6px);z-index:1001;display:flex;justify-content:center;align-items:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s}
+.back.open{opacity:1;pointer-events:auto}
+.modal{background:#fff;border-radius:var(--r);width:100%;max-width:540px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+.mh{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mh h2{font-family:'Playfair Display',serif;font-size:20px}
+.x{background:none;border:none;font-size:26px;cursor:pointer;width:36px;height:36px;border-radius:50%}
+.x:hover{background:var(--line)}
+.ship{padding:12px 20px;background:#fcfbf9;border-bottom:1px solid var(--line)}
+.ship p{font-size:13px;font-weight:600;margin-bottom:6px}
+.ship p.ok{color:var(--ok)}
+.pbg{background:#e7e3dc;height:6px;border-radius:4px;overflow:hidden}
+.pbg i{display:block;height:100%;width:0;background:var(--grad);transition:width .3s}
+.pbg i.ok{background:var(--ok)}
+.mb{padding:14px 20px;overflow-y:auto;flex-grow:1}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1efea;gap:10px}
+.row b{font-size:14px}
+.row small{display:block;font-size:12px;color:var(--muted)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{background:#f1f0ec;border:1px solid var(--line);width:30px;height:30px;border-radius:6px;cursor:pointer;font-weight:700}
+.qty button:hover{background:var(--dark);color:#fff}
+.qty span{min-width:18px;text-align:center;font-size:14px;font-weight:600}
+.form{background:#fcfbf9;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.form h3{font-size:13px;color:var(--gold-text);margin-bottom:2px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.f3{display:grid;grid-template-columns:90px 1fr;gap:8px}
+.form label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:2px}
+.inp{width:100%;padding:10px 12px;font-size:15px;border-radius:8px;border:1px solid var(--line2);background:#fff;font-family:inherit}
+.inp.err{border-color:var(--danger);background:#fef2f2}
+.ac{position:relative}
+.sug{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--line2);border-radius:8px;box-shadow:0 10px 25px rgba(0,0,0,.12);z-index:50;display:none;max-height:180px;overflow-y:auto}
+.sug button{display:flex;justify-content:space-between;width:100%;padding:10px 12px;font-size:13px;border:none;border-bottom:1px solid #f1efea;background:none;cursor:pointer;text-align:left}
+.sug button:hover{background:#fcfbf9}
+.hp{position:absolute;left:-9999px}
+.consent{display:flex;gap:8px;font-size:13px;color:var(--muted);align-items:flex-start;margin-top:4px}
+.consent input{margin-top:3px;width:18px;height:18px;flex-shrink:0}
+.consent.err{color:var(--danger)}
+.priv{font-size:12px;color:var(--muted);margin-top:8px}
+.sum{padding:12px 20px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:5px;font-size:14px}
+.sum div{display:flex;justify-content:space-between;color:var(--muted)}
+.sum .tot{color:var(--text);font-size:16px;font-weight:700;border-top:1px dashed var(--line);padding-top:6px}
+.free{color:var(--ok);font-weight:700}
+.mf{padding:14px 20px;border-top:1px solid var(--line);background:#fcfbf9;display:flex;flex-direction:column;gap:8px}
+.mf .how{font-size:13px;color:var(--muted)}
+.mf .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mf .btn{padding:12px 8px}
+.mf .full{grid-column:1/-1}
+.done{padding:24px 20px;overflow-y:auto}
+.done h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px}
+.done p{font-size:14px;color:var(--muted);margin-bottom:10px}
+.done ol{padding-left:20px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.ref{display:inline-block;background:#fbf7ee;border:1px solid var(--gold);border-radius:8px;padding:6px 12px;font-weight:700;color:var(--gold-text);margin-bottom:12px}
+.done .btns{display:flex;gap:8px;flex-wrap:wrap}
+.empty{text-align:center;padding:36px 10px;color:var(--muted)}
+.empty p{margin-bottom:16px}
+.none{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted)}
+.toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(100px);background:rgba(42,40,37,.96);color:#fff;padding:12px 22px;border-radius:30px;border:1px solid var(--gold);font-size:14px;font-weight:600;z-index:2000;opacity:0;pointer-events:none;transition:all .3s;max-width:92%;text-align:center;display:flex;gap:14px;align-items:center}
+.toast.show{transform:translateX(-50%);opacity:1;pointer-events:auto}
+.toast.bad{border-color:#ef4444;background:#2a1111;color:#fca5a5}
+.toast button{background:none;border:none;color:#e3d5b8;font-weight:700;cursor:pointer;text-decoration:underline;font-size:14px}
+@media(max-width:600px){h1{font-size:30px}.f2{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
-
 <body>
 
-  <nav class="sticky-nav">
-    <div class="sticky-logo">Privat Parfymesamling</div>
-    <div class="sticky-cart-trigger" onclick="openCartModal()">
-      <span>Handlekurv</span>
-      <span class="cart-badge" id="stickyCartBadge">0</span>
-    </div>
-  </nav>
+<div class="announce">✨ <strong>Fri frakt</strong> med Norgespakke™ på bestillinger over 600 kr</div>
+<nav class="nav" aria-label="Hovedmeny">
+  <div class="logo">Privat Parfymesamling</div>
+  <button class="cart-trigger" id="openCart" aria-label="Åpne handlekurv">Handlekurv <span class="badge" id="badge">0</span></button>
+</nav>
 
-  <div class="top-announcement">
-    ✨ <strong>Fri frakt</strong> med Norgespakke™ liten på alle bestillinger over 1 000 kr!
+<header>
+  <h1>Parfymeprøver fra <em>nisje</em> og designer</h1>
+  <p class="sub">En parfyme utvikler seg på huden gjennom dagen. Med en prøve på 5 eller 10 ml kan du teste duften over tid før du kjøper hel flaske, og unngå bomkjøp.</p>
+  <a class="cta" href="#produkter">Utforsk samlingen</a>
+</header>
+
+<div class="trust">
+  <div><b>Tappet fra originalflakonger</b>Hver prøve tappes fra originalflakonger i min egen samling.</div>
+  <div><b>Tydelig merking</b>Etikett med duft- og merkenavn på hver prøve.</div>
+  <div><b>Norgespakke™ med sporing</b>Trygt pakket og sendt innen 1–2 virkedager.</div>
+</div>
+
+<div class="controls">
+  <div class="bar">
+    <div class="sw">
+      <input type="search" id="search" placeholder="Søk på duft, hus eller noter (f.eks. vanilje)" aria-label="Søk etter parfyme" autocomplete="off">
+      <button id="clearBtn" aria-label="Tøm søk">&times;</button>
+    </div>
+    <select id="sort" aria-label="Sorter">
+      <option value="curated">Kuratert (nisje først)</option>
+      <option value="name-asc">Navn (A – Å)</option>
+      <option value="name-desc">Navn (Å – A)</option>
+      <option value="rating">Høyest vurdert (Fragrantica)</option>
+      <option value="price-asc">Pris: lav til høy</option>
+      <option value="price-desc">Pris: høy til lav</option>
+    </select>
   </div>
+  <div class="pills" id="catPills" role="group" aria-label="Kategori"></div>
+  <div class="pills" id="seasonPills" role="group" aria-label="Sesong"></div>
+  <div class="pills" id="brandPills" role="group" aria-label="Merke"></div>
+  <div class="status"><span id="count" aria-live="polite"></span><button class="linkbtn" id="reset" hidden>Tilbakestill filtre</button></div>
+</div>
 
-  <header>
-    <div class="brand-eyebrow">Privat Parfymesamling</div>
-    <h1>Parfymeprøver fra <em>nisje</em> og designer</h1>
-    <p class="header-subtext">
-      En parfyme utvikler seg unikt på huden gjennom dagen. Å teste en duft over tid med en 5 ml eller 10 ml prøve før man investerer i en hel flaske, er den beste måten å unngå bomkjøp og finne din sanne signaturduft.
-    </p>
-  </header>
+<main class="grid" id="produkter"></main>
 
-  <div class="exclusive-guarantee">
-    <div class="guarantee-item">
-      <div class="guarantee-icon">✨</div>
-      <div>
-        <div class="guarantee-title">100% Autentisk</div>
-        <div class="guarantee-desc">Tappes ferskt rett fra originale flakonger.</div>
-      </div>
-    </div>
-    <div class="guarantee-item">
-      <div class="guarantee-icon">🏷️</div>
-      <div>
-        <div class="guarantee-title">Tydelig Merking</div>
-        <div class="guarantee-desc">Maskintrykte etiketter med duft- og merkenavn.</div>
-      </div>
-    </div>
-    <div class="guarantee-item">
-      <div class="guarantee-icon">📦</div>
-      <div>
-        <div class="guarantee-title">Norgespakke™ med sporing</div>
-        <div class="guarantee-desc">Omhyggelig pakket og trygt levert.</div>
-      </div>
-    </div>
+<section class="sec">
+  <h2>Kuratert med lidenskap</h2>
+  <div class="about">
+    <p>Jeg har samlet parfyme i flere år, drevet av interessen for hvordan komplekse dufter er bygd opp og endrer seg over tid.</p>
+    <p>Å finne signaturduften krever mer enn en rask spray i en butikk. Derfor tapper jeg ferske prøver fra flakongene mine. Flakongene oppbevares mørkt, tørt og temperert, slik at du kan teste dem i eget tempo.</p>
   </div>
+</section>
 
-  <div class="controls-wrapper">
-    <div class="search-sort-bar">
-      <div class="search-input-wrapper">
-        <input type="text" id="search" oninput="handleFilter()" placeholder="Søk på parfymenavn, hus eller noter (f.eks. vanilje, sitrus)…" aria-label="Søk etter parfyme" />
-        <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()">&times;</button>
-      </div>
-      <select id="sortSelect" onchange="handleFilter()">
-        <option value="curated" selected>Kuratert (Nisje først)</option>
-        <option value="name-asc">Navn (A – Å)</option>
-        <option value="name-desc">Navn (Å – A)</option>
-        <option value="rating-desc">Høyest vurdert (Fragrantica)</option>
-        <option value="price-asc">Pris: Lav til Høy</option>
-        <option value="price-desc">Pris: Høy til Lav</option>
-      </select>
-    </div>
-
-    <!-- Todelte filtre: Sesong og Merke -->
-    <div class="filter-group">
-      <div class="brand-pills-wrapper">
-        <div class="brand-pills" id="seasonPills">
-          <button class="pill active" data-season="" onclick="filterBySeason('')">Alle sesonger</button>
-          <button class="pill" data-season="Vår/Sommer" onclick="filterBySeason('Vår/Sommer')">Sommer ☀️</button>
-          <button class="pill" data-season="Høst/Vinter" onclick="filterBySeason('Høst/Vinter')">Vinter ❄️</button>
-          <button class="pill" data-season="Allsidig" onclick="filterBySeason('Allsidig')">Helårs ☀️❄️</button>
-        </div>
-      </div>
-
-      <div class="brand-pills-wrapper">
-        <div class="brand-pills" id="brandPills">
-          <button class="pill active" data-brand="" onclick="filterByBrand('')">Alle merker</button>
-          <button class="pill" data-brand="Creed" onclick="filterByBrand('Creed')">Creed</button>
-          <button class="pill" data-brand="Parfums de Marly" onclick="filterByBrand('Parfums de Marly')">Parfums de Marly</button>
-          <button class="pill" data-brand="Louis Vuitton" onclick="filterByBrand('Louis Vuitton')">Louis Vuitton</button>
-          <button class="pill" data-brand="Giorgio Armani" onclick="filterByBrand('Giorgio Armani')">Armani</button>
-          <button class="pill" data-brand="Jean Paul Gaultier" onclick="filterByBrand('Jean Paul Gaultier')">JPG</button>
-          <button class="pill" data-brand="Xerjoff" onclick="filterByBrand('Xerjoff')">Xerjoff</button>
-          <button class="pill" data-brand="Amouage" onclick="filterByBrand('Amouage')">Amouage</button>
-        </div>
-        <div class="pills-fade" id="pillsFade"></div>
-      </div>
-
-      <!-- Resultatstatus og tilbakestillingsknapp -->
-      <div class="filter-status-bar">
-        <span id="filterCountText">Viser alle parfymer</span>
-        <button id="resetFiltersBtn" class="reset-filters-btn" onclick="resetAllFilters()">Tilbakestill filtre</button>
-      </div>
-    </div>
+<section class="sec">
+  <h2>Slik bestiller du</h2>
+  <div class="steps">
+    <div class="step"><span>1</span><h3>Velg prøver</h3><p>Legg 5 ml eller 10 ml i handlekurven. Over 600 kr er fraktene gratis.</p></div>
+    <div class="step"><span>2</span><h3>Send bestillingen til meg</h3><p>Fyll inn leveringsinfo og send bestillingen med e-post, Gmail eller SMS, eller kopier den og send den dit du vil.</p></div>
+    <div class="step"><span>3</span><h3>Betal med Vipps</h3><p>Når jeg har bekreftet bestillingen, får du Vipps-informasjon. Prisen reserveres i <span id="payHours">48</span> timer. Betalt bestilling tappes og sendes innen 1–2 virkedager med sporing.</p></div>
   </div>
+</section>
 
-  <div class="grid" id="productGrid"></div>
-
-  <!-- Om Samleren seksjon - Nøytralisert uten navn -->
-  <section class="content-section centered">
-    <h2 class="section-title">Kuratert med lidenskap</h2>
-    <div class="about-text">
-      <p>Lidenskapen for parfymer startet for flere år siden, ut av en genuin interesse for hvordan komplekse dufter er bygd opp og utvikler seg over tid.</p>
-      <p>Å finne sin sanne signaturduft krever mer enn et raskt spray på et kjøpesenter. Derfor tappes ferske dekanter direkte fra en privat samling av originale flakonger. Alt oppbevares mørkt, tørt og temperert, slik at du kan utforske disse eksklusive dråpene i ditt eget tempo og oppleve dem nøyaktig slik parfymøren skapte dem.</p>
-    </div>
-  </section>
-
-  <section class="content-section centered">
-    <h2 class="section-title">Slik fungerer bestillingen</h2>
-    <div class="steps-grid">
-      <div class="step-box">
-        <div class="step-number">01</div>
-        <div class="step-header">Velg dine prøver</div>
-        <div class="step-text">Legg 5 ml eller 10 ml prøver i handlekurven. Bestillinger over 1 000 kr kvalifiserer automatisk for fri frakt!</div>
-      </div>
-      <div class="step-box">
-        <div class="step-number">02</div>
-        <div class="step-header">Send inn bestilling</div>
-        <div class="step-text">Fyll inn dine detaljer i kassen og trykk på 'Send bestilling'. Vi mottar orderen din umiddelbart i vårt system.</div>
-      </div>
-      <div class="step-box">
-        <div class="step-number">03</div>
-        <div class="step-header">Vipps & Levering</div>
-        <div class="step-text">Du mottar betalingsinfo på e-post/SMS. Prøvene tappes ferskt og sendes med sporing samme eller påfølgende dag.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ seksjon -->
-  <section class="content-section">
-    <h2 class="section-title">Ofte stilte spørsmål</h2>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <div class="faq-q">Hvor mange spray gir en prøve?</div>
-        <div class="faq-a">En dekanter på 5 ml gir ca. 70–80 spray, noe som som regel holder til en hel måneds bruk. 10 ml gir ca. 140–160 spray.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Er parfymene 100% autentiske?</div>
-        <div class="faq-a">Garantert. Hver eneste bestilling tappes ferskt med sterile sprøyter direkte fra originale flakonger fra en nøye ivaretatt privatsamling.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Hvordan og når sendes pakken?</div>
-        <div class="faq-a">Alle bestillinger pakkes trygt og sendes vanligvis innen 24 timer. De sendes med Norgespakke™ (som inkluderer sporing), og du har pakken normalt på 2-4 virkedager.</div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <strong>Kvalitetsgaranti & Oppbevaring:</strong> Alle flakonger i samlingen oppbevares mørkt, tørt og i stabil temperatur for å bevare duftene i perfekt stand.
-  </footer>
-
-  <div class="cart-bar" id="cartBar">
-    <div class="cart-summary" id="cartSummary">0 valgt (0 kr)</div>
-    <div class="cart-actions">
-      <button class="cart-btn cart-btn-primary" onclick="openCartModal()">Gå til kassen</button>
-    </div>
+<section class="sec">
+  <h2>Ofte stilte spørsmål</h2>
+  <div class="faq">
+    <div><h3>Hvor lenge holder en prøve?</h3><p>Det avhenger av hvor mye du sprayer. 5 ml passer til noen ukers testing, 10 ml gir bedre tid til å bli kjent med duften.</p></div>
+    <div><h3>Hva er forskjellen på EdP og Parfum?</h3><p>Parfum og Extrait har normalt høyere konsentrasjon av duftoljer, og er ofte kraftigere og mer langvarige enn Eau de Parfum (EdP) og Eau de Toilette.</p></div>
+    <div><h3>Hvordan og når sendes pakken?</h3><p>Pakken sendes med Norgespakke™ (med sporing) innen 1–2 virkedager etter at betalingen er mottatt. Normal leveringstid er 2–4 virkedager.</p></div>
+    <div><h3>Hvordan betaler jeg?</h3><p>Med Vipps. Du får informasjon når jeg har bekreftet bestillingen.</p></div>
+    <div><h3>Kan jeg returnere en prøve eller angre kjøpet?</h3><p>Nei, prøvene tappes ferdig til din bestilling og kan ikke returneres eller angres. Jeg tar heller ikke ansvar for allergiske reaksjoner, så sjekk ingredienslisten hos produsenten før bruk. Se <a href="#vilkaar">vilkårene</a>.</p></div>
+    <div><h3>Hva om noe lekker eller kommer skadet?</h3><p>Ta kontakt innen 48 timer med bilde, så finner vi en løsning. Se <a href="#vilkaar">vilkårene</a>.</p></div>
+    <div><h3>Kan jeg bestille flere ganger og få dem sendt samlet?</h3><p>Ja, samle det du vil ha i én bestilling. Over 600 kr er fraktene gratis.</p></div>
+    <div><h3>Hvor lenge holder duften i en dekant?</h3><p>Oppbevar prøven mørkt og kjølig, og lukk den etter bruk. Da holder den seg normalt flere måneder.</p></div>
   </div>
+</section>
 
-  <button id="backToTopBtn" onclick="scrollToTop()" title="Tilbake til toppen">
-    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-currentColor" fill="none"><polyline points="18 15 12 9 6 15"></polyline></svg>
-  </button>
+<section class="sec legal" id="vilkaar">
+  <h2>Kjøpsvilkår</h2>
+  <p><i>Tilpass og kontroller disse vilkårene mot gjeldende norsk lov (bl.a. angrerettloven, forbrukerkjøpsloven og kosmetikkforskriften) før du publiserer.</i></p>
+  <h3>Bestilling og betaling</h3><p>Bestillingen er bindende først når jeg har bekreftet den på e-post eller SMS. Betaling skjer med Vipps innen <span class="payh">48</span> timer etter bekreftelsen, ellers kan bestillingen kanselleres.</p>
+  <h3>Levering</h3><p>Sendes med Norgespakke™ med sporing, vanligvis innen 1–2 virkedager etter betaling. Normal leveringstid er 2–4 virkedager. Frakt er 76 kr, og gratis ved bestillinger over 600 kr.</p>
+  <h3>Angrerett og retur</h3><p>Prøvene tappes ferdig til hver enkelt bestilling. Ferdig tappede dekanter kan derfor ikke returneres, angres eller byttes. Dette gjelder også uåpnede prøver. Reklamasjon ved feil eller skade er omtalt nedenfor.</p>
+  <h3>Reklamasjon</h3><p>Kommer prøven skadet eller feil, ta kontakt snarest og senest innen 48 timer med bilde, så erstatter eller refunderer jeg.</p>
+  <h3>Om produktet</h3><p>Prøvene er tappet fra originalflakonger kjøpt hos forhandlere. Jeg er ikke tilknyttet merkene. Merkenavn brukes kun for å beskrive hvilken duft prøven inneholder. Duftnotene er hentet fra Fragrantica og gjengir ikke offisielle produsentopplysninger. Parfyme inneholder alkohol og kan gi allergiske reaksjoner.</p>
+  <h3>Allergier</h3><p>Jeg tar ikke ansvar for allergiske reaksjoner eller overfølsomhet. Du er selv ansvarlig for å sjekke ingredienslisten hos produsenten før bruk, og for å teste duften på en liten hudflate først.</p>
+</section>
 
-  <div class="modal-backdrop" id="cartModal" onclick="handleBackdropClick(event)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Din bestilling</h2>
-        <button class="close-btn" onclick="closeCartModal()">&times;</button>
-      </div>
+<section class="sec legal" id="personvern">
+  <h2>Personvern</h2>
+  <p>Jeg bruker navn, adresse, telefon og e-post bare til å behandle og sende bestillingen din. Du sender bestillingen selv til meg via e-post eller SMS, og den blir derfor ikke lagt inn på noen tredjepartstjeneste av denne siden.</p>
+  <p>Informasjonen du fyller ut, lagres bare lokalt i nettleseren din i 24 timer. Adressesøk og postnummeroppslag sendes til Geonorge. Skriftene lastes fra Google Fonts og bildene fra Fragrantica (fimgs.net), som kan se IP-adressen din. Du kan be om innsyn i eller sletting av opplysningene dine ved å kontakte meg.</p>
+</section>
 
-      <div class="shipping-progress-container" id="shippingProgressContainer">
-        <div class="shipping-progress-text" id="shippingProgressText">Legg til for 1 000 kr for fri frakt</div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progressBarFill"></div>
-        </div>
-      </div>
+<footer id="footer"></footer>
 
-      <div class="modal-body">
-        <div id="modalItemList"></div>
+<div class="cartbar" id="cartBar"><span id="cartSummary"></span><button class="btn btn-p" id="goCheckout">Gå til kassen</button></div>
+<button id="top" aria-label="Tilbake til toppen">↑</button>
 
-        <div class="buyer-info-section" id="buyerInfoSection">
-          <div class="buyer-info-header">
-            <div class="buyer-info-title">Leverings- og kontaktinfo</div>
-            <span class="required-badge">* Alle felter er obligatoriske</span>
+<div class="back" id="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="mh"><h2 id="mTitle">Din bestilling</h2><button class="x" id="closeCart" aria-label="Lukk">&times;</button></div>
+    <div id="cartView" style="display:flex;flex-direction:column;min-height:0;flex:1">
+      <div class="ship" id="shipBox"><p id="shipText"></p><div class="pbg"><i id="shipFill"></i></div></div>
+      <div class="mb">
+        <div id="items"></div>
+        <div class="form" id="form">
+          <h3>Leverings- og kontaktinfo (alle felter må fylles ut)</h3>
+          <div class="f2">
+            <div><label for="fn">Fornavn</label><input class="inp" id="fn" autocomplete="given-name"></div>
+            <div><label for="ln">Etternavn</label><input class="inp" id="ln" autocomplete="family-name"></div>
           </div>
-
-          <div class="form-grid">
-            <div class="form-row-split">
-              <input type="text" id="buyerFirstName" class="buyer-input" placeholder="Fornavn *" oninput="handleInputClear(this)" />
-              <input type="text" id="buyerLastName" class="buyer-input" placeholder="Etternavn *" oninput="handleInputClear(this)" />
-            </div>
-
-            <div class="autocomplete-wrapper">
-              <input type="text" id="buyerStreet" class="buyer-input" placeholder="Gateadresse og husnummer *" autocomplete="off" oninput="handleStreetInput(this)" />
-              <div id="addressSuggestions" class="address-suggestions"></div>
-            </div>
-
-            <div class="zip-city-row">
-              <input type="text" id="buyerZip" class="buyer-input" placeholder="Postnr *" maxlength="4" oninput="handleZipInput(this)" />
-              <input type="text" id="buyerCity" class="buyer-input" placeholder="Poststed" disabled />
-            </div>
-
-            <div class="form-row-split">
-              <input type="tel" id="buyerPhone" class="buyer-input" placeholder="Mobil (8 siffer) *" maxlength="11" oninput="handlePhoneInput(this)" />
-              <input type="email" id="buyerEmail" class="buyer-input" placeholder="E-postadresse *" oninput="handleInputClear(this)" />
-            </div>
+          <div class="ac"><label for="street">Gateadresse og husnummer</label><input class="inp" id="street" autocomplete="off"><div class="sug" id="sug"></div></div>
+          <div class="f3">
+            <div><label for="zip">Postnr</label><input class="inp" id="zip" inputmode="numeric" maxlength="4" autocomplete="postal-code"></div>
+            <div><label for="city">Poststed</label><input class="inp" id="city" autocomplete="address-level2"></div>
           </div>
-          <div class="privacy-text">🔒 Informasjonen din lagres kun lokalt i nettleseren din i maksimalt 24 timer, og deles aldri med tredjeparter.</div>
+          <div class="f2">
+            <div><label for="phone">Mobil (8 siffer)</label><input class="inp" id="phone" type="tel" inputmode="numeric" autocomplete="tel-national"></div>
+            <div><label for="email">E-post</label><input class="inp" id="email" type="email" autocomplete="email"></div>
+          </div>
+          <input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="consent" id="consentWrap"><input type="checkbox" id="consent"><span>Jeg har lest og godtar <a href="#vilkaar" class="lnk">kjøpsvilkårene</a> og <a href="#personvern" class="lnk">personvernerklæringen</a>, og forstår at ferdig tappede prøver ikke kan returneres eller angres.</span></label>
+          <p class="priv"><strong>Merk:</strong> Ferdig tappede dekanter kan ikke returneres eller angres. Jeg tar ikke ansvar for allergiske reaksjoner. Sjekk ingredienslisten selv før bruk.</p>
+          <p class="priv">Informasjonen lagres bare i nettleseren din i 24 timer.</p>
         </div>
       </div>
-
-      <div class="modal-summary-section" id="modalSummarySection">
-        <div class="summary-line">
-          <span>Delsum parfymer:</span>
-          <span id="summarySubtotal">0 kr</span>
-        </div>
-        <div class="summary-line">
-          <span>Frakt (Norgespakke™ med sporing):</span>
-          <span id="summaryShipping">76 kr</span>
-        </div>
-        <div class="summary-line total">
-          <span>Totalbeløp:</span>
-          <span id="summaryTotal">0 kr</span>
-        </div>
+      <div class="sum" id="sum">
+        <div><span>Delsum:</span><span id="sSub"></span></div>
+        <div><span>Frakt (Norgespakke™ med sporing):</span><span id="sShip"></span></div>
+        <div class="tot"><span>Totalt:</span><span id="sTot"></span></div>
       </div>
-
-      <div class="modal-footer" id="modalFooter">
-        <div class="order-dispatch-buttons">
-          <button class="cart-btn cart-btn-primary" id="submitOrderBtn" style="flex: 1; padding: 14px;" onclick="submitOrderViaEmailJS()">
-            <svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            Send bestilling
-          </button>
-          <button class="cart-btn cart-btn-secondary" style="flex: 0.3;" onclick="closeCartModal()">Lukk</button>
+      <div class="mf" id="mf">
+        <p class="how">Velg hvordan du vil sende bestillingen til meg. Den er først registrert når jeg har mottatt den.</p>
+        <div class="btns">
+          <button class="btn btn-p full" data-send="mailto">✉️ Åpne i e-postprogram</button>
+          <button class="btn btn-s" data-send="gmail">Gmail i nettleser</button>
+          <button class="btn btn-s" data-send="sms">Send på SMS</button>
+          <button class="btn btn-s full" data-send="copy">📋 Kopier bestillingen</button>
         </div>
       </div>
     </div>
+    <div class="done" id="doneView" hidden>
+      <h3>Siste steg: send bestillingen</h3>
+      <div class="ref" id="refBox"></div>
+      <p id="doneTotal"></p>
+      <ol>
+        <li>Send meldingen som nettopp åpnet seg (eller lim inn den kopierte bestillingen) til meg.</li>
+        <li>Jeg bekrefter bestillingen og sender Vipps-informasjon, vanligvis innen ett døgn.</li>
+        <li>Betal innen <span class="payh">48</span> timer. Pakken sendes når betalingen er mottatt.</li>
+      </ol>
+      <div class="btns">
+        <button class="btn btn-p" id="sentBtn">Jeg har sendt bestillingen</button>
+        <button class="btn btn-s" id="copyAgain">Kopier igjen</button>
+        <button class="btn btn-s" id="backBtn">Tilbake</button>
+      </div>
+    </div>
   </div>
-
-  <div class="toast" id="toastMessage">Varsel</div>
-
-  <script>
-    // --- START EMAILJS OPPSETT ---
-    const EMAILJS_PUBLIC_KEY = "0ivZJSZVO0BvIXxF9";
-    const EMAILJS_SERVICE_ID = "service_j1dywfl";
-    const EMAILJS_TEMPLATE_ID = "template_nm4frit";
-
-    (function() {
-      if (window.emailjs) {
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-      }
-    })();
-    // --- SLUTT EMAILJS OPPSETT ---
-
-    const FREE_SHIPPING_THRESHOLD = 1000;
-    const STANDARD_SHIPPING_COST = 76;
-
-    // Definisjon av nisjehus for kuratert sortering
-    const nicheBrands = [
-      "Creed",
-      "Parfums de Marly",
-      "Louis Vuitton",
-      "By Kilian",
-      "Xerjoff",
-      "Amouage",
-      "Mind Games",
-      "Sospiro Perfumes",
-      "Nishane",
-      "Goldfield & Banks",
-      "Tom Ford"
-    ];
-
-    // SVG-fallback for manglende eller brutte bilder
-    const FALLBACK_BOTTLE_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='200' viewBox='0 0 24 24' fill='none' stroke='%23d3ccc0' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'><rect x='5' y='8' width='14' height='14' rx='2'/><path d='M9 8V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4'/><line x1='12' y1='3' x2='12' y2='1'/></svg>`;
-
-    // FORMAT: URL, PRIS 5ml, PRIS 10ml, DISPLAY-NAVN, DUFTNOTER, RATING, SESONG
-    const productDataRaw = `
-https://www.fragrantica.com/perfume/Amouage/Opus-XVI-Timber-112699.html, 330, 600, Amouage – Opus XVI – Timber, Palo Santo • Sypress • Kardemomme, 4.1, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Armaf/Club-de-Nuit-Precieux-I-93272.html, 85, 150, Armaf – Club de Nuit Précieux I (Extrait), Ananas • Røyk • Rav, 4.2, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Armaf/Odyssey-Spectra-98692.html, 65, 120, Armaf – Odyssey Spectra, Eple • Kanel • Vanilje, 4.1, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Azzaro/The-Most-Wanted-Parfum-73664.html, 100, 190, Azzaro – The Most Wanted Parfum, Ingefær • Treverk • Bourbon-vanilje, 4.4, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/By-Kilian/Angel-s-Share-On-The-Rocks-113083.html, 275, 540, By Kilian – Angels' Share On The Rocks, Cognac • Sitrus • Kanel, 4.5, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942.html, 140, 250, Chanel – Allure Homme Édition Blanche EdP, Sitronpai • Sandeltre • Kremet vanilje, 4.4, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967.html, 130, 240, Chanel – Bleu de Chanel EdP, Grapefrukt • Røkelse • Sedertre, 4.3, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Creed/Absolu-Aventus-2023-84112.html, 300, 580, Creed – Absolu Aventus (2023), Solbær • Grapefrukt • Røkt treverk, 4.42, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Creed/Aventus-9828.html, 260, 470, Creed – Aventus, Ananas • Bjørk • Musk, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Creed/Aventus-Cologne-51692.html, 260, 470, Creed – Aventus Cologne, Mandarin • Ingefær • Vetiver, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Creed/Virgin-Island-Water-2007-899.html, 260, 470, Creed – Virgin Island Water (2007 vintage), Kokos • Lime • Rom, 4.3, Sommer ☀️
-https://www.fragrantica.com/perfume/French-Avenue/Vulcan-Feu-105520.html, 75, 130, French Avenue – Vulcan Feu, Mango • Ingefær • Rosa pepper, 4.2, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-Parfum-81508.html, 110, 200, Giorgio Armani – Acqua di Giò Parfum, Havnoter • Rosmarin • Røkelse, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Giorgio-Armani/Armani-Code-Parfum-75126.html, 110, 200, Giorgio Armani – Armani Code Parfum, Iris • Bergamott • Tonkabønne, 4.3, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501.html, 110, 200, Giorgio Armani – SWY Absolutely, Rom • Kastanje • Vanilje, 4.5, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802.html, 110, 200, Giorgio Armani – SWY Intensely, Toffee • Kanel • Semsket skinn, 4.4, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824.html, 160, 280, Goldfield & Banks – Sunset Hour Dark Peach, Mørk fersken • Bringebær • Sandeltre, 4.1, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735.html, 100, 190, Guerlain – L’Homme Idéal EdP, Kirsebær • Mandel • Lær, 4.4, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html, 130, 240, Hugo Boss – Boss Bottled Absolu, Røkelse • Lær • Myrrha, 4.2, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856.html, 100, 180, Jean Paul Gaultier – Le Male Le Parfum, Kardemomme • Iris • Vanilje, 4.5, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html, 100, 180, Jean Paul Gaultier – Ultra Male, Pære • Lavendel • Svart vanilje, 4.3, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Louis-Vuitton/Afternoon-Swim-53947.html, 240, 460, Louis Vuitton – Afternoon Swim, Mandarin • Appelsin • Bergamott, 4.3, Sommer ☀️
-https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html, 240, 460, Louis Vuitton – Imagination, Svart te • Ambroxan • Calabrisk bergamott, 4.6, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Mind-Games/Blockade-76717.html, 230, 450, Mind Games – Blockade, Mango • Tomatblad • Lær, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html, 80, 150, Montblanc – Explorer, Bergamott • Vetiver • Patchouli, 4.2, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Nishane/Hacivat-44174.html, 200, 380, Nishane – Hacivat, Ananas • Eikemose • Sedertre, 4.2, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Castley-104991.html, 200, 380, Parfums de Marly – Castley, Bergamott • Ingefær • Akigalawood, 4.1, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Layton-39314.html, 200, 380, Parfums de Marly – Layton, Eple • Vanilje • Kardemomme, 4.5, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Percival-51037.html, 200, 380, Parfums de Marly – Percival, Lavendel • Mandarin • Ambroxan, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Parfums-de-Marly/Sedley-56273.html, 200, 380, Parfums de Marly – Sedley, Mynte • Sitron • Rosmarin, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html, 95, 170, Prada – Prada L'Homme, Iris • Neroli • Rav, 4.4, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html, 105, 190, Rabanne – Invictus Parfum, Lavendel • Marine noter • Sandeltre, 4.0, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Sospiro-Perfumes/Vibrato-75930.html, 200, 380, Sospiro – Vibrato, Grapefrukt • Ingefær • Hvit musk, 4.5, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html, 240, 450, Tom Ford – Oud Wood, Agarved (Oud) • Brasiliansk rosentre • Kardemomme, 4.4, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761.html, 110, 200, Valentino – Born In Roma Coral Fantasy, Rødt eple • Kardemomme • Tobakk, 4.3, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html, 100, 180, Versace – Eros EdP, Mynte • Kandisert eple • Ambroxan, 4.3, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html, 75, 140, Versace – Versace Pour Homme, Sitron • Neroli • Sedertre, 4.3, Vår/Sommer ☀️
-https://www.fragrantica.com/perfume/Xerjoff/XJ-1861-Naxos-30529.html, 170, 310, Xerjoff – XJ 1861 Naxos, Honning • Tobakk • Lavendel, 4.6, Høst/Vinter ❄️
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/MYSLF-Le-Parfum-94983.html, 120, 220, YSL – MYSLF Le Parfum, Appelsinblomst • Bourbon-vanilje • Treverk, 4.3, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-64718.html, 140, 260, YSL – Y Le Parfum (2021), Salvie • Eple • Sedertre, 4.3, Allsidig ☀️❄️
-https://www.fragrantica.com/perfume/Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815.html, 60, 100, Zara – Sunrise on the Red Sand Dunes Intense, Ingefær • Mandarin • Rav, 4.2, Vår/Sommer ☀️
-`.trim();
-
-    function titleCaseFromSlug(slug) { return slug.replace(/-/g, " ").replace(/\s+/g, " ").trim(); }
-
-    function parseProductLine(line) {
-      const parts = line.split(",").map(p => p.trim());
-      const url = parts[0];
-      const price5 = parseInt(parts[1], 10) || null;
-      const price10 = parseInt(parts[2], 10) || null;
-      const customTitle = parts[3] || null;
-      const notes = parts[4] || "";
-      const rating = parts[5] || "";
-      const season = parts[6] || "";
-
-      const m = url.match(/\/perfume\/([^/]+)\/([^/]+)\.html$/i);
-      if (!m) return null;
-
-      const slugAndId = m[2];
-      const idMatch = slugAndId.match(/-(\d+)$/);
-      const id = idMatch ? idMatch[1] : null;
-
-      let brand = "", perfume = "";
-      if (customTitle && customTitle.includes("–")) {
-        const titleParts = customTitle.split("–");
-        brand = titleParts[0].trim();
-        perfume = titleParts.slice(1).join("–").trim();
-      } else {
-        brand = titleCaseFromSlug(m[1]);
-        const perfumeSlug = id ? slugAndId.slice(0, -(id.length + 1)) : slugAndId;
-        perfume = titleCaseFromSlug(perfumeSlug);
-      }
-      const image = id ? `https://fimgs.net/mdimg/perfume-thumbs/375x500.${id}.2x.avif` : null;
-
-      return { url, id, brand, perfume, title: `${brand} – ${perfume}`, image, price5, price10, notes, rating, season };
-    }
-
-    const products = productDataRaw.split("\n").map(s => s.trim()).filter(Boolean).map(parseProductLine).filter(Boolean);
-
-    const grid = document.getElementById("productGrid");
-    const cartBar = document.getElementById("cartBar");
-    const cartSummary = document.getElementById("cartSummary");
-    const cartModal = document.getElementById("cartModal");
-    const modalItemList = document.getElementById("modalItemList");
-    const shippingProgressText = document.getElementById("shippingProgressText");
-    const progressBarFill = document.getElementById("progressBarFill");
-    const summarySubtotal = document.getElementById("summarySubtotal");
-    const summaryShipping = document.getElementById("summaryShipping");
-    const summaryTotal = document.getElementById("summaryTotal");
-    const searchInput = document.getElementById("search");
-    const clearSearchBtn = document.getElementById("clearSearchBtn");
-    const toast = document.getElementById("toastMessage");
-    const addressSuggestionsEl = document.getElementById("addressSuggestions");
-    const stickyCartBadge = document.getElementById("stickyCartBadge");
-    const filterCountText = document.getElementById("filterCountText");
-    const resetFiltersBtn = document.getElementById("resetFiltersBtn");
-
-    let activeBrandFilter = "";
-    let activeSeasonFilter = "";
-    let cart = [];
-    let addressSearchTimeout = null;
-
-    const brandPills = document.getElementById("brandPills");
-    const pillsFade = document.getElementById("pillsFade");
-    brandPills.addEventListener("scroll", () => {
-      if (brandPills.scrollLeft + brandPills.clientWidth >= brandPills.scrollWidth - 10) {
-        pillsFade.style.opacity = "0";
-      } else {
-        pillsFade.style.opacity = "1";
-      }
-    });
-    setTimeout(() => brandPills.dispatchEvent(new Event('scroll')), 100);
-
-    window.addEventListener("scroll", () => {
-      const btn = document.getElementById("backToTopBtn");
-      if (window.scrollY > 300) btn.classList.add("show");
-      else btn.classList.remove("show");
-    });
-    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-    function loadSavedCart() {
-      const savedCart = localStorage.getItem("parfyme_cart_v1");
-      if (savedCart) {
-        try {
-          cart = JSON.parse(savedCart);
-          updateCartUI();
-        } catch (e) { cart = []; }
-      }
-    }
-    
-    function saveCart() {
-      localStorage.setItem("parfyme_cart_v1", JSON.stringify(cart));
-    }
-
-    function loadSavedBuyerInfo() {
-      localStorage.removeItem("parfyme_buyer_info_v6"); 
-      const saved = localStorage.getItem("parfyme_buyer_info_v7");
-      
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          const now = new Date().getTime();
-          const tidsgrense = 24 * 60 * 60 * 1000; 
-          
-          if (!data.timestamp || (now - data.timestamp > tidsgrense)) {
-            localStorage.removeItem("parfyme_buyer_info_v7");
-            return;
-          }
-
-          if (data.firstName) document.getElementById("buyerFirstName").value = data.firstName;
-          if (data.lastName) document.getElementById("buyerLastName").value = data.lastName;
-          if (data.street) document.getElementById("buyerStreet").value = data.street;
-          if (data.zip) { document.getElementById("buyerZip").value = data.zip; lookupZip(data.zip); }
-          if (data.phone) document.getElementById("buyerPhone").value = data.phone;
-          if (data.email) document.getElementById("buyerEmail").value = data.email;
-        } catch(e) {}
-      }
-    }
-
-    function saveBuyerInfo() {
-      const data = {
-        firstName: document.getElementById("buyerFirstName").value.trim(),
-        lastName: document.getElementById("buyerLastName").value.trim(),
-        street: document.getElementById("buyerStreet").value.trim(),
-        zip: document.getElementById("buyerZip").value.trim(),
-        city: document.getElementById("buyerCity").value.trim(),
-        phone: document.getElementById("buyerPhone").value.trim(),
-        email: document.getElementById("buyerEmail").value.trim(),
-        timestamp: new Date().getTime()
-      };
-      localStorage.setItem("parfyme_buyer_info_v7", JSON.stringify(data));
-    }
-
-    function handleInputClear(inputEl) {
-      inputEl.classList.remove("input-error");
-      saveBuyerInfo();
-    }
-
-    function handlePhoneInput(el) {
-      handleInputClear(el);
-      let val = el.value.replace(/\D/g, ''); 
-      
-      if (val.startsWith('47') && val.length > 8) val = val.substring(2); 
-      if (val.length > 8) val = val.substring(0, 8); 
-
-      let formatted = '';
-      for (let i = 0; i < val.length; i++) {
-        if (i > 0 && i % 2 === 0) formatted += ' ';
-        formatted += val[i];
-      }
-      el.value = formatted;
-    }
-
-    function handleStreetInput(el) {
-      handleInputClear(el);
-      clearTimeout(addressSearchTimeout);
-      const query = el.value.trim();
-
-      if (query.length < 3) {
-        addressSuggestionsEl.style.display = "none";
-        addressSuggestionsEl.innerHTML = "";
-        return;
-      }
-
-      addressSearchTimeout = setTimeout(async () => {
-        try {
-          const res = await fetch(`https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(query)}&treffPerSide=5`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data.adresser && data.adresser.length > 0) renderAddressSuggestions(data.adresser);
-            else addressSuggestionsEl.style.display = "none";
-          }
-        } catch(err) { addressSuggestionsEl.style.display = "none"; }
-      }, 250);
-    }
-
-    function renderAddressSuggestions(adresser) {
-      let html = "";
-      adresser.forEach(a => {
-        const fullAddr = `${a.adressetekst}`;
-        html += `
-          <div class="address-suggestion-item" onclick="selectAddress('${escapeJs(fullAddr)}', '${a.postnummer}', '${escapeJs(a.poststed)}')">
-            <span><strong>${escapeHtml(fullAddr)}</strong></span>
-            <span class="postal-hint">${a.postnummer} ${escapeHtml(a.poststed)}</span>
-          </div>`;
-      });
-      addressSuggestionsEl.innerHTML = html;
-      addressSuggestionsEl.style.display = "block";
-    }
-
-    function selectAddress(street, zip, city) {
-      document.getElementById("buyerStreet").value = street;
-      document.getElementById("buyerZip").value = zip;
-      document.getElementById("buyerCity").value = city;
-      document.getElementById("buyerStreet").classList.remove("input-error");
-      document.getElementById("buyerZip").classList.remove("input-error");
-      addressSuggestionsEl.style.display = "none";
-      saveBuyerInfo();
-    }
-
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".autocomplete-wrapper")) addressSuggestionsEl.style.display = "none";
-    });
-
-    async function lookupZip(zip) {
-      const cityInput = document.getElementById("buyerCity");
-      if (zip.length !== 4 || !/^\d{4}$/.test(zip)) { cityInput.value = ""; return; }
-      try {
-        const res = await fetch(`https://api.bring.com/shippingguide/api/postalCode.json?clientUrl=${encodeURIComponent(window.location.href)}&pnr=${zip}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.result && data.valid) {
-            cityInput.value = data.result;
-            document.getElementById("buyerZip").classList.remove("input-error");
-            saveBuyerInfo();
-          } else { cityInput.value = "Ugyldig postnr"; }
-        }
-      } catch (err) {}
-    }
-
-    function handleZipInput(el) {
-      el.value = el.value.replace(/\D/g, "");
-      handleInputClear(el);
-      if (el.value.length === 4) lookupZip(el.value);
-      else document.getElementById("buyerCity").value = "";
-    }
-
-    function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email); }
-
-    function cleanAndValidatePhone(phone) {
-      const cleaned = phone.replace(/\D/g, "");
-      if (/^[49]\d{7}$/.test(cleaned)) return { valid: true, number: cleaned };
-      if (/^(47|0047)[49]\d{7}$/.test(cleaned)) return { valid: true, number: cleaned.slice(-8) };
-      return { valid: false, number: phone };
-    }
-
-    function validateBuyerInfo() {
-      const fields = [
-        { id: "buyerFirstName", val: v => v.length >= 2 },
-        { id: "buyerLastName", val: v => v.length >= 2 },
-        { id: "buyerStreet", val: v => v.length >= 4 },
-        { id: "buyerZip", val: v => v.length === 4 },
-        { id: "buyerPhone", val: v => cleanAndValidatePhone(v).valid },
-        { id: "buyerEmail", val: v => isValidEmail(v) }
-      ];
-
-      let isValid = true;
-      let firstMissing = null;
-
-      fields.forEach(f => {
-        const el = document.getElementById(f.id);
-        if (!f.val(el.value.trim())) {
-          el.classList.add("input-error");
-          isValid = false;
-          if (!firstMissing) firstMissing = el;
-        } else {
-          el.classList.remove("input-error");
-        }
-      });
-
-      if (!isValid) {
-        showToast("⚠ Vennligst fyll ut alle feltene riktig.", true);
-        if (firstMissing) firstMissing.focus();
-        return false;
-      }
-
-      saveBuyerInfo();
-      return true;
-    }
-
-    function getCartTotals() {
-      const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-      const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-      const hasFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-      const shippingCost = (subtotal === 0 || hasFreeShipping) ? 0 : STANDARD_SHIPPING_COST;
-      const total = subtotal + shippingCost;
-      return { subtotal, totalCount, hasFreeShipping, shippingCost, total };
-    }
-
-    function renderProducts(list) {
-      grid.innerHTML = "";
-      if (list.length === 0) { grid.innerHTML = `<div class="empty-state">Ingen parfymer matcher søket ditt.</div>`; return; }
-
-      for (const p of list) {
-        const div = document.createElement("div");
-        div.className = "product";
-
-        const q5 = cart.find(i => i.item === p.title && i.size === '5ml')?.quantity || 0;
-        const q10 = cart.find(i => i.item === p.title && i.size === '10ml')?.quantity || 0;
-
-        let pricingHtml = `<div class="pricing">`;
-        if (p.price5) pricingHtml += `<button class="price-btn size-5ml ${q5 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '5ml', ${p.price5})"><div class="size-label"><span class="decant-icon vol-5"></span> 5 ml ${q5 > 0 ? `(${q5})` : ''}</div><span>${p.price5} kr</span></button>`;
-        if (p.price10) pricingHtml += `<button class="price-btn size-10ml ${q10 > 0 ? 'in-cart' : ''}" onclick="addToCart(event, '${escapeJs(p.brand)} – ${escapeJs(p.perfume)}', '10ml', ${p.price10})"><div class="size-label"><span class="decant-icon vol-10"></span> 10 ml ${q10 > 0 ? `(${q10})` : ''}</div><span>${p.price10} kr</span></button>`;
-        pricingHtml += `</div>`;
-
-        div.innerHTML = `
-          <div class="image-container">
-            <img src="${p.image ?? ''}" alt="${escapeHtml(p.title)}" loading="lazy" 
-                 onerror="this.onerror=null; this.src='${FALLBACK_BOTTLE_IMG}'; this.style.opacity=1;" 
-                 style="opacity: 0; transition: opacity 0.6s ease-in-out;" 
-                 onload="this.style.opacity=1">
-            <a href="${p.url}" class="fragrantica-link" target="_blank" rel="noopener" title="Åpne på Fragrantica">Info ↗</a>
-          </div>
-          <div class="product-info">
-            <div>
-              <div class="brand-tag">${escapeHtml(p.brand)}</div>
-              <div class="product-title">${escapeHtml(p.perfume)}</div>
-              
-              <div class="meta-bar">
-                ${p.rating ? `<div class="meta-rating">★ ${escapeHtml(p.rating)}</div>` : ''}
-                ${p.rating && p.season ? `<span class="meta-separator">·</span>` : ''}
-                ${p.season ? `<div class="meta-season">${escapeHtml(p.season)}</div>` : ''}
-              </div>
-
-              <div class="notes-tagline">${escapeHtml(p.notes)}</div>
-            </div>
-            ${pricingHtml}
-          </div>`;
-        grid.appendChild(div);
-      }
-    }
-
-    function filterBySeason(seasonValue) {
-      activeSeasonFilter = seasonValue;
-      document.querySelectorAll("#seasonPills .pill").forEach(p => p.classList.toggle("active", p.dataset.season === seasonValue));
-      handleFilter();
-    }
-
-    function filterByBrand(brandValue) {
-      activeBrandFilter = brandValue;
-      document.querySelectorAll("#brandPills .pill").forEach(p => p.classList.toggle("active", p.dataset.brand === brandValue));
-      handleFilter();
-    }
-
-    function resetAllFilters() {
-      searchInput.value = "";
-      activeBrandFilter = "";
-      activeSeasonFilter = "";
-      document.querySelectorAll("#seasonPills .pill").forEach(p => p.classList.toggle("active", p.dataset.season === ""));
-      document.querySelectorAll("#brandPills .pill").forEach(p => p.classList.toggle("active", p.dataset.brand === ""));
-      handleFilter();
-    }
-
-    function handleFilter() {
-      const query = searchInput.value.toLowerCase().trim();
-      clearSearchBtn.style.display = query.length > 0 ? "block" : "none";
-      const sort = document.getElementById("sortSelect").value;
-
-      let filtered = products.filter(p => {
-        const matchesBrand = activeBrandFilter === "" || p.brand.toLowerCase().includes(activeBrandFilter.toLowerCase());
-        const matchesSeason = activeSeasonFilter === "" || p.season.toLowerCase().includes(activeSeasonFilter.toLowerCase());
-        const matchesSearch = p.title.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query) || p.perfume.toLowerCase().includes(query) || p.notes.toLowerCase().includes(query);
-        return matchesBrand && matchesSeason && matchesSearch;
-      });
-
-      filtered.sort((a, b) => {
-        if (sort === "curated") {
-          const isNicheA = nicheBrands.some(brand => a.brand.toLowerCase().includes(brand.toLowerCase()));
-          const isNicheB = nicheBrands.some(brand => b.brand.toLowerCase().includes(brand.toLowerCase()));
-
-          if (isNicheA && !isNicheB) return -1;
-          if (!isNicheA && isNicheB) return 1;
-
-          const ratingDiff = (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
-          if (ratingDiff !== 0) return ratingDiff;
-
-          return (b.price5 || 0) - (a.price5 || 0);
-        }
-
-        if (sort === "name-asc") return a.title.localeCompare(b.title, "no");
-        if (sort === "name-desc") return b.title.localeCompare(a.title, "no");
-        if (sort === "rating-desc") return (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
-        if (sort === "price-asc") return (a.price5 || 0) - (b.price5 || 0);
-        if (sort === "price-desc") return (b.price5 || 0) - (a.price5 || 0);
-        return 0;
-      });
-
-      // Oppdater filterstatus og reset-knapp
-      const hasActiveFilters = activeBrandFilter !== "" || activeSeasonFilter !== "" || query.length > 0;
-      if (hasActiveFilters) {
-        filterCountText.textContent = `Viser ${filtered.length} av ${products.length} parfymer`;
-        resetFiltersBtn.style.display = "inline-block";
-      } else {
-        filterCountText.textContent = `Viser alle ${products.length} parfymer`;
-        resetFiltersBtn.style.display = "none";
-      }
-
-      renderProducts(filtered);
-    }
-
-    function clearSearch() { searchInput.value = ""; handleFilter(); searchInput.focus(); }
-
-    function addToCart(event, item, size, price) {
-      const btn = event.currentTarget;
-      btn.classList.add("added");
-      setTimeout(() => btn.classList.remove("added"), 250);
-
-      const existing = cart.find(i => i.item === item && i.size === size);
-      if (existing) existing.quantity += 1;
-      else cart.push({ item, size, price, quantity: 1 });
-
-      saveCart();
-      updateCartUI();
-      handleFilter();
-    }
-
-    function changeQty(index, delta) {
-      cart[index].quantity += delta;
-      if (cart[index].quantity <= 0) cart.splice(index, 1);
-      
-      saveCart();
-      updateCartUI();
-      renderModalList();
-      handleFilter();
-    }
-
-    function updateCartUI() {
-      const { subtotal, totalCount, hasFreeShipping } = getCartTotals();
-      stickyCartBadge.textContent = totalCount;
-      if (totalCount === 0) { cartBar.classList.remove("active"); return; }
-      const shippingBadge = hasFreeShipping ? " • Fri frakt!" : "";
-      cartSummary.textContent = `${totalCount} valgt (${subtotal} kr${shippingBadge})`;
-      cartBar.classList.add("active");
-    }
-
-    function openCartModal() { renderModalList(); cartModal.classList.add("open"); }
-    function closeCartModal() { cartModal.classList.remove("open"); }
-    function handleBackdropClick(e) { if (e.target === cartModal) closeCartModal(); }
-
-    function renderModalList() {
-      const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
-      if (cart.length === 0) {
-        modalItemList.innerHTML = `
-          <div class="empty-cart-state">
-            <svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            <p>Handlekurven din er helt tom.</p>
-            <button class="cart-btn cart-btn-secondary" style="padding: 12px 24px;" onclick="closeCartModal()">Utforsk samlingen</button>
-          </div>`;
-        document.getElementById("modalSummarySection").style.display = "none";
-        document.getElementById("shippingProgressContainer").style.display = "none";
-        document.getElementById("buyerInfoSection").style.display = "none";
-        document.getElementById("modalFooter").style.display = "none";
-        return;
-      }
-
-      document.getElementById("modalSummarySection").style.display = "flex";
-      document.getElementById("shippingProgressContainer").style.display = "block";
-      document.getElementById("buyerInfoSection").style.display = "block";
-      document.getElementById("modalFooter").style.display = "flex";
-
-      const percent = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
-      progressBarFill.style.width = `${percent}%`;
-
-      if (hasFreeShipping) {
-        shippingProgressText.textContent = "🎉 Du har oppnådd fri frakt med Norgespakke!";
-        shippingProgressText.classList.add("unlocked");
-        progressBarFill.classList.add("unlocked");
-      } else {
-        const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
-        shippingProgressText.textContent = `Legg til for ${remaining} kr til for fri frakt!`;
-        shippingProgressText.classList.remove("unlocked");
-        progressBarFill.classList.remove("unlocked");
-      }
-
-      let html = "";
-      cart.forEach((c, idx) => {
-        html += `
-          <div class="cart-item-row">
-            <div>
-              <div class="cart-item-title">${escapeHtml(c.item)}</div>
-              <div class="cart-item-meta">${c.size} &bull; ${c.price * c.quantity} kr</div>
-            </div>
-            <div class="qty-controls">
-              <button class="qty-btn" onclick="changeQty(${idx}, -1)">&minus;</button>
-              <span class="qty-num">${c.quantity}</span>
-              <button class="qty-btn" onclick="changeQty(${idx}, 1)">&plus;</button>
-            </div>
-          </div>`;
-      });
-      modalItemList.innerHTML = html;
-      summarySubtotal.textContent = `${subtotal} kr`;
-      summaryShipping.innerHTML = hasFreeShipping ? `<span class="free-shipping-tag">Gratis (0 kr)</span>` : `${shippingCost} kr`;
-      summaryTotal.textContent = `${total} kr`;
-    }
-
-    function showToast(msg, isError = false, timeout = 3500) {
-      toast.textContent = msg;
-      if (isError) toast.classList.add("toast-error");
-      else toast.classList.remove("toast-error");
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), timeout);
-    }
-    
-    function generateOrderNumber() {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; 
-      let ref = "#";
-      for(let i=0; i<5; i++) ref += chars.charAt(Math.floor(Math.random() * chars.length));
-      return ref;
-    }
-
-    async function submitOrderViaEmailJS() {
-      if (cart.length === 0 || !validateBuyerInfo()) return;
-
-      const btn = document.getElementById("submitOrderBtn");
-      const originalHtml = `<svg class="btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" fill="none"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send bestilling`;
-      
-      btn.textContent = "Sender...";
-      btn.disabled = true;
-
-      const { subtotal, hasFreeShipping, shippingCost, total } = getCartTotals();
-      const orderRef = generateOrderNumber();
-      
-      let cartText = "";
-      cart.forEach((c, idx) => {
-        cartText += `${idx + 1}. ${c.item} [${c.size}] (${c.quantity} stk) – ${c.price * c.quantity} kr\n`;
-      });
-      
-      const buyerName = `${document.getElementById("buyerFirstName").value.trim()} ${document.getElementById("buyerLastName").value.trim()}`;
-      const buyerEmail = document.getElementById("buyerEmail").value.trim();
-      const buyerPhone = cleanAndValidatePhone(document.getElementById("buyerPhone").value.trim()).number;
-      const buyerAddress = `${document.getElementById("buyerStreet").value.trim()}, ${document.getElementById("buyerZip").value.trim()} ${document.getElementById("buyerCity").value.trim()}`;
-
-      const templateParams = {
-        order_ref: orderRef,
-        buyer_name: buyerName,
-        buyer_email: buyerEmail,
-        buyer_phone: buyerPhone,
-        buyer_address: buyerAddress,
-        order_details: cartText,
-        subtotal: subtotal + " kr",
-        shipping: hasFreeShipping ? "Gratis" : shippingCost + " kr",
-        total_price: total + " kr"
-      };
-
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
-        
-        showToast(`✓ Bestilling sendt! Referanse: ${orderRef}`, false, 6000);
-        
-        cart = [];
-        saveCart();
-        updateCartUI();
-        handleFilter();
-        closeCartModal();
-      } catch (error) {
-        console.error("EmailJS Error:", error);
-        const feilTekst = error?.text || error?.message || "Ukjent feil";
-        showToast(`❌ Feil: ${feilTekst}`, true);
-      } finally {
-        btn.innerHTML = originalHtml;
-        btn.disabled = false;
-      }
-    }
-
-    function escapeHtml(str) { return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
-    function escapeJs(str) { return String(str).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', '\\"'); }
-
-    // Init
-    loadSavedBuyerInfo();
-    loadSavedCart();
-    handleFilter();
-  </script>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button id="toastAct" hidden>Angre</button></div>
+
+<script>
+// ===== OPPSETT: fyll inn dine egne opplysninger =====
+const SELLER = {
+  name: "Privat Parfymesamling",
+  email: "din@epost.no",        // bestillinger sendes hit
+  phone: "47000000",             // for SMS-bestilling, med landskode (tom = skjul SMS-knappen)
+  vipps: "",                     // vises kun i footer hvis utfylt
+  orgnr: "",                     // organisasjonsnummer (valgfritt)
+  instagram: ""                  // f.eks. "https://instagram.com/dittnavn"
+};
+const FREE_SHIPPING = 600, SHIPPING_COST = 76, PAY_HOURS = 48;
+const OWN_IMG_DIR = "";          // f.eks. "bilder/": da hentes bilder som bilder/<fragrantica-id>.jpg
+// =====================================================
+
+// Merke, duft, pris 5 ml, pris 10 ml, noter, rating, sesong (S/W/A), Fragrantica-sti
+const P = [
+["Amouage","Opus XVI – Timber",330,600,"Palo Santo • Sypress • Kardemomme",4.1,"W","Amouage/Opus-XVI-Timber-112699"],
+["Armaf","Club de Nuit Précieux I (Extrait)",85,150,"Ananas • Røyk • Rav",4.2,"A","Armaf/Club-de-Nuit-Precieux-I-93272"],
+["Armaf","Odyssey Spectra",65,120,"Eple • Kanel • Vanilje",4.1,"W","Armaf/Odyssey-Spectra-98692"],
+["Azzaro","The Most Wanted Parfum",100,190,"Ingefær • Treverk • Bourbon-vanilje",4.4,"W","Azzaro/The-Most-Wanted-Parfum-73664"],
+["By Kilian","Angels' Share On The Rocks",275,540,"Cognac • Sitrus • Kanel",4.5,"W","By-Kilian/Angel-s-Share-On-The-Rocks-113083"],
+["Chanel","Allure Homme Édition Blanche EdP",140,250,"Sitronpai • Sandeltre • Kremet vanilje",4.4,"S","Chanel/Allure-Homme-Edition-Blanche-Eau-de-Parfum-28942"],
+["Chanel","Bleu de Chanel EdP",130,240,"Grapefrukt • Røkelse • Sedertre",4.3,"A","Chanel/Bleu-de-Chanel-Eau-de-Parfum-25967"],
+["Creed","Absolu Aventus (2023)",300,580,"Solbær • Grapefrukt • Røkt treverk",4.4,"A","Creed/Absolu-Aventus-2023-84112"],
+["Creed","Aventus",260,470,"Ananas • Bjørk • Musk",4.3,"S","Creed/Aventus-9828"],
+["Creed","Aventus Cologne",260,470,"Mandarin • Ingefær • Vetiver",4.3,"S","Creed/Aventus-Cologne-51692"],
+["Creed","Virgin Island Water (2007 vintage)",260,470,"Kokos • Lime • Rom",4.3,"S","Creed/Virgin-Island-Water-2007-899"],
+["French Avenue","Vulcan Feu",75,130,"Mango • Ingefær • Rosa pepper",4.2,"S","French-Avenue/Vulcan-Feu-105520"],
+["Giorgio Armani","Acqua di Giò Parfum",110,200,"Havnoter • Rosmarin • Røkelse",4.3,"S","Giorgio-Armani/Acqua-di-Gio-Parfum-81508"],
+["Giorgio Armani","Armani Code Parfum",110,200,"Iris • Bergamott • Tonkabønne",4.3,"W","Giorgio-Armani/Armani-Code-Parfum-75126"],
+["Giorgio Armani","Stronger With You Absolutely",110,200,"Rom • Kastanje • Vanilje",4.5,"W","Giorgio-Armani/Emporio-Armani-Stronger-With-You-Absolutely-64501"],
+["Giorgio Armani","Stronger With You Intensely",110,200,"Toffee • Kanel • Semsket skinn",4.4,"W","Giorgio-Armani/Emporio-Armani-Stronger-With-You-Intensely-52802"],
+["Giorgio Armani","Stronger With You Powerfully",110,200,"Einebær • Lavendel • Vanilje",4.4,"W","Giorgio-Armani/Emporio-Armani-Stronger-With-You-Powerfully-123070"],
+["Goldfield & Banks","Sunset Hour Dark Peach",160,280,"Mørk fersken • Bringebær • Sandeltre",4.1,"S","Goldfield-Banks-Australia/Sunset-Hour-Dark-Peach-138824"],
+["Guerlain","L'Homme Idéal EdP",100,190,"Kirsebær • Mandel • Lær",4.4,"W","Guerlain/L-Homme-Ideal-Eau-de-Parfum-37735"],
+["Hugo Boss","Boss Bottled Absolu",130,240,"Røkelse • Lær • Myrrha",4.2,"W","Hugo-Boss/Bottled-Absolu-96246"],
+["Jean Paul Gaultier","Le Male Le Parfum",100,180,"Kardemomme • Iris • Vanilje",4.5,"W","Jean-Paul-Gaultier/Le-Male-Le-Parfum-61856"],
+["Jean Paul Gaultier","Ultra Male",100,180,"Pære • Lavendel • Svart vanilje",4.3,"W","Jean-Paul-Gaultier/Ultra-Male-30947"],
+["Louis Vuitton","Afternoon Swim",240,460,"Mandarin • Appelsin • Bergamott",4.3,"S","Louis-Vuitton/Afternoon-Swim-53947"],
+["Louis Vuitton","Imagination",240,460,"Svart te • Ambroxan • Calabrisk bergamott",4.6,"S","Louis-Vuitton/Imagination-67370"],
+["Mind Games","Blockade",230,450,"Mango • Tomatblad • Lær",4.3,"S","Mind-Games/Blockade-76717"],
+["Montblanc","Explorer",80,150,"Bergamott • Vetiver • Patchouli",4.2,"A","Montblanc/Explorer-52002"],
+["Nishane","Hacivat",200,380,"Ananas • Eikemose • Sedertre",4.2,"S","Nishane/Hacivat-44174"],
+["Parfums de Marly","Castley",200,380,"Bergamott • Ingefær • Akigalawood",4.1,"S","Parfums-de-Marly/Castley-104991"],
+["Parfums de Marly","Layton",200,380,"Eple • Vanilje • Kardemomme",4.5,"W","Parfums-de-Marly/Layton-39314"],
+["Parfums de Marly","Percival",200,380,"Lavendel • Mandarin • Ambroxan",4.3,"S","Parfums-de-Marly/Percival-51037"],
+["Parfums de Marly","Sedley",200,380,"Mynte • Sitron • Rosmarin",4.3,"S","Parfums-de-Marly/Sedley-56273"],
+["Prada","Prada L'Homme",95,170,"Iris • Neroli • Rav",4.4,"A","Prada/Prada-L-Homme-39029"],
+["Rabanne","Invictus Parfum",105,190,"Lavendel • Marine noter • Sandeltre",4.0,"S","Rabanne/Invictus-Parfum-90433"],
+["Sospiro Perfumes","Vibrato",200,380,"Grapefrukt • Ingefær • Hvit musk",4.5,"S","Sospiro-Perfumes/Vibrato-75930"],
+["Tom Ford","Oud Wood",240,450,"Agarved (oud) • Brasiliansk rosentre • Kardemomme",4.4,"W","Tom-Ford/Oud-Wood-1826"],
+["Valentino","Born In Roma Coral Fantasy",110,200,"Rødt eple • Kardemomme • Tobakk",4.3,"A","Valentino/Valentino-Uomo-Born-In-Roma-Coral-Fantasy-71761"],
+["Versace","Eros EdP",100,180,"Mynte • Kandisert eple • Ambroxan",4.3,"W","Versace/Eros-Eau-de-Parfum-62762"],
+["Versace","Versace Pour Homme",75,140,"Sitron • Neroli • Sedertre",4.3,"S","Versace/Versace-Pour-Homme-2318"],
+["Viktor & Rolf","Spicebomb Extreme",110,200,"Tobakk • Kanel • Vanilje",4.4,"W","Viktor-Rolf/Spicebomb-Extreme-30499"],
+["Xerjoff","XJ 1861 Naxos",170,310,"Honning • Tobakk • Lavendel",4.6,"W","Xerjoff/XJ-1861-Naxos-30529"],
+["Yves Saint Laurent","MYSLF Le Parfum",120,220,"Appelsinblomst • Bourbon-vanilje • Treverk",4.3,"A","Yves-Saint-Laurent/MYSLF-Le-Parfum-94983"],
+["Yves Saint Laurent","Y Le Parfum (2021)",140,260,"Salvie • Eple • Sedertre",4.3,"A","Yves-Saint-Laurent/Y-Le-Parfum-64718"],
+["Zara","Sunrise on the Red Sand Dunes Intense",60,100,"Ingefær • Mandarin • Rav",4.2,"S","Zara/Sunrise-on-the-Red-Sand-Dunes-Intense-99815"]
+];
+const NICHE = ["Creed","Parfums de Marly","Louis Vuitton","By Kilian","Xerjoff","Amouage","Mind Games","Sospiro Perfumes","Nishane","Goldfield & Banks","Tom Ford"];
+const BUDGET = ["Armaf","French Avenue","Zara"];
+const SEASON = {S:"Sommer ☀️",W:"Vinter ❄️",A:"Helårs ☀️❄️"};
+const CATS = {niche:"Nisje",designer:"Designer",budget:"Budsjett"};
+const FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='200' viewBox='0 0 24 24' fill='none' stroke='%23d3ccc0' stroke-width='1'><rect x='5' y='8' width='14' height='14' rx='2'/><path d='M9 8V4h6v4'/></svg>";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const kr = n => n.toLocaleString("nb-NO") + " kr";
+const store = {
+  get(k){try{return localStorage.getItem(k)}catch(e){return null}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){}},
+  del(k){try{localStorage.removeItem(k)}catch(e){}}
+};
+
+const products = P.map(r => {
+  const id = r[7].match(/(\d+)$/)[1];
+  return {id, brand:r[0], name:r[1], p:{5:r[2],10:r[3]}, notes:r[4], rating:r[5], season:r[6],
+    url:`https://www.fragrantica.com/perfume/${r[7]}.html`,
+    cat: NICHE.includes(r[0]) ? "niche" : BUDGET.includes(r[0]) ? "budget" : "designer",
+    img: OWN_IMG_DIR ? `${OWN_IMG_DIR}${id}.jpg` : `https://fimgs.net/mdimg/perfume-thumbs/375x500.${id}.2x.avif`};
+});
+const byId = Object.fromEntries(products.map(p => [p.id, p]));
+
+// ---------- Handlekurv ----------
+let cart = [];
+(function loadCart(){
+  try{
+    const raw = JSON.parse(store.get("parfyme_cart_v2") || "[]");
+    cart = raw.filter(i => byId[i.id] && (i.size==="5"||i.size==="10") && i.q > 0).map(i => ({id:i.id,size:i.size,q:Math.min(20,i.q|0)}));
+  }catch(e){cart = []}
+})();
+const saveCart = () => store.set("parfyme_cart_v2", JSON.stringify(cart));
+const price = i => byId[i.id].p[i.size];
+function totals(){
+  const sub = cart.reduce((s,i)=>s+price(i)*i.q,0);
+  const count = cart.reduce((s,i)=>s+i.q,0);
+  const free = sub >= FREE_SHIPPING;
+  const ship = (!sub || free) ? 0 : SHIPPING_COST;
+  return {sub,count,free,ship,total:sub+ship};
+}
+const qtyOf = (id,size) => (cart.find(i=>i.id===id&&i.size===size)||{q:0}).q;
+
+function refreshButtons(id){
+  [5,10].forEach(sz => {
+    const b = document.querySelector(`.pb[data-id="${id}"][data-size="${sz}"]`);
+    if(!b) return;
+    const q = qtyOf(id,String(sz));
+    b.classList.toggle("in", q>0);
+    b.querySelector(".qn").textContent = q>0 ? ` (${q})` : "";
+  });
+}
+function updateCartUI(){
+  const {sub,count,free} = totals();
+  $("#badge").textContent = count;
+  $("#cartBar").classList.toggle("on", count>0);
+  $("#cartSummary").textContent = `${count} valgt (${kr(sub)}${free?" • fri frakt":""})`;
+}
+function addToCart(id,size){
+  const ex = cart.find(i=>i.id===id&&i.size===size);
+  if(ex) ex.q++; else cart.push({id,size,q:1});
+  saveCart(); updateCartUI(); refreshButtons(id);
+  const bd = $("#badge"); bd.classList.remove("bump"); void bd.offsetWidth; bd.classList.add("bump");
+  toast(`Lagt til: ${byId[id].name} ${size} ml`, {undo:()=>changeQty(id,size,-1)});
+}
+function changeQty(id,size,d){
+  const idx = cart.findIndex(i=>i.id===id&&i.size===size);
+  if(idx<0) return;
+  cart[idx].q += d;
+  if(cart[idx].q<=0) cart.splice(idx,1);
+  saveCart(); updateCartUI(); refreshButtons(id);
+  if($("#modal").classList.contains("open")) renderModal();
+}
+
+// ---------- Filtrering og visning ----------
+const F = {q:"", brand:"", season:"", cat:""};
+try{Object.assign(F, JSON.parse(sessionStorage.getItem("parfyme_filters")||"{}"))}catch(e){}
+
+function buildPills(el, items, key){
+  el.innerHTML = items.map(([v,l]) => `<button class="pill ${F[key]===v?"on":""}" data-v="${esc(v)}" aria-pressed="${F[key]===v}">${l}</button>`).join("");
+  el.onclick = e => {
+    const b = e.target.closest(".pill"); if(!b) return;
+    F[key] = b.dataset.v; syncPills(); applyFilters();
+  };
+}
+function syncPills(){
+  [["#catPills","cat"],["#seasonPills","season"],["#brandPills","brand"]].forEach(([s,k])=>{
+    document.querySelectorAll(s+" .pill").forEach(p=>{const on=p.dataset.v===F[k];p.classList.toggle("on",on);p.setAttribute("aria-pressed",on)});
+  });
+}
+function initPills(){
+  buildPills($("#catPills"), [["","Alle"],...Object.entries(CATS)], "cat");
+  buildPills($("#seasonPills"), [["","Alle sesonger"],["S","Sommer ☀️"],["W","Vinter ❄️"],["A","Helårs ☀️❄️"]], "season");
+  const counts = {};
+  products.forEach(p => counts[p.brand] = (counts[p.brand]||0)+1);
+  const brands = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]||a.localeCompare(b,"no"));
+  buildPills($("#brandPills"), [["","Alle merker"],...brands.map(b=>[b,`${esc(b)} <small>${counts[b]}</small>`])], "brand");
+}
+
+function card(p){
+  const btn = sz => `<button class="pb ${qtyOf(p.id,String(sz))>0?"in":""}" data-id="${p.id}" data-size="${sz}" aria-label="Legg ${sz} ml ${esc(p.name)} i handlekurven, ${p.p[sz]} kroner"><span class="sz">${sz} ml<span class="qn">${qtyOf(p.id,String(sz))>0?` (${qtyOf(p.id,String(sz))})`:""}</span></span><span>${kr(p.p[sz])}</span><span class="pm">${Math.round(p.p[sz]/sz)} kr/ml</span></button>`;
+  return `<article class="prod">
+    <div class="img"><img src="${esc(p.img)}" alt="${esc(p.brand+" "+p.name)}" loading="lazy" onload="this.parentNode.classList.add('loaded')" onerror="this.onerror=null;this.src='${FALLBACK}'"><a class="info-link" href="${p.url}" target="_blank" rel="noopener" aria-label="Se ${esc(p.name)} på Fragrantica (ny fane)">Info ↗</a></div>
+    <div class="pinfo"><div>
+      <div class="brand">${esc(p.brand)}</div><h3 class="ptitle">${esc(p.name)}</h3>
+      <div class="meta"><span><b>★ ${p.rating.toFixed(1)}</b> Fragrantica</span><span>${SEASON[p.season]}</span></div>
+      <p class="notes">${esc(p.notes)}</p></div>
+      <div class="pricing">${btn(5)}${btn(10)}</div></div></article>`;
+}
+
+function applyFilters(){
+  const q = $("#search").value.toLowerCase().trim(); F.q = q;
+  try{sessionStorage.setItem("parfyme_filters", JSON.stringify(F))}catch(e){}
+  $("#clearBtn").style.display = q ? "block" : "none";
+  const sort = $("#sort").value;
+  const list = products.filter(p =>
+    (!F.brand||p.brand===F.brand) && (!F.season||p.season===F.season) && (!F.cat||p.cat===F.cat) &&
+    (!q || (p.brand+" "+p.name+" "+p.notes).toLowerCase().includes(q)));
+  list.sort((a,b)=>{
+    if(sort==="name-asc") return (a.brand+a.name).localeCompare(b.brand+b.name,"no");
+    if(sort==="name-desc") return (b.brand+b.name).localeCompare(a.brand+a.name,"no");
+    if(sort==="rating") return b.rating-a.rating;
+    if(sort==="price-asc") return a.p[5]-b.p[5];
+    if(sort==="price-desc") return b.p[5]-a.p[5];
+    const n = x => x.cat==="niche"?0:1;
+    return n(a)-n(b) || b.rating-a.rating || b.p[5]-a.p[5];
+  });
+  $("#produkter").innerHTML = list.length ? list.map(card).join("") : `<div class="none">Ingen parfymer matcher. Prøv et annet søk, eller <button class="linkbtn" id="resetInline">tilbakestill filtrene</button>.</div>`;
+  const active = F.brand||F.season||F.cat||q;
+  $("#count").textContent = active ? `Viser ${list.length} av ${products.length} parfymer` : `Viser alle ${products.length} parfymer`;
+  $("#reset").hidden = !active;
+}
+function resetAll(){
+  F.brand=F.season=F.cat=""; $("#search").value=""; syncPills(); applyFilters();
+}
+
+// ---------- Modal ----------
+let lastFocus = null, orderRef = "", lastOrder = null;
+function openModal(){
+  lastFocus = document.activeElement;
+  showCartView(); renderModal();
+  $("#modal").classList.add("open");
+  setTimeout(()=>$("#closeCart").focus(),50);
+}
+function closeModal(){
+  $("#modal").classList.remove("open");
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+function showCartView(){ $("#cartView").style.display="flex"; $("#doneView").hidden=true; $("#mTitle").textContent="Din bestilling"; }
+
+function renderModal(){
+  const {sub,free,ship,total} = totals();
+  const empty = cart.length===0;
+  ["shipBox","form","sum","mf"].forEach(id=>$("#"+id).style.display = empty?"none":"");
+  if(empty){
+    $("#items").innerHTML = `<div class="empty"><p>Handlekurven er tom.</p><button class="btn btn-s" id="emptyClose">Utforsk samlingen</button></div>`;
+    return;
+  }
+  const pct = Math.min(100, Math.round(sub/FREE_SHIPPING*100));
+  $("#shipFill").style.width = pct+"%"; $("#shipFill").classList.toggle("ok",free);
+  $("#shipText").classList.toggle("ok",free);
+  $("#shipText").textContent = free ? "🎉 Du har fri frakt!" : `Legg til ${kr(FREE_SHIPPING-sub)} for fri frakt`;
+  $("#items").innerHTML = cart.map(c=>{
+    const p = byId[c.id];
+    return `<div class="row"><div><b>${esc(p.brand)} – ${esc(p.name)}</b><small>${c.size} ml • ${kr(price(c)*c.q)}</small></div>
+      <div class="qty"><button data-id="${c.id}" data-size="${c.size}" data-d="-1" aria-label="Færre ${esc(p.name)} ${c.size} ml">−</button><span>${c.q}</span><button data-id="${c.id}" data-size="${c.size}" data-d="1" aria-label="Flere ${esc(p.name)} ${c.size} ml">+</button></div></div>`;
+  }).join("") + `<div style="text-align:right;padding-top:8px"><button class="linkbtn" id="clearCart">Tøm kurv</button></div>`;
+  $("#sSub").textContent = kr(sub);
+  $("#sShip").innerHTML = free ? `<span class="free">Gratis</span>` : kr(ship);
+  $("#sTot").textContent = kr(total);
+  $("#mf [data-send=sms]").style.display = SELLER.phone ? "" : "none";
+}
+
+// ---------- Skjema ----------
+function saveBuyer(){
+  store.set("parfyme_buyer_v8", JSON.stringify({
+    fn:$("#fn").value, ln:$("#ln").value, street:$("#street").value, zip:$("#zip").value, city:$("#city").value,
+    phone:$("#phone").value, email:$("#email").value, t:Date.now()}));
+}
+function loadBuyer(){
+  ["parfyme_buyer_info_v6","parfyme_buyer_info_v7"].forEach(store.del);
+  try{
+    const d = JSON.parse(store.get("parfyme_buyer_v8")||"null");
+    if(!d) return;
+    if(Date.now()-d.t > 864e5){ store.del("parfyme_buyer_v8"); return; }
+    ["fn","ln","street","zip","city","phone","email"].forEach(k => { if(d[k]) $("#"+k).value = d[k]; });
+  }catch(e){}
+}
+function formatPhone(el){
+  let v = el.value.replace(/\D/g,"");
+  if(v.startsWith("47") && v.length>8) v = v.slice(2);
+  v = v.slice(0,8);
+  el.value = v.replace(/(\d{2})(?=\d)/g,"$1 ").trim();
+}
+const cleanPhone = s => { const c = s.replace(/\D/g,"").replace(/^(0047|47)(?=\d{8}$)/,""); return /^[49]\d{7}$/.test(c) ? c : null; };
+const validEmail = s => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
+
+let acTimer;
+function streetSearch(){
+  clearTimeout(acTimer);
+  const q = $("#street").value.trim(), box = $("#sug");
+  if(q.length<3){ box.style.display="none"; return; }
+  acTimer = setTimeout(async()=>{
+    try{
+      const r = await fetch(`https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(q)}&treffPerSide=5`);
+      const d = await r.json();
+      if(!d.adresser||!d.adresser.length){ box.style.display="none"; return; }
+      box.innerHTML = d.adresser.map((a,i)=>`<button type="button" data-i="${i}"><span><b>${esc(a.adressetekst)}</b></span><small>${esc(a.postnummer)} ${esc(a.poststed)}</small></button>`).join("");
+      box._data = d.adresser; box.style.display="block";
+    }catch(e){ box.style.display="none"; }
+  },250);
+}
+async function zipLookup(zip){
+  if(!/^\d{4}$/.test(zip)) return;
+  try{
+    const r = await fetch(`https://ws.geonorge.no/adresser/v1/sok?postnummer=${zip}&treffPerSide=1`);
+    const d = await r.json();
+    if(d.adresser && d.adresser[0]){ $("#city").value = d.adresser[0].poststed; $("#city").classList.remove("err"); saveBuyer(); }
+    else showToast("Fant ikke postnummeret. Sjekk at det stemmer.", {bad:true});
+  }catch(e){ /* poststed kan fylles inn for hånd */ }
+}
+
+function validate(){
+  const rules = [
+    ["fn",v=>v.length>=2],["ln",v=>v.length>=2],["street",v=>v.length>=4],
+    ["zip",v=>/^\d{4}$/.test(v)],["city",v=>v.length>=2],["phone",v=>!!cleanPhone(v)],["email",validEmail]
+  ];
+  let first = null;
+  rules.forEach(([id,fn])=>{
+    const el = $("#"+id), ok = fn(el.value.trim());
+    el.classList.toggle("err",!ok); el.setAttribute("aria-invalid",!ok);
+    if(!ok && !first) first = el;
+  });
+  const consentOk = $("#consent").checked;
+  $("#consentWrap").classList.toggle("err",!consentOk);
+  if(first){ showToast("Fyll ut alle feltene riktig.", {bad:true}); first.focus(); return false; }
+  if(!consentOk){ showToast("Du må godta vilkårene for å sende bestillingen.", {bad:true}); $("#consent").focus(); return false; }
+  saveBuyer();
+  return true;
+}
+
+// ---------- Bestilling uten tredjepartstjeneste ----------
+function genRef(){
+  const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let r = "#";
+  for(let i=0;i<5;i++) r += c[Math.floor(Math.random()*c.length)];
+  return r;
+}
+function buildOrder(){
+  const t = totals();
+  const lines = cart.map((c,i)=>`${i+1}. ${byId[c.id].brand} – ${byId[c.id].name} [${c.size} ml] x${c.q} – ${kr(price(c)*c.q)}`).join("\n");
+  const phone = cleanPhone($("#phone").value);
+  const text = `Bestilling ${orderRef}\n\n${lines}\n\nDelsum: ${kr(t.sub)}\nFrakt: ${t.free?"Gratis":kr(t.ship)}\nTotalt: ${kr(t.total)}\n\nNavn: ${$("#fn").value.trim()} ${$("#ln").value.trim()}\nAdresse: ${$("#street").value.trim()}, ${$("#zip").value.trim()} ${$("#city").value.trim()}\nMobil: ${phone}\nE-post: ${$("#email").value.trim()}\n\nBetaling: Vipps`;
+  return {text, subject:`Bestilling ${orderRef} – ${SELLER.name}`, total:t.total};
+}
+async function copyText(text){
+  try{ await navigator.clipboard.writeText(text); return true; }
+  catch(e){
+    const ta = document.createElement("textarea"); ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try{ ok = document.execCommand("copy"); }catch(_){}
+    ta.remove(); return ok;
+  }
+}
+async function sendOrder(method){
+  if(!cart.length || $("#website").value || !validate()) return;
+  orderRef = orderRef || genRef();
+  lastOrder = buildOrder();
+  const {text, subject} = lastOrder, enc = encodeURIComponent;
+  if(method==="mailto") location.href = `mailto:${SELLER.email}?subject=${enc(subject)}&body=${enc(text).replace(/%0A/g,"%0D%0A")}`;
+  else if(method==="gmail") window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${enc(SELLER.email)}&su=${enc(subject)}&body=${enc(text)}`,"_blank","noopener");
+  else if(method==="sms") location.href = `sms:${SELLER.phone}?&body=${enc(text)}`;
+  else if(method==="copy"){
+    const ok = await copyText(text);
+    showToast(ok ? `Kopiert! Lim inn og send til ${SELLER.email}` : "Kunne ikke kopiere. Prøv e-postknappen.", {bad:!ok}, 6000);
+    if(!ok) return;
+  }
+  showDone();
+}
+function showDone(){
+  $("#cartView").style.display="none"; $("#doneView").hidden=false; $("#mTitle").textContent="Bestilling klar";
+  $("#refBox").textContent = "Referanse " + orderRef;
+  $("#doneTotal").textContent = `Totalt å betale: ${kr(lastOrder.total)}. Bestillingen er først registrert når jeg har mottatt den.`;
+  $("#sentBtn").focus();
+}
+
+// ---------- Toast ----------
+let toastTimer, toastUndo = null;
+function showToast(msg, o={}, ms=3500){
+  $("#toastMsg").textContent = msg;
+  $("#toast").classList.toggle("bad", !!o.bad);
+  toastUndo = o.undo || null; $("#toastAct").hidden = !toastUndo;
+  $("#toast").classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>$("#toast").classList.remove("show"), ms);
+}
+const toast = showToast;
+
+// ---------- Events ----------
+$("#produkter").addEventListener("click", e => {
+  const b = e.target.closest(".pb"); if(b){ addToCart(b.dataset.id, b.dataset.size); return; }
+  if(e.target.id==="resetInline") resetAll();
+});
+$("#items").addEventListener("click", e => {
+  const b = e.target.closest("[data-d]");
+  if(b) changeQty(b.dataset.id, b.dataset.size, +b.dataset.d);
+  if(e.target.id==="clearCart"){ cart=[]; saveCart(); updateCartUI(); applyFilters(); renderModal(); }
+  if(e.target.id==="emptyClose") closeModal();
+});
+$("#mf").addEventListener("click", e => { const b = e.target.closest("[data-send]"); if(b) sendOrder(b.dataset.send); });
+$("#toastAct").onclick = () => { if(toastUndo) toastUndo(); $("#toast").classList.remove("show"); };
+$("#openCart").onclick = $("#goCheckout").onclick = openModal;
+$("#closeCart").onclick = closeModal;
+$("#modal").addEventListener("click", e => { if(e.target.id==="modal") closeModal(); });
+document.querySelectorAll(".lnk").forEach(a => a.addEventListener("click", closeModal));
+$("#backBtn").onclick = showCartView;
+$("#copyAgain").onclick = async () => { showToast(await copyText(lastOrder.text) ? "Bestillingen er kopiert" : "Kunne ikke kopiere", {}, 2500); };
+$("#sentBtn").onclick = () => {
+  cart=[]; orderRef=""; saveCart(); updateCartUI(); applyFilters(); closeModal();
+  showToast("Takk! Jeg tar kontakt når jeg har sett bestillingen.", {}, 6000);
+};
+document.addEventListener("keydown", e => {
+  const m = $("#modal");
+  if(!m.classList.contains("open")) return;
+  if(e.key==="Escape") closeModal();
+  if(e.key==="Tab"){
+    const f = [...m.querySelectorAll("button,input,select,a[href]")].filter(x=>x.offsetParent!==null && !x.classList.contains("hp") && x.tabIndex>=0);
+    if(!f.length) return;
+    const a = f[0], z = f[f.length-1];
+    if(e.shiftKey && document.activeElement===a){ e.preventDefault(); z.focus(); }
+    else if(!e.shiftKey && document.activeElement===z){ e.preventDefault(); a.focus(); }
+  }
+});
+$("#search").addEventListener("input", applyFilters);
+$("#sort").addEventListener("change", applyFilters);
+$("#clearBtn").onclick = () => { $("#search").value=""; applyFilters(); $("#search").focus(); };
+$("#reset").onclick = resetAll;
+$("#top").onclick = () => window.scrollTo({top:0,behavior:"smooth"});
+window.addEventListener("scroll", () => $("#top").classList.toggle("show", scrollY>300), {passive:true});
+
+["fn","ln","city","email"].forEach(id => $("#"+id).addEventListener("input", e => { e.target.classList.remove("err"); saveBuyer(); }));
+$("#phone").addEventListener("input", e => { formatPhone(e.target); e.target.classList.remove("err"); saveBuyer(); });
+$("#street").addEventListener("input", e => { e.target.classList.remove("err"); streetSearch(); saveBuyer(); });
+$("#zip").addEventListener("input", e => {
+  e.target.value = e.target.value.replace(/\D/g,""); e.target.classList.remove("err");
+  if(e.target.value.length===4) zipLookup(e.target.value); else $("#city").value = "";
+  saveBuyer();
+});
+$("#consent").addEventListener("change", () => $("#consentWrap").classList.remove("err"));
+$("#sug").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  const a = $("#sug")._data[+b.dataset.i];
+  $("#street").value = a.adressetekst; $("#zip").value = a.postnummer; $("#city").value = a.poststed;
+  ["street","zip","city"].forEach(id => $("#"+id).classList.remove("err"));
+  $("#sug").style.display = "none"; saveBuyer();
+});
+document.addEventListener("click", e => { if(!e.target.closest(".ac")) $("#sug").style.display="none"; });
+
+// ---------- Footer og oppstart ----------
+(function footer(){
+  const bits = [`<strong>${esc(SELLER.name)}</strong>`];
+  if(SELLER.orgnr) bits.push("Org.nr. "+esc(SELLER.orgnr));
+  bits.push(`<a href="mailto:${esc(SELLER.email)}">${esc(SELLER.email)}</a>`);
+  if(SELLER.instagram) bits.push(`<a href="${esc(SELLER.instagram)}" target="_blank" rel="noopener">Instagram</a>`);
+  if(SELLER.vipps) bits.push("Vipps: "+esc(SELLER.vipps));
+  $("#footer").innerHTML = bits.join(" · ") + `<br><a href="#vilkaar">Kjøpsvilkår</a> · <a href="#personvern">Personvern</a><br>Flakongene oppbevares mørkt, tørt og i stabil temperatur. Duftnoter og vurderinger er hentet fra Fragrantica. Jeg er ikke tilknyttet merkene som nevnes.`;
+  document.querySelectorAll("#payHours,.payh").forEach(el => el.textContent = PAY_HOURS);
+})();
+if(F.q) $("#search").value = F.q;
+initPills(); loadBuyer(); updateCartUI(); applyFilters();
+</script>
 </body>
 </html>
